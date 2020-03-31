@@ -19,7 +19,8 @@ router.get('/decisions/:id', auth, (req, res) => {
     const user = req.user
 
     Decision.findOne({
-        owner: user._id
+        owner: user._id,
+        _id
     }).then((decision) => {
 
         if (!decision) {
@@ -53,6 +54,7 @@ router.get('/decisions', auth, (req, res) => {
 
         console.log("decisions --->")
         console.log(user.decisions)
+        console.log("\n")
 
         res.send(user.decisions)
 
@@ -106,7 +108,7 @@ router.patch('/decisions/:id', auth, (req, res) => {
 
     }).then((decision) => {
 
-        console.log("decision updated & saved, sending..")
+        console.log("decision updated & saved, sending.. \n")
         res.send(decision)
 
     }).catch((err) => {
@@ -138,12 +140,12 @@ router.post('/decisions', auth, (req, res) => {
 
     decision.save().then((decision) => {
 
-        console.log("Decision object saved!")
+        console.log("Decision object saved! \n")
         res.status(201).send(decision)
 
     }).catch((err) => {
 
-        console.log("Decision object save failed!")
+        console.log("Decision object save failed! \n")
         console.log(err)
         res.status(400).send({
             err

@@ -54,7 +54,7 @@ router.patch('/users/me', auth, (req, res) => {
 
         console.log("user " + user.email + " update failed \n")
         res.status(500).send(err)
-        
+
     })
 })
 
@@ -189,7 +189,7 @@ router.post('/users', (req, res) => {
 
             }).then(() => {
 
-                console.log("new user saved: " + user.email)
+                console.log("new user saved: " + user.email + "\n")
                 const token = user.tokens[0].token
 
                 res.status(201).send({
@@ -212,9 +212,18 @@ router.delete('/users/me', auth, (req, res) => {
 
     const _id = req.user._id
 
-    User.findByIdAndDelete(_id).then((user) => {
+    User.findById(_id).then((user) => {
 
-        console.log("user " + user.email + " deleted successfully")
+        if (!user) {
+            console.log("user " + user.email + " not found")
+            throw new Error()
+        }
+
+        return user.deleteOne()
+
+    }).then((user) => {
+
+        console.log("user " + user.email +  " deleted successfully")
         res.send(req.user)
 
     }).catch((err) => {

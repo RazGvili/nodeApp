@@ -102,20 +102,21 @@ userSchema.statics.findByCred = async (email, password) => {
 
 
 // Delete user decisions when his removed middleware
-userSchema.pre('remove', function (next) {
+userSchema.pre('deleteOne', { document: true }, function (next) {
 
     const user = this
 
+    console.log("removing ---> " + user.email)
     console.log(user)
 
     Decision.deleteMany({ owner: user._id }).then(() => {
 
-        console.log(" User " + user.email + " decisions deleted")
+        console.log("user " + user.email + " decisions deleted")
         next()
 
     }).catch((err) => {
 
-        console.log(" User " + user.email + " decisions not deleted")
+        console.log("user " + user.email + " decisions not deleted")
         console.log(err)
 
     })
