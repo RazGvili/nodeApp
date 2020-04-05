@@ -1,4 +1,4 @@
-db/
-mon/
-node_modules/
+db
+mon
+node_modules
 config

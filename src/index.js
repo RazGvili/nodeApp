@@ -2,7 +2,7 @@
 const express = require('express')
 
 // Assure file runs -> connect db
-require('./db/mongoose')
+require('./dbm/mongoose')
 
 const userRouter = require('./routers/user')
 const decisionRouter = require('./routers/decision')
