@@ -41,10 +41,38 @@ router.get('/decisions/:id', auth, (req, res) => {
 
 router.get('/decisions', auth, (req, res) => {
 
+    let match = {}
     const user = req.user
+    
+    if (req.query.completed) {
+
+        console.log("req.query--->")
+        console.log(req.query)
+        console.log("\n")
+        
+        if (req.query.completed === 'true' || req.query.completed === 'false') {
+            match.completed = req.query.completed === 'true'
+
+        } else {
+            console.log("invalid query param: " + req.query.completed)
+        }
+    
+    } else {
+        console.log("req.query---> Non received ")
+    }   
+
     console.log("user ID from auth--> " + user._id)
 
-    user.populate('decisions').execPopulate().then(() => {
+    user.populate({
+        path: 'decisions',
+        match,
+        options: {
+            sort: {
+                createdAt: -1
+            }
+        }
+
+    }).execPopulate().then(() => {
 
         if (!user.decisions) {
             return res.status(404).send({
@@ -65,9 +93,6 @@ router.get('/decisions', auth, (req, res) => {
             "err": err
         })
     })
-
-
-
 })
 
 

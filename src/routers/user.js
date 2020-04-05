@@ -4,9 +4,8 @@ const router = new express.Router()
 const User = require('../models/user')
 
 let _ = require('lodash')
-
 const bcrypt = require('bcrypt')
-
+const multer = require('multer')
 
 // middleware 
 const auth = require('../middleware/auth')
@@ -56,6 +55,36 @@ router.patch('/users/me', auth, (req, res) => {
         res.status(500).send(err)
 
     })
+})
+
+
+const upload = multer({
+    //dest: 'avatars', <-- if commented, passes binary data to next middleware 
+    limits: {
+        fileSize: 1000000
+    },
+    fileFilter(req, file, cb) {
+
+        // example of validation
+        if(file.originalname.endsWith('.pdf')) {
+            return cb(new Error('PDF not allowed'))
+        }
+        
+        console.log(file)
+
+        // call back 
+        cb(undefined, true)
+    }
+})
+
+
+router.post('/users/me/avatar', auth, upload.single('avatar'), (req, res) => {
+
+    
+    res.send()
+
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
 })
 
 
