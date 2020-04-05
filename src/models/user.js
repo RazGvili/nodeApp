@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
     avatar: {
         type: Buffer
     }
-w
+
 }, { timestamps: true })
 
 
@@ -55,7 +55,7 @@ userSchema.virtual('decisions', {
 userSchema.methods.generateAuthToken = async function () {
 
     const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, 'daredevil' )
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_STR )
 
     // save the token to the user instance 
     user.tokens = user.tokens.concat({ token })

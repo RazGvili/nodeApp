@@ -6,6 +6,7 @@ const User = require('../models/user')
 let _ = require('lodash')
 const bcrypt = require('bcrypt')
 const multer = require('multer')
+const sharp = require('sharp')
 
 // middleware 
 const auth = require('../middleware/auth')
@@ -15,7 +16,7 @@ router.get('/users/me', auth, async (req, res) => {
     try {
 
         console.log("fetching user object: " + req.user.email)
-        res.send(req.user)
+        res.send(req.user.getPublicProfile())
 
     } catch (e) {
         console.log(e)
@@ -78,9 +79,11 @@ const upload = multer({
 })
 
 
-router.post('/users/me/avatar', auth, upload.single('avatar'), (req, res) => {
+router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
 
-    
+    const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).png().toBuffer()
+    req.user.avatar = buffer
+    await req.user.save()
     res.send()
 
 }, (error, req, res, next) => {
@@ -259,6 +262,17 @@ router.delete('/users/me', auth, (req, res) => {
         console.log("deleting user " + user.email + " failed")
         res.status(500).send(err)
     })
+})
+
+
+router.delete('/users/me/avatar', auth, async (req, res) => {
+
+    req.user.avatar = undefined
+    await req.user.save()
+    res.send()
+
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
 })
 
 
