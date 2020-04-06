@@ -1,21 +1,22 @@
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+
 import {makeStyles} from "@material-ui/core/styles"
-
 import TextField from '@material-ui/core/TextField'
-
 import Slider from '@material-ui/core/Slider'
-
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
-
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+
+import { Alert, AlertTitle } from '@material-ui/lab'
 
 import AddCircleIcon from '@material-ui/icons/AddCircle'
-import Button from '@material-ui/core/Button'
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -25,12 +26,12 @@ const useStyles = makeStyles(theme => ({
         margin: 'auto'
     }, 
     proCon: {
-        width: '60%',
+        width: '50%',
         textAlign: 'center',
         margin: 'auto'
     },  
     sliders: {
-        width: '60%',
+        width: '30%',
         textAlign: 'center',
         margin: 'auto'
     }    
@@ -80,12 +81,15 @@ function ProsConsTable() {
 
 
     // Argument - Pro/Con ----------------------------
+
     const [argument, setArgument] = useState({
 
         proCon: "", // Argument pro/con text 
         impact: 0,
         confidence: 0, 
-        effects: 0
+        effects: 0,
+        type: selectedValue,
+        id: 0
     })
     // -----------------------------------------------
 
@@ -107,24 +111,51 @@ function ProsConsTable() {
 
     const addProCon = () => {
 
+        let id = argument.id + 1
+
+        let proConText = proCon
+
         let argumentObj = {
-            proCon: proCon, 
+            proCon: proConText, 
             impact: impact,
             confidence: confidence, 
-            effects: effects   
-        }
-        
-        let decisionObj = {
-            title: title,
-            pros: selectedValue === 'pro' ? [...decision.pros, argument] : decision.pros,
-            cons: selectedValue === 'con' ? [...decision.cons, argument] : decision.cons
+            effects: effects,
+            type: selectedValue === 'pro' ? 'pro' : 'con',
+            id: id
         }
 
         setArgument(argumentObj)
-        setDecision(decisionObj)
     }
 
+    useEffect(() => {
+
+        if (argument.id > 0) {
+            let decisionObj = {
+                title: title,
+                pros: selectedValue === 'pro' ? [...decision.pros, argument] : decision.pros,
+                cons: selectedValue === 'con' ? [...decision.cons, argument] : decision.cons
+            }
+
+            setDecision(decisionObj)
+        }
+
+     }, [argument])
+
     // -----------------------------------------------
+
+    function handleArgumentRemove(arg, index) {
+
+        let temp = arg.type === 'pro' ? [...decision.pros] : [...decision.cons]
+        temp = temp.filter(argu => argu.id !== arg.id)
+
+        let decisionObj = {
+            title: title,
+            pros: arg.type === 'pro' ? temp : decision.pros,
+            cons: arg.type === 'con' ? temp : decision.cons
+        }
+
+        setDecision(decisionObj)
+    }
 
 
     let sliderColor = selectedValue === 'con' ? "#FF6347" : "#006400"
@@ -175,18 +206,16 @@ function ProsConsTable() {
                     placeholder="My boss is amazing"
                     variant="outlined"
                     fullWidth
-                    helperText=""
-                    value={proCon}
+                    helperText="min of 10 char"
+                    
                     onChange={handleProConChange}
                 />
             </div>
 
-            <div>
-
             <br/>
             <br/>
 
-            <div className={classes.proCon}>
+            <div className={classes.sliders}>
                 
                 <Typography gutterBottom>
                     Impact 
@@ -203,43 +232,42 @@ function ProsConsTable() {
                     onChange={handleImpactChange}
                 />
 
-                <br/>
-                <br/>
+            <br/>
+            <br/>
 
-                <Typography gutterBottom>
-                    Confidence
-                </Typography>
-                <Slider
-                    defaultValue={3}
-                    valueLabelDisplay="auto"
-                    step={1}
-                    marks
-                    min={1}
-                    max={5}
-                    style={{color: sliderColor}}
-                    value={confidence}
-                    onChange={handleConfidenceChange}
+            <Typography gutterBottom>
+                Confidence
+            </Typography>
+            <Slider
+                defaultValue={3}
+                valueLabelDisplay="auto"
+                step={1}
+                marks
+                min={1}
+                max={5}
+                style={{color: sliderColor}}
+                value={confidence}
+                onChange={handleConfidenceChange}
 
-                />
+            />
 
-                <br/>
-                <br/>
-                
-                <Typography gutterBottom>
-                    Long term effects
-                </Typography>
-                <Slider
-                    defaultValue={3}
-                    valueLabelDisplay="auto"
-                    step={1}
-                    marks
-                    min={1}
-                    max={5}
-                    style={{color: sliderColor}}
-                    value={effects}
-                    onChange={handleEffectsChange}
-                />
-            </div>
+            <br/>
+            <br/>
+            
+            <Typography gutterBottom>
+                Long term effects
+            </Typography>
+            <Slider
+                defaultValue={3}
+                valueLabelDisplay="auto"
+                step={1}
+                marks
+                min={1}
+                max={5}
+                style={{color: sliderColor}}
+                value={effects}
+                onChange={handleEffectsChange}
+            />
 
             <br/> 
             <br/> 
@@ -250,11 +278,44 @@ function ProsConsTable() {
                 startIcon={<AddCircleIcon style={{color: sliderColor}}/>}
                 style={{textTransform: 'none'}}
                 onClick={addProCon}
-            >
+                disabled={proCon.length < 10 ? true : false }            >
                 {"Add " + selectedValue} 
             </Button>
 
+            <br/><br/><br/> 
+
             </div>
+
+            <Grid container spacing={3}>
+
+                <Grid item xs={6}>
+                    {
+                        decision.pros.map((arg, index) => {
+                            return (
+                                <Alert key={index+"pro"} onClose={() => {handleArgumentRemove(arg, index)}} style={{marginBottom: '5px'}}>
+                                        <AlertTitle><b>{arg.proCon}</b></AlertTitle>
+                                        {"Impact: " +  arg.impact + " | "}
+                                </Alert>
+                            )
+                        })
+                    }                
+                </Grid>
+
+                <Grid item xs={6}>
+                    {
+                        decision.cons.map((arg, index) => {
+                            return (
+                                <Alert severity="error" key={index+"con"} onClose={() => {handleArgumentRemove(arg, index)}} style={{marginBottom: '5px'}}>
+                                        <AlertTitle><b>{arg.proCon}</b></AlertTitle>
+                                        {"Impact: " +  arg.impact + " | "}
+                                </Alert>
+                            )
+                        })
+                    }                
+                </Grid>
+
+            </Grid>
+            
 
         </div>
     )
