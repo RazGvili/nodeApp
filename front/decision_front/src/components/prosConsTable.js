@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react"
 
 import {makeStyles} from "@material-ui/core/styles"
-import {Slide,TextField,Chip,Grid,IconButton,Dialog,DialogContent} from '@material-ui/core'
+import {useMediaQuery,Slide,TextField,Chip,Grid,IconButton,Dialog,DialogContent} from '@material-ui/core'
 import SaveIcon from '@material-ui/icons/Save'
 import ShareIcon from '@material-ui/icons/Share'
 import CloseIcon from '@material-ui/icons/Close';
@@ -34,11 +34,8 @@ const useStyles = makeStyles(theme => ({
         background:'#323132',
         borderRadius:'15px',
         position:'relative',
-        //width:'100%',
         minHeight:'540px',
-        //maxWidth:'800px',
         margin:'10px',
-
         fontFamily:'Permanent Marker',
         border: 'tan solid 12px',
 		borderTop: '#bda27e solid 12px',
@@ -64,8 +61,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProsConsTable() {
     const classes = useStyles()
-    // Argument - Pro/Con ----------------------------
+    const smallScreen = useMediaQuery('(max-width:600px)');
 
+    // Argument - Pro/Con ----------------------------
+    
     const [argument, setArgument] = useState({
 
         proCon: "", // Argument pro/con text 
@@ -196,17 +195,23 @@ export default function ProsConsTable() {
             <h2>{title}</h2>
 
             <div className={classes.blackBoard}>
+            {!smallScreen && <>
                 <img className={classes.blackBoardHorizontalLine} src="/images/chalk_sides.png" />
                 <img className={classes.blackBoardVerticalLine} src="/images/chalk_updown.png" />
+                </>
+            }
                 <Grid container >
-                    <Grid item xs={6} style={{height:'4em',color:'#87BA55',fontSize:'35px',paddingTop:'1em'}}>
+                    
+                    <Grid item xs={12} sm={6} style={{height:'4em',color:'#87BA55',fontSize:'35px',paddingTop:'1em'}}>
                         pros
                     </Grid>
+
+                    {!smallScreen &&
                     <Grid item xs={6} style={{height:'4em',color:'#BA3737',fontSize:'35px',paddingTop:'1em'}}>
                         cons
-                    </Grid>
+                    </Grid> }
                     
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                         <AddButton type='pro' AddAction={HandleOpenArgumentDialog} />
                     {
                         decision.pros.map((arg, index) => {
@@ -223,7 +228,13 @@ export default function ProsConsTable() {
                         })
                     }     
                     </Grid>
-                    <Grid item xs={6} >
+
+                    {smallScreen &&
+                    <Grid item xs={12} style={{height:'4em',color:'#BA3737',fontSize:'35px',paddingTop:'1em'}}>
+                        cons
+                    </Grid> }
+
+                    <Grid item xs={12} sm={6} >
                     <AddButton type='con' AddAction={HandleOpenArgumentDialog}/>
                     {
                         decision.cons.map((arg, index) => {
