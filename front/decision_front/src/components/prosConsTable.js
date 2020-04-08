@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react"
 
 import {makeStyles} from "@material-ui/core/styles"
 import TextField from '@material-ui/core/TextField'
+import Chip from '@material-ui/core/Chip'
+import Paper from '@material-ui/core/Paper'
 import Slider from '@material-ui/core/Slider'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
@@ -12,12 +14,22 @@ import FormLabel from '@material-ui/core/FormLabel'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/Button'
+import DoneIcon from '@material-ui/icons/Done'
 
 import { Alert, AlertTitle } from '@material-ui/lab'
 
 import AddCircleIcon from '@material-ui/icons/AddCircle'
+import SaveIcon from '@material-ui/icons/Save'
+import ShareIcon from '@material-ui/icons/Share'
 
 
+import Timer from './timer'
+
+import axios from "axios"
+
+
+const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,7 +43,7 @@ const useStyles = makeStyles(theme => ({
         margin: 'auto'
     },  
     sliders: {
-        width: '30%',
+        width: '40%',
         textAlign: 'center',
         margin: 'auto'
     }    
@@ -91,12 +103,49 @@ function ProsConsTable() {
         type: selectedValue,
         id: 0
     })
+
+    function handleArgumentRemove(arg, index) {
+
+        let temp = arg.type === 'pro' ? [...decision.pros] : [...decision.cons]
+        temp = temp.filter(argu => argu.id !== arg.id)
+
+        let decisionObj = {
+            desc: title,
+            pros: arg.type === 'pro' ? temp : decision.pros,
+            cons: arg.type === 'con' ? temp : decision.cons
+        }
+
+        setDecision(decisionObj)
+    }
+
     // -----------------------------------------------
 
 
     // Decision ---------------------------------------
 
     const [title, setTitle] = useState("")
+    const [saveSuccess, setSaveSuccess] = useState(false)
+    const [decisionIdServer, serDecisionIdServer] = useState("")
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+
+        console.log(decision)
+
+        try {
+            
+            const res = await axios.post(`${BASE_URL}`+"/decisions", decision)
+            const addedDecision = res.data
+        
+            console.log(`Added a new decision!`, addedDecision)
+
+            setSaveSuccess(true)
+            serDecisionIdServer(addedDecision._id)
+        
+        } catch (e) {
+            console.error(e)
+        }
+    }
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value)
@@ -104,7 +153,7 @@ function ProsConsTable() {
 
     const [decision, setDecision] = useState({
 
-        title: "",
+        desc: "",
         pros: [], 
         cons: [],
     })
@@ -131,7 +180,7 @@ function ProsConsTable() {
 
         if (argument.id > 0) {
             let decisionObj = {
-                title: title,
+                desc: title,
                 pros: selectedValue === 'pro' ? [...decision.pros, argument] : decision.pros,
                 cons: selectedValue === 'con' ? [...decision.cons, argument] : decision.cons
             }
@@ -139,31 +188,28 @@ function ProsConsTable() {
             setDecision(decisionObj)
         }
 
-     }, [argument])
+    }, [argument])
 
-    // -----------------------------------------------
 
-    function handleArgumentRemove(arg, index) {
+    const handleSaveSuccessClick = () => {
 
-        let temp = arg.type === 'pro' ? [...decision.pros] : [...decision.cons]
-        temp = temp.filter(argu => argu.id !== arg.id)
-
-        let decisionObj = {
-            title: title,
-            pros: arg.type === 'pro' ? temp : decision.pros,
-            cons: arg.type === 'con' ? temp : decision.cons
-        }
-
-        setDecision(decisionObj)
     }
 
 
+    // -----------------------------------------------
+
+ 
     let sliderColor = selectedValue === 'con' ? "#FF6347" : "#006400"
 
+    // ===================================================================================================
+
     return (
+
         <div className={classes.root}>
 
-            <form noValidate autoComplete="off">
+            <br/>
+
+            <form noValidate autoComplete="off" onSubmit={handleSubmit}> 
 
                 <div>
                     
@@ -181,110 +227,134 @@ function ProsConsTable() {
 
                 </div>
 
+                <IconButton type="submit">
+                    <SaveIcon fontSize="large" />
+                </IconButton>
+                
             </form>
 
-            <br/>
-            <br/>
+            { saveSuccess && 
 
-            <FormControl>
-                <FormLabel> Add Pros / Cons </FormLabel>
-                <br/>
-                <RadioGroup row value={selectedValue} onChange={handleRadioChange}>
-                    <FormControlLabel value="pro"  control={<Radio style={{color: '#006400'}} />} label="Pro" />
-                    <FormControlLabel value="con"  control={<Radio style={{color: '#FF6347'}}/>} label="Con" />
-                </RadioGroup>
-            </FormControl>
-
-            <br/>
-            <br/>
-
-            <div className={classes.proCon}>
-                <TextField
-                    required
-                    id="outlined-required"
-                    label="Add Pro / Con"
-                    placeholder="My boss is amazing"
-                    variant="outlined"
-                    fullWidth
-                    helperText="min of 10 char"
-                    
-                    onChange={handleProConChange}
-                />
-            </div>
+                <div>
+                    <Chip
+                        icon={<DoneIcon />}
+                        label="Decision saved successfully!"
+                    />
+                    <br/>
+                    <br/>
+                    <Chip
+                        icon={<ShareIcon />}
+                        label={"Share via --> ! " + `${BASE_URL}`+"/decisions/"+ decisionIdServer}
+                    />
+                </div>
+            }
 
             <br/>
             <br/>
 
-            <div className={classes.sliders}>
-                
-                <Typography gutterBottom>
-                    Impact 
-                </Typography>
-                <Slider
-                    defaultValue={3}
-                    valueLabelDisplay="auto"
-                    step={1}
-                    marks
-                    min={1}
-                    max={5}
-                    style={{color: sliderColor}}
-                    value={impact}
-                    onChange={handleImpactChange}
-                />
+            {/* =================================================================================================== */}
 
-            <br/>
-            <br/>
-
-            <Typography gutterBottom>
-                Confidence
-            </Typography>
-            <Slider
-                defaultValue={3}
-                valueLabelDisplay="auto"
-                step={1}
-                marks
-                min={1}
-                max={5}
-                style={{color: sliderColor}}
-                value={confidence}
-                onChange={handleConfidenceChange}
-
-            />
-
-            <br/>
-            <br/>
+            <Paper elevation={3} style={{margin: 'auto', textAlign: 'center', width:'60%', borderRadius: '35px', padding: '18px'}}>
             
-            <Typography gutterBottom>
-                Long term effects
-            </Typography>
-            <Slider
-                defaultValue={3}
-                valueLabelDisplay="auto"
-                step={1}
-                marks
-                min={1}
-                max={5}
-                style={{color: sliderColor}}
-                value={effects}
-                onChange={handleEffectsChange}
-            />
+                <FormControl>
+                    <FormLabel> Add Pros / Cons </FormLabel>
+                    <br/>
+                    <RadioGroup row value={selectedValue} onChange={handleRadioChange}>
+                        <FormControlLabel value="pro"  control={<Radio style={{color: '#006400'}} />} label="Pro" />
+                        <FormControlLabel value="con"  control={<Radio style={{color: '#FF6347'}}/>} label="Con" />
+                    </RadioGroup>
+                </FormControl>
 
-            <br/> 
-            <br/> 
+                <br/>
+                <br/>
 
-            <Button
-                variant="contained"
-                className={classes.button}
-                startIcon={<AddCircleIcon style={{color: sliderColor}}/>}
-                style={{textTransform: 'none'}}
-                onClick={addProCon}
-                disabled={proCon.length < 10 ? true : false }            >
-                {"Add " + selectedValue} 
-            </Button>
+                
+                <div className={classes.proCon}>
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Add Pro / Con"
+                        placeholder="My boss is amazing"
+                        variant="outlined"
+                        fullWidth
+                        helperText="min of 8 char"
+                        
+                        onChange={handleProConChange}
+                    />
+                </div>
 
-            <br/><br/><br/> 
+                <br/>
 
-            </div>
+                <div className={classes.sliders}>
+                    
+                    <Typography gutterBottom>
+                        Impact 
+                    </Typography>
+                    <Slider
+                        defaultValue={3}
+                        valueLabelDisplay="auto"
+                        step={1}
+                        marks
+                        min={1}
+                        max={5}
+                        style={{color: sliderColor}}
+                        value={impact}
+                        onChange={handleImpactChange}
+                    />
+
+                    <br/>
+                    <br/>
+
+                    <Typography gutterBottom>
+                        Confidence
+                    </Typography>
+                    <Slider
+                        defaultValue={3}
+                        valueLabelDisplay="auto"
+                        step={1}
+                        marks
+                        min={1}
+                        max={5}
+                        style={{color: sliderColor}}
+                        value={confidence}
+                        onChange={handleConfidenceChange}
+                    />
+
+                    <br/><br/>
+                    
+                    <Typography gutterBottom>
+                        Long term effects
+                    </Typography>
+                    <Slider
+                        defaultValue={3}
+                        valueLabelDisplay="auto"
+                        step={1}
+                        marks
+                        min={1}
+                        max={5}
+                        style={{color: sliderColor}}
+                        value={effects}
+                        onChange={handleEffectsChange}
+                    />
+
+                </div>
+
+                <br/><br/>
+
+                <Button
+                    variant="contained"
+                    className={classes.button}
+                    startIcon={<AddCircleIcon style={{color: sliderColor}}/>}
+                    style={{textTransform: 'none'}}
+                    onClick={addProCon}
+                    disabled={proCon.length < 8 ? true : false } 
+                >
+                    {"Add " + selectedValue} 
+                </Button>
+
+            </Paper>
+
+            <h2>{title}</h2>
 
             <Grid container spacing={3}>
 
@@ -293,8 +363,12 @@ function ProsConsTable() {
                         decision.pros.map((arg, index) => {
                             return (
                                 <Alert key={index+"pro"} onClose={() => {handleArgumentRemove(arg, index)}} style={{marginBottom: '5px'}}>
-                                        <AlertTitle><b>{arg.proCon}</b></AlertTitle>
-                                        {"Impact: " +  arg.impact + " | "}
+                                    <div style={{textAlign: 'left'}}>
+                                    <AlertTitle><b>{arg.proCon}</b></AlertTitle>
+                                        {"Impact: " +  arg.impact} <br/>  
+                                        {"Confidence: " +  arg.confidence} <br/> 
+                                        {"Long term effects: " +  arg.effects} <br/> 
+                                    </div>
                                 </Alert>
                             )
                         })
@@ -306,8 +380,12 @@ function ProsConsTable() {
                         decision.cons.map((arg, index) => {
                             return (
                                 <Alert severity="error" key={index+"con"} onClose={() => {handleArgumentRemove(arg, index)}} style={{marginBottom: '5px'}}>
+                                    <div style={{textAlign: 'left'}}>
                                         <AlertTitle><b>{arg.proCon}</b></AlertTitle>
-                                        {"Impact: " +  arg.impact + " | "}
+                                        {"Impact: " +  arg.impact} <br/>  
+                                        {"Confidence: " +  arg.confidence} <br/> 
+                                        {"Long term effects: " +  arg.effects} <br/> 
+                                    </div>
                                 </Alert>
                             )
                         })

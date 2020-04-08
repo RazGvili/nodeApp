@@ -12,10 +12,28 @@ const decisionSchema = new mongoose.Schema({
         }
     },
     pros: {
-        type: [{ message: { type: String  } }]
+        type: [
+            { 
+                proCon: { type: String  }, 
+                impact: { type: Number  },
+                confidence: { type: Number  },
+                effects: { type: Number  },
+                type: { type: String  },
+                id: { type: Number  }
+            }
+        ]
     },
     cons: {
-        type: [{ message: { type: String } }]
+        type: [
+            { 
+                proCon: { type: String  }, 
+                impact: { type: Number  },
+                confidence: { type: Number  },
+                effects: { type: Number  },
+                type: { type: String  },
+                id: { type: Number  }
+            }
+        ]
     },
     completed: {
         type: Boolean,
@@ -23,7 +41,7 @@ const decisionSchema = new mongoose.Schema({
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        //required: true,
         ref: 'User'
     }
 
