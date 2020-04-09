@@ -10,12 +10,16 @@ import { green,red } from "../GlobalVars"
 const useStyles = makeStyles(theme => ({
     container: {
         width: '100%',
+        cursor:'pointer',
         maxWidth: '200px',
-        margin: 'auto',
-        background:'rgba(255, 255, 255, 0.1)',
+        margin: '0px auto -5px',
         borderRadius:'5px',
         display:'flex',
-        padding:'0px 5px 0px 10px'
+        padding:'0px 5px 0px 10px',
+        lineHeight:'2.9em',
+        '&:hover':{
+            backgroundColor:'rgba(255, 255, 255, 0.1)'
+        }
     }, 
     input:{
         color:'white',
@@ -29,6 +33,8 @@ export default function AddButton(props) {
 
     const classes = useStyles()
     const [text, setText] = useState("")
+    const [clicked, setClicked] = useState(false)
+    const [error, setError] = useState(false)
     const typeColor = props.type === 'pro'? green:red
     const handleTextChange = (event) => {
         setText(event.target.value)
@@ -39,14 +45,22 @@ export default function AddButton(props) {
             props.AddAction(text,props.type)
             setText('')
         }
+        else
+        setError(true)
     }
 
-    return (
-        <div className={classes.container}>
+    return (<>
+        <div  className={classes.container}  onClick={()=> setClicked(true)}>
+
+            <IconButton onClick={handleClickAdd}>
+                <AddCircleOutlineIcon style={{color:typeColor}}/>
+            </IconButton>
+            {clicked?
             <InputBase
             className={classes.input}
             placeholder={`Add ${props.type}`}
             value={text}
+            autoFocus
             onChange={handleTextChange}
             inputProps={{ 'aria-label': 'Add New Argument' }}
             onKeyPress={(ev) => {
@@ -55,9 +69,12 @@ export default function AddButton(props) {
                 }
               }}
             />
-            <IconButton onClick={handleClickAdd}>
-                <AddCircleOutlineIcon style={{color:typeColor}}/>
-            </IconButton>
+            :
+                <span style={{color:'white'}}>{`Add ${props.type}`}</span>
+            }
+            
         </div>
+        {error && <span style={{color:'grey',fontSize:'11px',marginTop:'-15px'}}>must be longer than two charecters</span>}
+        </>
     )
 }

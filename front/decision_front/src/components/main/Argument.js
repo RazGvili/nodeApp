@@ -22,10 +22,10 @@ export default function Argument(props) {
 
     return (
         <div className={classes.container}>
-                    <Alert  icon={<span style={{color:props.type==='con'?red:green}}>*</span>}
+                    <Alert  icon={<span style={{color:props.type==='con'?red:green,fontSize: '1.5em'}}>*</span>}
                             onClose={() => props.handleArgumentRemove()}
                             style={{fontFamily:'Permanent Marker',background: 'none',textAlign:'left',color:props.type==='con'?red:green}}>
-                                        <AlertTitle style={{fontFamily:'Permanent Marker'}}>
+                                        <AlertTitle style={{fontFamily:'Permanent Marker',fontSize: '1.5em'}}>
                                             <b>{props.arg.proCon}</b>
                                         </AlertTitle>
                                         Impact:{` ${props.arg.impact}`} <br/>  
