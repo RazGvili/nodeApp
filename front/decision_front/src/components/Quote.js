@@ -14,9 +14,8 @@ const useStyles = makeStyles(theme => ({
 
 function Quote() {
 
-    const classes = useStyles();
+    const classes = useStyles()
 
-  
     return (
         <div className={classes.root}>
             <h4> “The straight line, a respectable optical illusion which ruins many a man.” <br/>

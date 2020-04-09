@@ -35,6 +35,18 @@ const decisionSchema = new mongoose.Schema({
             }
         ]
     },
+    comments: {
+        type: [
+            { 
+                title: { type: String  }, 
+                text: { type: String  },
+                name: { type: String  },
+                id: { type: Number  },
+                likes: { type: Number  }, 
+                disLikes: { type: Number  }
+            }
+        ]
+    },
     completed: {
         type: Boolean,
         default: false

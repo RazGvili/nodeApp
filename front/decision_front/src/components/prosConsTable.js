@@ -50,7 +50,9 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-function ProsConsTable() {
+function ProsConsTable(props) {
+
+    //console.log(props)
 
     const classes = useStyles()
 
@@ -198,7 +200,6 @@ function ProsConsTable() {
 
     // -----------------------------------------------
 
- 
     let sliderColor = selectedValue === 'con' ? "#FF6347" : "#006400"
 
     // ===================================================================================================
