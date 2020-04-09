@@ -15,15 +15,6 @@ export default function Home() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
 
-
-    // if (showLoader) { 
-    //     getDecision().then((des) => {
-
-    //     }).catch((e) => {
-    //         console.log(e)
-    //     })
-    // }
-
     async function getDecision(decisionId) {
 
         try {
@@ -50,7 +41,7 @@ export default function Home() {
     }
 
     useEffect(() => {
-        let decisionId = window.location.pathname.split("/").pop() || ""
+        let decisionId = window.location.pathname.split("/").pop() || ''
         if (decisionId.length > 23)
             getDecision(decisionId)
         else

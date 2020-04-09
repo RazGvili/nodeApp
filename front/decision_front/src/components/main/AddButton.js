@@ -35,8 +35,10 @@ export default function AddButton(props) {
     }
 
     const handleClickAdd = () => {
-        if (text.length>2)
+        if (text.length>2){
             props.AddAction(text,props.type)
+            setText('')
+        }
     }
 
     return (
