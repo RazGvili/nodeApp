@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(1),
             width: '25ch',
         },
+        
     },
 }));
 
@@ -28,7 +29,11 @@ export default function AddComment({decisionId}) {
     const [title, setTitle] = useState("")
 
     const handleTitleChange = (event) => {
-        setTitle(event.target.value)
+
+        if (event.target.value.length < 30) {
+            setTitle(event.target.value)
+        }
+        
     }
 
     // ========================================
@@ -36,7 +41,10 @@ export default function AddComment({decisionId}) {
     const [name, setName] = useState("")
 
     const handleNameChange = (event) => {
-        setName(event.target.value)
+        
+        if (event.target.value.length < 30) {
+            setName(event.target.value)
+        }
     }
 
     // ========================================
@@ -44,7 +52,10 @@ export default function AddComment({decisionId}) {
     const [text, setText] = useState("")
 
     const handleTextChange = (event) => {
-        setText(event.target.value)
+        
+        if (event.target.value.length < 100) {
+            setText(event.target.value)
+        }
     }
 
     // ========================================
@@ -78,7 +89,7 @@ export default function AddComment({decisionId}) {
             
             if (res.status === 200) {
 
-                setLoading(true)
+                setLoading(false)
                 setCommentUploaded(true)
             }
             
@@ -86,6 +97,8 @@ export default function AddComment({decisionId}) {
     
             console.log(e.message)
             setError(e.message)
+            setLoading(false)
+
         }
     }
 
@@ -94,52 +107,73 @@ export default function AddComment({decisionId}) {
 
         <div>
 
-            { !loading &&
+            { !loading && !error &&
 
-                <form noValidate autoComplete="off" onSubmit={handleSubmit}> 
+                <div>
 
-                    <TextField
-                        required
-                        id="outlined-required"
-                        label="Clearly define your decision"
-                        placeholder="Should i quit my job?"
-                        variant="outlined"
-                        fullWidth
-                        helperText="Defining and scoping is helpful"
-                        value={title}
-                        onChange={handleTitleChange}
-                    />
-                    
-                    <TextField
-                        required
-                        label="Name"
-                        placeholder="John"
-                        variant="outlined"
-                        fullWidth
-                        value={name}
-                        onChange={handleNameChange}
-                    />
+                    <br/>
 
-                    <TextField
-                        required
-                        id="outlined-required"
-                        label="Clearly define your decision"
-                        placeholder="Should i quit my job?"
-                        variant="outlined"
-                        fullWidth
-                        helperText="Defining and scoping is helpful"
-                        value={text}
-                        onChange={handleTextChange}
-                    />
+                    <h4 style={{fontFamily:'Permanent Marker'}}> What do you think? </h4>
 
-                    <Button type="submit"> Add comment </Button>
+                    <form noValidate autoComplete="off" onSubmit={handleSubmit}> 
 
-                </form>
-            
+                        <TextField
+                            required
+                            label="My name is"
+                            placeholder="John"
+                            variant="outlined"
+                            fullWidth
+                            value={name}
+                            onChange={handleNameChange}
+                        />
+
+                        <br/><br/>
+                        
+                        <TextField
+                            required
+                            label="Consider this maybe.."
+                            placeholder="Should i quit my job?"
+                            variant="outlined"
+                            fullWidth
+                            value={title}
+                            onChange={handleTitleChange}
+                        />
+
+                        <br/><br/>
+
+                        <TextField
+                            required
+                            label="Because of.."
+                            placeholder="Because of.."
+                            variant="outlined"
+                            fullWidth
+                            multiline
+                            rowsMax="6"
+                            value={text}
+                            onChange={handleTextChange}
+                        />
+
+                        <br/><br/>
+
+                        <Button type="submit" style={{fontFamily:'Permanent Marker'}}> Add </Button>
+
+                    </form>
+
+                    <br/><br/><br/>
+
+                </div>
             }
 
             { loading &&
                 <Loading/>            
+            }
+
+            { error &&
+                <div>
+                    <h3 style={{color: 'red'}}>{error}</h3>
+                    <Button style={{fontFamily:'Permanent Marker'}} onClick={() => {window.location.reload()}}> Try refreshing </Button>
+                    <br/><br/><br/>
+                </div>
             }
 
         </div>        

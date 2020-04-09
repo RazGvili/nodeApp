@@ -5,7 +5,7 @@ const decisionSchema = new mongoose.Schema({
 
     desc: {
         type: String,
-        require: true,
+        required: true,
         validate(val) {
             // validations 
             // throw new Error('bla')
@@ -14,34 +14,34 @@ const decisionSchema = new mongoose.Schema({
     pros: {
         type: [
             { 
-                proCon: { type: String  }, 
-                impact: { type: Number  },
-                confidence: { type: Number  },
-                effects: { type: Number  },
-                type: { type: String  },
-                id: { type: Number  }
+                proCon: { type: String, required: true  }, 
+                impact: { type: Number, required: true  },
+                confidence: { type: Number, required: true  },
+                effects: { type: Number, required: true  },
+                type: { type: String, required: true  },
+                id: { type: Number, required: true  }
             }
         ]
     },
     cons: {
         type: [
             { 
-                proCon: { type: String  }, 
-                impact: { type: Number  },
-                confidence: { type: Number  },
-                effects: { type: Number  },
-                type: { type: String  },
-                id: { type: Number  }
+                proCon: { type: String, required: true   }, 
+                impact: { type: Number, required: true  },
+                confidence: { type: Number, required: true  },
+                effects: { type: Number, required: true  },
+                type: { type: String, required: true  },
+                id: { type: Number, required: true  }
             }
         ]
     },
     comments: {
         type: [
             { 
-                title: { type: String  }, 
-                text:  { type: String  },
-                name:  { type: String  },
-                date:  { type: Date }
+                title: { type: String, required: true  }, 
+                text:  { type: String, required: true  },
+                name:  { type: String, required: true  },
+                date:  { type: Date, required: true }
                 // likes: { type: Number  }, 
             }
         ]
