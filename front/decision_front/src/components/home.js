@@ -4,12 +4,12 @@ import Header from './Header'
 import Quote from './Quote'
 import axios from "axios"
 import Loading from "./loading"
-import Timer from './timer'
+import Timer from './Timer'
 import Comments from './Comments/Comments'
 
 const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
 
-function Home() {
+export default function Home() {
 
     const [decision, setDecision] = useState({})
     const [loading, setLoading] = useState(true)
@@ -59,7 +59,7 @@ function Home() {
         <div>
 
             <Header/>
-            <Timer/>
+            {/* <Timer seconds={60}/> */}
             {loading?
                 <Loading/>
             :
@@ -74,5 +74,3 @@ function Home() {
     )
 
 }
-
-export default Home

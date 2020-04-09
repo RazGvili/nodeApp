@@ -2,19 +2,20 @@
 import React, { useState, useEffect } from "react"
 
 import {makeStyles} from "@material-ui/core/styles"
-import {useMediaQuery,Slide,TextField,Chip,Grid,IconButton,Dialog,DialogContent} from '@material-ui/core'
+import {useMediaQuery,Slide,Chip,Grid,IconButton,Dialog,DialogContent} from '@material-ui/core'
 import SaveIcon from '@material-ui/icons/Save'
 import ShareIcon from '@material-ui/icons/Share'
 import CloseIcon from '@material-ui/icons/Close';
 import DoneIcon from '@material-ui/icons/Done'
-import { Alert, AlertTitle } from '@material-ui/lab'
 
 import AddProCon from './main/AddProCon'
 import AddButton from './main/AddButton'
+import Title from "./main/Title"
 
 //import Timer from './timer'
 
 import axios from "axios"
+import Argument from "./main/Argument"
 
 //slide animation
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
         width:'100%',
         maxWidth:'1000px',
         textAlign: 'center',
-        margin: 'auto'
+        margin: '10px auto'
     }, 
     blackBoard:{
         background:'#323132',
@@ -100,8 +101,10 @@ export default function ProsConsTable() {
     const handleSubmit = async (event) => {
         event.preventDefault()
         console.log(decision)
+        //todo:: make sure title and object is good
+        if (title)
         try {  
-            const res = await axios.post(`${BASE_URL}`+"/decisions", decision)
+            const res = await axios.post(`${BASE_URL}/decisions`, decision)
             const addedDecision = res.data
             console.log(`Added a new decision!`, addedDecision)
             setSaveSuccess(true)
@@ -125,6 +128,7 @@ export default function ProsConsTable() {
         argumentObj.id = argument.id + 1
         setArgument(argumentObj)
         setShowDialog(false)
+        setText('')
     }
 
     const HandleOpenArgumentDialog = (text,type) => {
@@ -152,22 +156,10 @@ export default function ProsConsTable() {
     return (
 
         <div className={classes.root}>
-            <br/>
-            <form noValidate autoComplete="off" onSubmit={handleSubmit}> 
-                <div>
-                    <TextField
-                        required
-                        id="outlined-required"
-                        label="Clearly define your decision"
-                        placeholder="Should i quit my job?"
-                        variant="outlined"
-                        fullWidth
-                        helperText="Defining and scoping is helpful"
-                        value={title}
-                        onChange={handleTitleChange}
-                    />
-                </div>
+            <Title handleTitleChange={handleTitleChange} title={title} />
 
+            <form noValidate autoComplete="off" onSubmit={handleSubmit}> 
+                
                 <IconButton type="submit">
                     <SaveIcon fontSize="large" />
                 </IconButton>
@@ -184,7 +176,7 @@ export default function ProsConsTable() {
                     <br/>
                     <Chip
                         icon={<ShareIcon />}
-                        label={"Share via --> ! " + `${BASE_URL}`+"/decisions/"+ decisionIdServer}
+                        label={`Share via --> ${BASE_URL}/decisions/${decisionIdServer}`}
                     />
                 </div>
             }
@@ -192,12 +184,10 @@ export default function ProsConsTable() {
             <br/>
             <br/>
 
-            <h2>{title}</h2>
-
             <div className={classes.blackBoard}>
             {!smallScreen && <>
-                <img className={classes.blackBoardHorizontalLine} src="/images/chalk_sides.png" />
-                <img className={classes.blackBoardVerticalLine} src="/images/chalk_updown.png" />
+                <img className={classes.blackBoardHorizontalLine} alt="chalk line" src="/images/chalk_sides.png" />
+                <img className={classes.blackBoardVerticalLine} alt="chalk line" src="/images/chalk_updown.png" />
                 </>
             }
                 <Grid container >
@@ -216,40 +206,34 @@ export default function ProsConsTable() {
                     {
                         decision.pros.map((arg, index) => {
                             return (
-                                <Alert key={index+"pro"} onClose={() => {handleArgumentRemove(arg, index)}} style={{marginBottom: '5px'}}>
-                                    <div style={{textAlign: 'left'}}>
-                                    <AlertTitle><b>{arg.proCon}</b></AlertTitle>
-                                        {"Impact: " +  arg.impact} <br/>  
-                                        {"Confidence: " +  arg.confidence} <br/> 
-                                        {"Long term effects: " +  arg.effects} <br/> 
-                                    </div>
-                                </Alert>
+                                <Argument   arg={arg}
+                                key={index}
+                                handleArgumentRemove={() => handleArgumentRemove(arg, index)}
+                                type="pro"
+                    />
                             )
                         })
                     }     
                     </Grid>
 
                     {smallScreen &&
-                    <Grid item xs={12} style={{height:'4em',color:'#BA3737',fontSize:'35px',paddingTop:'1em'}}>
-                        cons
-                    </Grid> }
+                        <Grid item xs={12} style={{height:'4em',color:'#BA3737',fontSize:'35px',paddingTop:'1em'}}>
+                            cons
+                        </Grid> 
+                    }
 
                     <Grid item xs={12} sm={6} >
-                    <AddButton type='con' AddAction={HandleOpenArgumentDialog}/>
-                    {
-                        decision.cons.map((arg, index) => {
+                        <AddButton type='con' AddAction={HandleOpenArgumentDialog}/>
+                        
+                        {decision.cons.map((arg, index) => {
                             return (
-                                <Alert severity="error" key={index+"con"} onClose={() => {handleArgumentRemove(arg, index)}} style={{marginBottom: '5px'}}>
-                                    <div style={{textAlign: 'left'}}>
-                                        <AlertTitle><b>{arg.proCon}</b></AlertTitle>
-                                        {"Impact: " +  arg.impact} <br/>  
-                                        {"Confidence: " +  arg.confidence} <br/> 
-                                        {"Long term effects: " +  arg.effects} <br/> 
-                                    </div>
-                                </Alert>
-                            )
-                        })
-                    }      
+                                <Argument   arg={arg}
+                                            key={index}
+                                            handleArgumentRemove={() => handleArgumentRemove(arg, index)}
+                                            type="con"
+                                />
+                            )})
+                        }      
                     </Grid>
                 </Grid>
                 </div>
