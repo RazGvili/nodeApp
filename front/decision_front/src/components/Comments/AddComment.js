@@ -1,24 +1,27 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from "axios"
 
-import SaveIcon from '@material-ui/core/Button'
 import Button from '@material-ui/core/Button'
+
+import Loading from '../loading'
 
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: '25ch',
+    root: {
+        '& .MuiTextField-root': {
+            margin: theme.spacing(1),
+            width: '25ch',
+        },
     },
-  },
 }));
 
 
+const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
 
-export default function FormPropsTextFields() {
-    const classes = useStyles();
+export default function AddComment({decisionId}) {
+    const classes = useStyles()
 
     // ========================================
 
@@ -45,9 +48,23 @@ export default function FormPropsTextFields() {
     }
 
     // ========================================
+    // Server 
 
-    const handleSubmit = (e) => {
+    const [commentUploaded, setCommentUploaded] = useState(false)
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        if (commentUploaded) {
+            window.location.reload()
+        }
+    }, [commentUploaded])
+
+    // ========================================
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
         
         let newComment = {
             title,
@@ -55,53 +72,76 @@ export default function FormPropsTextFields() {
             text
         }
 
-        console.log(newComment)
+        try {
+            
+            const res = await axios.patch(`${BASE_URL}`+"/decisions/"+decisionId, {comments: newComment})
+            
+            if (res.status === 200) {
+
+                setLoading(true)
+                setCommentUploaded(true)
+            }
+            
+        } catch (e) {
+    
+            console.log(e.message)
+            setError(e.message)
+        }
     }
+
 
     return (
 
         <div>
 
-            <form noValidate autoComplete="off" onSubmit={handleSubmit}> 
+            { !loading &&
 
-                
-                <TextField
-                    required
-                    id="outlined-required"
-                    label="Clearly define your decision"
-                    placeholder="Should i quit my job?"
-                    variant="outlined"
-                    fullWidth
-                    helperText="Defining and scoping is helpful"
-                    value={title}
-                    onChange={handleTitleChange}
-                />
-                
-                <TextField
-                    required
-                    label="Name"
-                    placeholder="John"
-                    variant="outlined"
-                    fullWidth
-                    value={name}
-                    onChange={handleNameChange}
-                />
+                <form noValidate autoComplete="off" onSubmit={handleSubmit}> 
 
-                <TextField
-                    required
-                    id="outlined-required"
-                    label="Clearly define your decision"
-                    placeholder="Should i quit my job?"
-                    variant="outlined"
-                    fullWidth
-                    helperText="Defining and scoping is helpful"
-                    value={text}
-                    onChange={handleTextChange}
-                />
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Clearly define your decision"
+                        placeholder="Should i quit my job?"
+                        variant="outlined"
+                        fullWidth
+                        helperText="Defining and scoping is helpful"
+                        value={title}
+                        onChange={handleTitleChange}
+                    />
+                    
+                    <TextField
+                        required
+                        label="Name"
+                        placeholder="John"
+                        variant="outlined"
+                        fullWidth
+                        value={name}
+                        onChange={handleNameChange}
+                    />
 
-                <Button type="submit"> Add comment </Button>
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Clearly define your decision"
+                        placeholder="Should i quit my job?"
+                        variant="outlined"
+                        fullWidth
+                        helperText="Defining and scoping is helpful"
+                        value={text}
+                        onChange={handleTextChange}
+                    />
 
-            </form>
+                    <Button type="submit"> Add comment </Button>
+
+                </form>
+            
+            }
+
+            { loading &&
+                <Loading/>            
+            }
+
         </div>        
     )
 }

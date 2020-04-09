@@ -11,6 +11,7 @@ const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000
 let decisionId = window.location.pathname.split("/").pop() || 0
 const toGetDecision = decisionId.length > 23 ? true : false
 
+
 function Home() {
 
     const [showLoader, setShowLoader] = useState(toGetDecision)
@@ -37,7 +38,7 @@ function Home() {
             if (res.status === 200) {
 
                 // console.log(`Fetched decision with ID: ` + decisionId)
-                // console.log(decisionFromServer)
+                console.log(decisionFromServer)
                 setDecision(decisionFromServer)
             }
             
@@ -46,13 +47,17 @@ function Home() {
             console.log(e.message)
             setError(e.message)
         }
+    
     }
 
     useEffect(() => {
-        setShowLoader(false)
-        setReadOnly(true)
+        
+        if (!Object.hasOwnProperty("_id")) {
+            setShowLoader(false)
+            setReadOnly(true)
+        }
+        
     }, [decision])
-
 
     return (
         <div>
@@ -61,9 +66,10 @@ function Home() {
             <Timer/>
 
             { showLoader && <Loading/>}
+
             { !showLoader && <ProsConsTable decision={decision} error={error} readOnly={readOnly} />}
 
-            <Comments commentsArr={[1,2]}/>
+            { !showLoader && readOnly && <Comments decision={decision}/> }
 
         </div>
     )

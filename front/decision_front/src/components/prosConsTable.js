@@ -95,7 +95,7 @@ export default function ProsConsTable() {
     const [type, setType] = useState("")
     const [text, setText] = useState("")
     const [saveSuccess, setSaveSuccess] = useState(false)
-    const [decisionIdServer, serDecisionIdServer] = useState("")
+    const [decisionIdServer, setDecisionIdServer] = useState("")
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -105,7 +105,7 @@ export default function ProsConsTable() {
             const addedDecision = res.data
             console.log(`Added a new decision!`, addedDecision)
             setSaveSuccess(true)
-            serDecisionIdServer(addedDecision._id)
+            setDecisionIdServer(addedDecision._id)
         } catch (e) {
             console.error(e)
         }
@@ -251,8 +251,8 @@ export default function ProsConsTable() {
                         })
                     }      
                     </Grid>
-               </Grid>
-               </div>
+                </Grid>
+                </div>
 
                 <Dialog open={showDialog}
                         fullWidth           

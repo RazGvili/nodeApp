@@ -24,18 +24,18 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Comments(commentsArr) {
+export default function Comments(decision) {
     const classes = useStyles()
-
-    let comments = commentsArr.commentsArr
+    
+    let comments = decision.decision.comments
 
     return (
 
         <div className={classes.root}>
-
+            <br/>
             <List>
 
-                {
+                { comments &&
                     comments.map((comment) => {
 
                         return (
@@ -52,7 +52,7 @@ export default function Comments(commentsArr) {
             </List> 
             
 
-            <AddComment/>
+            <AddComment decisionId={decision.decision._id}/>
 
         </div>
 

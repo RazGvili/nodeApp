@@ -122,13 +122,17 @@ router.get('/decisions', auth, (req, res) => {
 })
 
 
-router.patch('/decisions/:id', auth, (req, res) => {
+router.patch('/decisions/:id', (req, res) => {
 
     // Assure only desired fields are being modified 
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['desc', 'completed', 'cons', 'pros']
+    const allowedUpdates = ['desc', 'completed', 'cons', 'pros', 'comments']
     const isValid = updates.every((update) => allowedUpdates.includes(update))
     const invalidFields = _.difference(updates, allowedUpdates)
+
+    console.log("========")
+    console.log(req.body)
+    console.log("========")
 
     if (!isValid) {
         return res.status(400).send({
@@ -138,14 +142,10 @@ router.patch('/decisions/:id', auth, (req, res) => {
     }
 
     const _id = req.params.id
-    const user = req.user
-
-    console.log("user ID from auth--> " + user._id)
     console.log("task ID from params--> " + _id)
 
     Decision.findOne({
         _id,
-        owner: user._id
     }).then((decision) => {
 
         if (!decision) {
@@ -154,9 +154,25 @@ router.patch('/decisions/:id', auth, (req, res) => {
             })
         }
 
-        updates.forEach((update => decision[update] = req.body[[update]]))
+        updates.forEach((update) => {
+
+            if (update === 'comments') {
+                const newComment = req.body.comments
+                newComment.date = new Date()
+                decision.comments = decision.comments.concat(newComment)
+            } else {
+                decision[update] = req.body[[update]]
+            }
+        })
+
         return decision
 
+    }).then((decision) => {
+
+        console.log("saving -->")
+        console.log(decision)
+        return decision.save()
+        
     }).then((decision) => {
 
         console.log("decision updated & saved, sending.. \n")

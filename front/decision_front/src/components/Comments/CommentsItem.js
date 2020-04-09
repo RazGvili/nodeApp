@@ -28,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Comments(comment) {
     const classes = useStyles()
 
+    let commentData = comment.comment
+
     return (
 
         <div>
@@ -39,21 +41,23 @@ export default function Comments(comment) {
                 </ListItemIcon>
 
                 <ListItemText
-                    primary="Brunch this weekend?"
+                    primary={<b>{commentData.title}</b>}
 
                     secondary={
                         <React.Fragment>
-                        <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                        >
-                            Ali Connors
-                        </Typography>
-                        {" — I'll be in your neighborhood doing errands this…"}
+                            <Typography
+                                component="span"
+                                variant="body2"
+                                className={classes.inline}
+                                color="textPrimary"
+                            >
+                                {commentData.name + " - "}
+                            </Typography>
+                                {commentData.text} <br/>
+                                {commentData.date}
                         </React.Fragment>
                     }
+
                 />                       
 
             </ListItem>

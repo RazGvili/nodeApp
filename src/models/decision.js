@@ -39,11 +39,10 @@ const decisionSchema = new mongoose.Schema({
         type: [
             { 
                 title: { type: String  }, 
-                text: { type: String  },
-                name: { type: String  },
-                id: { type: Number  },
-                likes: { type: Number  }, 
-                disLikes: { type: Number  }
+                text:  { type: String  },
+                name:  { type: String  },
+                date:  { type: Date }
+                // likes: { type: Number  }, 
             }
         ]
     },
@@ -58,7 +57,6 @@ const decisionSchema = new mongoose.Schema({
     }
 
 }, {timestamps:true})
-
 
 
 const Decision = mongoose.model('Decision', decisionSchema)
