@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import ProsConsTable from './prosConsTable'
 import Header from './Header'
-import Quote from './Quote'
 import axios from "axios"
 import Loading from "./loading"
 import Timer from './Timer'
 import Comments from './Comments/Comments'
+
+//import Quote from './Quote'
 
 const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
 
@@ -28,21 +29,23 @@ export default function Home() {
 
         try {
             
-            const res = await axios.get(`${BASE_URL}`+"/decisions/"+decisionId)
+            const res = await axios.get(`${BASE_URL}/decisions/${decisionId}`)
             const decisionFromServer = res.data
             
             if (res.status === 200) {
 
-                // console.log(`Fetched decision with ID: ` + decisionId)
                 console.log(decisionFromServer)
                 setDecision(decisionFromServer)
                 setLoading(false)
+
             }
             
         } catch (e) {
 
             console.log(e.message)
             setError(e.message)
+            setLoading(false)
+
         }
     
     }
@@ -55,6 +58,7 @@ export default function Home() {
             setLoading(false)
     }, [])
 
+
     return (
         <div>
 
@@ -66,7 +70,7 @@ export default function Home() {
                 <ProsConsTable decision={decision} error={error} />
             }
                 
-            {decision &&
+            {decision && !loading &&
                 <Comments decision={decision}/>
             }
 
