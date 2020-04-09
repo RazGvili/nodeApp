@@ -8,27 +8,23 @@ import Timer from './timer'
 import Comments from './Comments/Comments'
 
 const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
-let decisionId = window.location.pathname.split("/").pop() || 0
-const toGetDecision = decisionId.length > 23 ? true : false
-
 
 function Home() {
 
-    const [showLoader, setShowLoader] = useState(toGetDecision)
     const [decision, setDecision] = useState({})
-    const [readOnly, setReadOnly] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
 
 
-    if (showLoader) { 
-        getDecision().then((des) => {
+    // if (showLoader) { 
+    //     getDecision().then((des) => {
 
-        }).catch((e) => {
-            console.log(e)
-        })
-    }
+    //     }).catch((e) => {
+    //         console.log(e)
+    //     })
+    // }
 
-    async function getDecision() {
+    async function getDecision(decisionId) {
 
         try {
             
@@ -40,6 +36,7 @@ function Home() {
                 // console.log(`Fetched decision with ID: ` + decisionId)
                 console.log(decisionFromServer)
                 setDecision(decisionFromServer)
+                setLoading(false)
             }
             
         } catch (e) {
@@ -51,28 +48,27 @@ function Home() {
     }
 
     useEffect(() => {
-        
-        if (decision.hasOwnProperty("_id")) {
-            console.log("d")
-            setShowLoader(false)
-            setReadOnly(true)
-        }
-        
-    }, [decision])  
-
-    console.log(!showLoader && readOnly)
+        let decisionId = window.location.pathname.split("/").pop() || 0
+        if (decisionId.length > 23)
+            getDecision(decisionId)
+        else
+            setLoading(false)
+    }, [])
 
     return (
         <div>
 
             <Header/>
             <Timer/>
-
-            { showLoader && <Loading/>}
-
-            { !showLoader && <ProsConsTable decision={decision} error={error} readOnly={readOnly} />}
-
-            { !showLoader && readOnly && <Comments decision={decision}/> }
+            {loading?
+                <Loading/>
+            :
+                <ProsConsTable decision={decision} error={error} />
+            }
+                
+            {decision &&
+                <Comments decision={decision}/>
+            }
 
         </div>
     )
