@@ -52,12 +52,15 @@ function Home() {
 
     useEffect(() => {
         
-        if (!Object.hasOwnProperty("_id")) {
+        if (decision.hasOwnProperty("_id")) {
+            console.log("d")
             setShowLoader(false)
             setReadOnly(true)
         }
         
-    }, [decision])
+    }, [decision])  
+
+    console.log(!showLoader && readOnly)
 
     return (
         <div>
