@@ -2,8 +2,7 @@ import React, {useState, useEffect} from 'react'
 import ProsConsTable from './prosConsTable'
 import Header from './Header'
 import axios from "axios"
-import Loading from "./loading"
-import Timer from './Timer'
+import Loading from "./Loading"
 import Comments from './Comments/Comments'
 
 //import Quote from './Quote'
@@ -12,7 +11,7 @@ const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000
 
 export default function Home() {
 
-    const [decision, setDecision] = useState({})
+    const [decision, setDecision] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
 
@@ -51,7 +50,7 @@ export default function Home() {
     }
 
     useEffect(() => {
-        let decisionId = window.location.pathname.split("/").pop() || 0
+        let decisionId = window.location.pathname.split("/").pop() || ""
         if (decisionId.length > 23)
             getDecision(decisionId)
         else
@@ -70,7 +69,7 @@ export default function Home() {
                 <ProsConsTable decision={decision} error={error} />
             }
                 
-            {decision && !loading &&
+            { decision && !loading &&
                 <Comments decision={decision}/>
             }
 
