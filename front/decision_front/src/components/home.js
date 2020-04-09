@@ -12,7 +12,7 @@ const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000
 
 export default function Home() {
 
-    const [decision, setDecision] = useState({})
+    const [decision, setDecision] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
 
@@ -51,7 +51,7 @@ export default function Home() {
     }
 
     useEffect(() => {
-        let decisionId = window.location.pathname.split("/").pop() || 0
+        let decisionId = window.location.pathname.split("/").pop() || ''
         if (decisionId.length > 23)
             getDecision(decisionId)
         else

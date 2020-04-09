@@ -24,8 +24,8 @@ export default function Argument(props) {
         <div className={classes.container}>
                     <Alert  icon={<span style={{color:props.type==='con'?red:green}}>*</span>}
                             onClose={() => props.handleArgumentRemove()}
-                            style={{background: 'none',textAlign:'left',color:props.type==='con'?red:green}}>
-                                        <AlertTitle>
+                            style={{fontFamily:'Permanent Marker',background: 'none',textAlign:'left',color:props.type==='con'?red:green}}>
+                                        <AlertTitle style={{fontFamily:'Permanent Marker'}}>
                                             <b>{props.arg.proCon}</b>
                                         </AlertTitle>
                                         Impact:{` ${props.arg.impact}`} <br/>  
