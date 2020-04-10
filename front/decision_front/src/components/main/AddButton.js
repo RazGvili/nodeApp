@@ -5,24 +5,25 @@ import {makeStyles} from "@material-ui/core/styles"
 import { IconButton,InputBase} from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { green,red } from "../GlobalVars"
+const DARK_MODE = false;
 
   
 const useStyles = makeStyles(theme => ({
     container: {
-        width: '100%',
+        width: '65%',
         cursor:'pointer',
-        maxWidth: '200px',
-        margin: '0px auto -5px',
+        //maxWidth: '200px',
+        margin: 'auto',
         borderRadius:'5px',
         display:'flex',
-        padding:'0px 5px 0px 10px',
+        padding:'0px 30px',
         lineHeight:'2.9em',
         '&:hover':{
-            backgroundColor:'rgba(255, 255, 255, 0.1)'
+            backgroundColor:DARK_MODE?'rgba(255, 255, 255, 0.1)':'rgba(0, 0, 0, 0.1)'
         }
     }, 
     input:{
-        color:'white',
+        color:DARK_MODE?'white':'black',
         fontFamily:'Permanent Marker',
     },
     
@@ -70,11 +71,11 @@ export default function AddButton(props) {
               }}
             />
             :
-                <span style={{color:'white'}}>{`Add ${props.type}`}</span>
+                <span style={{color:DARK_MODE?'white':'black'}}>{`Add ${props.type}`}</span>
             }
             
         </div>
-        {error && <span style={{color:'grey',fontSize:'11px',marginTop:'-15px'}}>must be longer than two charecters</span>}
+        {error && <span style={{letterSpacing: '1.2px',color:'grey',fontSize:'11px',marginTop:'-15px'}}>must be longer than two charecters</span>}
         </>
     )
 }

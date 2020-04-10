@@ -4,6 +4,7 @@ import Header from './Header'
 import axios from "axios"
 import Loading from "./Loading"
 import Comments from './Comments/Comments'
+import Avatar from './custom/Avatar'
 
 //import Quote from './Quote'
 
@@ -54,6 +55,7 @@ export default function Home() {
 
             <Header/>
             {/* <Timer seconds={60}/> */}
+            <Avatar />
             {loading?
                 <Loading/>
             :

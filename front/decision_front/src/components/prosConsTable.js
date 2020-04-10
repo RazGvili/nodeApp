@@ -3,10 +3,8 @@ import React, { useState, useEffect } from "react"
 
 import {makeStyles} from "@material-ui/core/styles"
 import {useMediaQuery,Slide,Chip,Grid,IconButton,Dialog,DialogContent} from '@material-ui/core'
-import SaveIcon from '@material-ui/icons/Save'
-import ShareIcon from '@material-ui/icons/Share'
-import CloseIcon from '@material-ui/icons/Close';
-import DoneIcon from '@material-ui/icons/Done'
+import {ICONS} from './custom/IconsData'
+import Icon from '@mdi/react'
 
 import AddProCon from './main/AddProCon'
 import AddButton from './main/AddButton'
@@ -22,6 +20,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const DARK_MODE = false;
+
 const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +31,9 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'center',
         margin: '10px auto'
     }, 
-    blackBoard:{
+    blackBoard:
+    DARK_MODE?
+    {
         background:'#323132',
         borderRadius:'15px',
         position:'relative',
@@ -44,6 +46,20 @@ const useStyles = makeStyles(theme => ({
 		borderBottom: '#c9ad86 solid 12px',
 		boxShadow: '0px 0px 6px 5px rgba(58, 18, 13, 0), 0px 0px 0px 2px #c2a782, 0px 0px 0px 4px #a58e6f, 3px 4px 8px 5px rgba(0, 0, 0, 0.5)',
 		backgroundImage: 'radial-gradient( circle at left 30%, rgba(34, 34, 34, 0.3), rgba(34, 34, 34, 0.3) 80px, rgba(34, 34, 34, 0.5) 100px, rgba(51, 51, 51, 0.5) 160px, rgba(51, 51, 51, 0.5)), linear-gradient( 215deg, transparent, transparent 100px, #222 260px, #222 320px, transparent), radial-gradient( circle at right, #111, rgba(51, 51, 51, 1))',
+    }
+    :
+    {
+        background:'#F2F2F2',
+        borderRadius:'15px',
+        position:'relative',
+        minHeight:'540px',
+        margin:'10px',
+        fontFamily:'Permanent Marker',
+        border: '#C3BEBE solid 12px',
+		borderTop: '#ADA6A6 solid 12px',
+		borderLeft: '#989292 solid 12px',
+		borderBottom: '#BBB6B6 solid 12px',
+		boxShadow: '0px 0px 6px 5px rgba(58, 18, 13, 0), 0px 0px 0px 2px #ADA6A6, 0px 0px 0px 4px #989292, 3px 4px 8px 5px rgba(0, 0, 0, 0.5)',
     },
     blackBoardHorizontalLine:{
         position:'absolute',
@@ -158,24 +174,25 @@ export default function ProsConsTable() {
         <div className={classes.root}>
             <Title handleTitleChange={handleTitleChange} title={title} />
 
-            <form noValidate autoComplete="off" onSubmit={handleSubmit}> 
-                
-                <IconButton type="submit">
-                    <SaveIcon fontSize="large" />
+
+                <IconButton type="submit" onSubmit={handleSubmit}>
+                <Icon   path={ICONS['Save']}
+                        title="Save"
+                        size={2}
+                        />
+                    
                 </IconButton>
-                
-            </form>
 
             {saveSuccess && 
                 <div>
                     <Chip
-                        icon={<DoneIcon />}
+                        icon={<Icon path={ICONS['Check']} title="Saved" size={1} />}
                         label="Decision saved successfully!"
                     />
                     <br/>
                     <br/>
                     <Chip
-                        icon={<ShareIcon />}
+                        icon={<Icon path={ICONS['Share']} title="Share" size={1} />}
                         label={`Share via --> ${BASE_URL}/decisions/${decisionIdServer}`}
                     />
                 </div>
@@ -186,8 +203,8 @@ export default function ProsConsTable() {
 
             <div className={classes.blackBoard}>
             {!smallScreen && <>
-                <img className={classes.blackBoardHorizontalLine} alt="chalk line" src="/images/chalk_sides.png" />
-                <img className={classes.blackBoardVerticalLine} alt="chalk line" src="/images/chalk_updown.png" />
+                <img className={classes.blackBoardHorizontalLine} alt="chalk line" src={`/images/chalk_sides${DARK_MODE?'':'_black'}.png`} />
+                <img className={classes.blackBoardVerticalLine} alt="chalk line" src={`/images/chalk_updown${DARK_MODE?'':'_black'}.png`} />
                 </>
             }
                 <Grid container >
@@ -246,7 +263,7 @@ export default function ProsConsTable() {
                         >
                             <div style={{position:'relative'}}>
                                 <IconButton onClick={()=> setShowDialog(false)} style={{position:'absolute',right:'0px',padding:'15px'}}>
-                                    <CloseIcon />
+                                <Icon path={ICONS['Close']} title="Close" size={1} />
                                 </IconButton>
                                 <DialogContent >
                                     <AddProCon type={type} setArgument={addProCon} text={text} />
