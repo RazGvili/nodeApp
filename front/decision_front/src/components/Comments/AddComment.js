@@ -132,7 +132,7 @@ export default function AddComment({decisionId}) {
                         <TextField
                             required
                             label="Consider this maybe.."
-                            placeholder="Should i quit my job?"
+                            placeholder="Consider this maybe.."
                             variant="outlined"
                             fullWidth
                             value={title}
