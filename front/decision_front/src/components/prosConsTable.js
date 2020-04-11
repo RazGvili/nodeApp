@@ -9,6 +9,8 @@ import Icon from '@mdi/react'
 import AddProCon from './main/AddProCon'
 import AddButton from './main/AddButton'
 import Title from "./main/Title"
+import Header from "./Header"
+
 
 //import Timer from './timer'
 
@@ -119,7 +121,6 @@ export default function ProsConsTable(props) {
     const [decisionIdServer, setDecisionIdServer] = useState("")
 
     const handleSubmit = async (event) => {
-        event.preventDefault()
         console.log(decision)
         //todo:: make sure title and object is good
         //if (title)
@@ -175,11 +176,20 @@ export default function ProsConsTable(props) {
 
     }, [argument])
 
+    // Header ----------------------------------------
+    const [saveClick, setSaveClick] = useState(false)
+
+    // -----------------------------------------------
+
     // ===================================================================================================
 
     return (
 
         <div className={classes.root}>
+
+            <Header handleSubmit={handleSubmit}/>
+
+
             <Title handleTitleChange={handleTitleChange} title={title} />
                 
                     <IconButton type="submit" onClick={handleSubmit}>
@@ -200,7 +210,7 @@ export default function ProsConsTable(props) {
                     <br/>
                     <Chip
                         icon={<Icon path={ICONS['Share']} title="Share" size={1} />}
-                        label={`Share via --> ${BASE_URL}/decisions/${decisionIdServer}`}
+                        label={`Share via --> ${decisionIdServer}`}
                     />
                 </div>
             }

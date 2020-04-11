@@ -8,14 +8,15 @@ import Avatar from './custom/Avatar'
 
 import {BASE_URL} from './GlobalVars'
 
-//import Quote from './Quote'
-
+import {useParams} from "react-router-dom"
 
 export default function Home() {
 
     const [decision, setDecision] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
+
+    let { slug } = useParams()
 
     async function getDecision(decisionId) {
 
@@ -43,7 +44,7 @@ export default function Home() {
     }
 
     useEffect(() => {
-        let decisionId = window.location.pathname.split("/").pop() || ''
+        let decisionId = slug || ''
         if (decisionId.length > 23)
             getDecision(decisionId)
         else
@@ -54,9 +55,8 @@ export default function Home() {
     return (
         <div>
 
-            <Header decision={decision}/>
             {/* <Timer seconds={60}/> */}
-            <Avatar />
+            {/* <Avatar /> */}
             {loading?
                 <Loading/>
             :
