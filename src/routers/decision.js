@@ -157,9 +157,17 @@ router.patch('/decisions/:id', (req, res) => {
         updates.forEach((update) => {
 
             if (update === 'comments') {
+
                 const newComment = req.body.comments
                 newComment.date = new Date()
                 decision.comments = decision.comments.concat(newComment)
+
+                if (req.body.comments === 'delete') {
+
+                    console.log(decision.comments)
+                    decision.comments = decision.comments.slice(0,decision.comments.length-2)
+                }
+
             } else {
                 decision[update] = req.body[[update]]
             }

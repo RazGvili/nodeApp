@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import List from '@material-ui/core/List'
@@ -8,6 +8,8 @@ import CommentItem from './CommentsItem'
 
 import AddComment from './AddComment'
 
+import axios from "axios"
+const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,11 +27,52 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Comments(decision) {
+export default function Comments({decision}) {
     const classes = useStyles()
     
-    let comments = decision.decision.comments
+    let commentsProps = decision.comments
+    let decisionId = decision._id
 
+    const [newComment, setNewComment] = useState({})
+    const [comments, setComments] = useState(commentsProps)
+
+    const [removeLastOne, setRemoveLastOne] = useState(false)
+
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+
+
+    useEffect(() => {
+        if (newComment.hasOwnProperty("_id")) {
+            console.log(newComment)
+            setComments(comments => [...comments, newComment])
+        }
+    }, [newComment])
+
+    
+    useEffect(() => {
+
+        if (removeLastOne) {
+                
+                setLoading(true)
+
+                axios.patch(`${BASE_URL}`+"/decisions/"+decisionId, {comments: 'delete'})
+                .then((res) => {
+
+                    if (res.status === 200) {
+
+                        setComments(comments => comments.slice(0,comments.length-2))
+                        setNewComment({})   
+                        setLoading(false)
+                    }
+
+                }).catch((e) => {
+                    console.log(e.message)
+                    setError(e.message)
+                    setLoading(false)
+                })
+        }
+    }, [removeLastOne])
 
     return (
 
@@ -48,11 +91,16 @@ export default function Comments(decision) {
             <List>
 
                 { comments && comments.length > 0 &&
-                    comments.map((comment) => {
+                    comments.map((comment, index) => {
 
                         return (
                             <>
-                                <CommentItem key={comment.title} comment={comment}/>
+                                <CommentItem 
+                                    key={comment.title} 
+                                    comment={comment} 
+                                    lastOne={newComment.hasOwnProperty("_id") && index === comments.length-1} 
+                                    setRemoveLastOne={setRemoveLastOne}
+                                />
                                 <Divider variant="inset" component="li" />
                             </>
                         )
@@ -60,9 +108,12 @@ export default function Comments(decision) {
                 }
 
             </List> 
-            
 
-            <AddComment decisionId={decision.decision._id}/>
+            { error && 
+                <h5 style={{color: 'red'}}> {error} </h5>
+            }
+            
+            <AddComment decisionId={decision._id} setNewComment={setNewComment}/>
 
         </div>
 

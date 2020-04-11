@@ -6,7 +6,15 @@ import ListItemText from '@material-ui/core/ListItemText'
 
 import FaceIcon from '@material-ui/icons/Face'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import IconButton from '@material-ui/core/IconButton'
+
 import Typography from '@material-ui/core/Typography'
+
+
+
+import {ICONS} from '../custom/IconsData'
+import Icon from '@mdi/react'
 
 
 
@@ -23,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Comments(comment) {
+export default function Comments({comment, lastOne, setRemoveLastOne}) {
     const classes = useStyles()
 
-    let commentData = comment.comment
+    let commentData = comment
 
     return (
 
@@ -58,8 +66,20 @@ export default function Comments(comment) {
 
                 />                       
 
+                { lastOne && 
+                    <ListItemSecondaryAction>
+                        <IconButton edge="end" onClick={()=>{setRemoveLastOne(true)}}>
+                            <Icon   
+                                path={ICONS['Remove']}
+                                title="Save"
+                                size={0.9}
+                            />
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                }
+
             </ListItem>
 
         </div>
     )
-}
+}   

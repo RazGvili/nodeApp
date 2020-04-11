@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
 
 const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
 
-export default function AddComment({decisionId}) {
+export default function AddComment({decisionId, setNewComment}) {
+
     const classes = useStyles()
 
     // ========================================
@@ -61,15 +62,16 @@ export default function AddComment({decisionId}) {
     // ========================================
     // Server 
 
-    const [commentUploaded, setCommentUploaded] = useState(false)
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+    const [newCommentSuccess, setNewCommentSuccess] = useState({})
+
 
     useEffect(() => {
-        if (commentUploaded) {
-            window.location.reload()
+        if (newCommentSuccess.hasOwnProperty("_id")) {
+            setNewComment(newCommentSuccess)
         }
-    }, [commentUploaded])
+    }, [newCommentSuccess])
 
     // ========================================
 
@@ -90,7 +92,7 @@ export default function AddComment({decisionId}) {
             if (res.status === 200) {
 
                 setLoading(false)
-                setCommentUploaded(true)
+                setNewCommentSuccess(res.data.comments.pop())
             }
             
         } catch (e) {

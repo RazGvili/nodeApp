@@ -171,7 +171,7 @@ export default function AddProCon(props) {
                     className={classes.actionButton}
                     startIcon={<AddCircleOutlineIcon style={{color: typeColor}}/>}
                     onClick={addProCon}
-                    disabled={text.length < 8 ? true : false } 
+                    disabled={text.length < 2 ? true : false } 
                 >
                     {"Add " + type} 
                 </Button>

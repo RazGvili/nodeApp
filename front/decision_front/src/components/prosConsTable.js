@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 
 import {makeStyles} from "@material-ui/core/styles"
 import {useMediaQuery,Slide,Chip,Grid,IconButton,Dialog,DialogContent} from '@material-ui/core'
@@ -15,9 +15,12 @@ import Title from "./main/Title"
 import axios from "axios"
 import Argument from "./main/Argument"
 
+import { store } from '../store'
+
+
 //slide animation
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+    return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const DARK_MODE = false;
@@ -76,9 +79,11 @@ const useStyles = makeStyles(theme => ({
     }     
 }))
 
-export default function ProsConsTable() {
+export default function ProsConsTable(props) {
     const classes = useStyles()
-    const smallScreen = useMediaQuery('(max-width:600px)');
+    const smallScreen = useMediaQuery('(max-width:600px)')
+
+    let decisionFromUrl = props.decision ? props.decision : false
 
     // Argument - Pro/Con ----------------------------
     
@@ -112,21 +117,24 @@ export default function ProsConsTable() {
     const [type, setType] = useState("")
     const [text, setText] = useState("")
     const [saveSuccess, setSaveSuccess] = useState(false)
+    const [error, setError] = useState("")
     const [decisionIdServer, setDecisionIdServer] = useState("")
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         console.log(decision)
         //todo:: make sure title and object is good
-        if (title)
+        //if (title)
         try {  
             const res = await axios.post(`${BASE_URL}/decisions`, decision)
             const addedDecision = res.data
             console.log(`Added a new decision!`, addedDecision)
             setSaveSuccess(true)
             setDecisionIdServer(addedDecision._id)
+
         } catch (e) {
             console.error(e)
+            setError(e.massage)
         }
     }
 
@@ -134,11 +142,13 @@ export default function ProsConsTable() {
         setTitle(event.target.value)
     }
 
-    const [decision, setDecision] = useState({
-        desc: "",
-        pros: [], 
-        cons: [],
-    })
+    const [decision, setDecision] = useState(
+        decisionFromUrl ? decisionFromUrl : {
+            desc: "",
+            pros: [], 
+            cons: [],
+        }
+    )
 
     const addProCon = (argumentObj) => {
         argumentObj.id = argument.id + 1
@@ -173,15 +183,14 @@ export default function ProsConsTable() {
 
         <div className={classes.root}>
             <Title handleTitleChange={handleTitleChange} title={title} />
-
-
-                <IconButton type="submit" onSubmit={handleSubmit}>
-                <Icon   path={ICONS['Save']}
-                        title="Save"
-                        size={2}
-                        />
-                    
-                </IconButton>
+                
+                    <IconButton type="submit" onClick={handleSubmit}>
+                        <Icon
+                            path={ICONS['Save']}
+                            title="Save"
+                            size={2}
+                        />    
+                    </IconButton>
 
             {saveSuccess && 
                 <div>
