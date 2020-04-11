@@ -5,9 +5,9 @@ import Toolbar from '@material-ui/core/Toolbar'
 //import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
-import Timer from './Timer'
+import Timer from './timer'
 
-import { NavLink  } from 'react-router-dom'
+import { Link  } from 'react-router-dom'
 
 import {ICONS} from './custom/IconsData'
 import Icon from '@mdi/react'
@@ -34,9 +34,9 @@ export default function Header({handleSubmit}) {
         <Toolbar>
 
         {/* Logo */}
-        <Button component={NavLink} to="/"> Home </Button>
+        <Button component={Link} to="/"> Home </Button>
 
-        <Button component={NavLink} to="/About"> About </Button>
+        <Button component={Link} to="/About"> About </Button>
 
         <IconButton edge="start" onClick={() => {handleSubmit()}}>
             <Icon

@@ -1,5 +1,4 @@
 import React from 'react'
-import Home from './components/home'
 
 import { StateProvider } from './store.js'
 
@@ -13,6 +12,7 @@ function App() {
       <StateProvider>
         <AppRouter/>
       </StateProvider>
+      
   )
 }
 
