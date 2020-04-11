@@ -9,7 +9,7 @@ import CommentItem from './CommentsItem'
 import AddComment from './AddComment'
 
 import axios from "axios"
-const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
+import {BASE_URL} from '../GlobalVars'
 
 const useStyles = makeStyles((theme) => ({
     root: {

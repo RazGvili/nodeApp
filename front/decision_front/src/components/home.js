@@ -6,9 +6,10 @@ import Loading from "./Loading"
 import Comments from './Comments/Comments'
 import Avatar from './custom/Avatar'
 
+import {BASE_URL} from './GlobalVars'
+
 //import Quote from './Quote'
 
-const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
 
 export default function Home() {
 
@@ -53,7 +54,7 @@ export default function Home() {
     return (
         <div>
 
-            <Header/>
+            <Header decision={decision}/>
             {/* <Timer seconds={60}/> */}
             <Avatar />
             {loading?

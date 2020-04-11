@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button'
 
 import Loading from '../Loading'
 
+import {BASE_URL} from '../GlobalVars'
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,8 +20,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
-const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
 
 export default function AddComment({decisionId, setNewComment}) {
 

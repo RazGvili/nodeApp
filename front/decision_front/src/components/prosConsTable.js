@@ -15,17 +15,15 @@ import Title from "./main/Title"
 import axios from "axios"
 import Argument from "./main/Argument"
 
-import { store } from '../store'
+import {BASE_URL} from './GlobalVars'
 
 
 //slide animation
 const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
+    return <Slide direction="up" ref={ref} {...props} />
 });
 
 const DARK_MODE = false;
-
-const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://r-decisions-server.herokuapp.com/"
 
 const useStyles = makeStyles(theme => ({
     root: {
