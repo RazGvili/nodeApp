@@ -88,13 +88,31 @@ const useStyles = makeStyles(theme => ({
         borderRadius:'10px',
         background:DARK_MODE?'rgba(255, 255, 255, 0.1)':'rgba(0, 0, 0, 0.1)'
     },
-    actionButton:{
+    actionButtonPro:{
         margin:'0px auto 10px',
+        color:'white',
+        background:green,
         borderRadius:'30px',
         width:'150px',
         textTransform: 'none',
         fontSize:'18px',
-        fontWeight:'700'
+        fontWeight:'700',
+        '&:focus,&:hover,&$active': {
+            background:'#577836'
+          },
+    },
+    actionButtonCon:{
+        margin:'0px auto 10px',
+        color:'white',
+        background:red,
+        borderRadius:'30px',
+        width:'150px',
+        textTransform: 'none',
+        fontSize:'18px',
+        fontWeight:'700',
+        '&:focus,&:hover,&$active': {
+            background:'#932b2b'
+          },
     }
 }))
 
@@ -220,8 +238,7 @@ export default function AddProCon(props) {
                 </div>
 
                 <Button
-                    className={classes.actionButton}
-                    style={{background:typeColor,color:'white'}}
+                    className={type==='pro'?classes.actionButtonPro:classes.actionButtonCon}
                     startIcon={<AddCircleOutlineIcon style={{color: 'white'}}/>}
                     onClick={addProCon}
                     disabled={text.length < 2 ? true : false } 

@@ -21,10 +21,10 @@ const useStyles = makeStyles(theme => ({
     seconds:{
         position: 'absolute',
         left: '50%',
-        top: '50%',
+        top: '47%',
         transform: 'translateX(-50%) translateY(-50%)',
         zIndex: '2',
-        fontSize:'large'
+        //fontSize:'large'
     }
 }))
 

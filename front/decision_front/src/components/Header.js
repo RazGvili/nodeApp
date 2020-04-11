@@ -11,6 +11,7 @@ import { Link  } from 'react-router-dom'
 
 import {ICONS} from './custom/IconsData'
 import Icon from '@mdi/react'
+import Typography from 'material-ui/styles/typography'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,23 +32,34 @@ export default function Header({handleSubmit}) {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar style={{display:'flex', justifyContent:'space-between'}}>
 
         {/* Logo */}
-        <Button component={Link} to="/"> Home </Button>
-
-        <Button component={Link} to="/About"> About </Button>
-
-        <IconButton edge="start" onClick={() => {handleSubmit()}}>
+        <div>
+        <Button  component={Link} to="/"> logo </Button> name
+        </div>
+        {/* <Button component={Link} to="/About"> About </Button> */}
+        <div style={{display:'flex'}}>
+        <IconButton  onClick={() => {handleSubmit()}}>
             <Icon
                 path={ICONS['Save']}
                 title="Save"
-                size={1}
+                size={1.5}
+                color='#9A9A9A'
+            />    
+          </IconButton>
+
+          <IconButton  onClick={() => {handleSubmit()}}>
+            <Icon
+                path={ICONS['Share']}
+                title="Share"
+                size={1.5}
+                color='#9A9A9A'
             />    
           </IconButton>
   
-          
           <Timer seconds="15"/>
+          </div>
         </Toolbar>
       </AppBar>
     </div>

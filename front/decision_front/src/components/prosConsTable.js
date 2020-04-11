@@ -30,18 +30,19 @@ const DARK_MODE = false;
 const useStyles = makeStyles(theme => ({
     root: {
         width:'100%',
-        maxWidth:'1000px',
+        //maxWidth:'1000px',
         textAlign: 'center',
-        margin: '10px auto'
+        //margin: '10px auto'
     }, 
     blackBoard:
     DARK_MODE?
     {
         background:'#323132',
+        maxWidth:'1000px',
         borderRadius:'15px',
         position:'relative',
         minHeight:'540px',
-        margin:'10px',
+        margin:'10px auto',
         fontFamily:'Permanent Marker',
         border: 'tan solid 12px',
 		borderTop: '#bda27e solid 12px',
@@ -53,10 +54,11 @@ const useStyles = makeStyles(theme => ({
     :
     {
         background:'#F2F2F2',
+        maxWidth:'1000px',
         borderRadius:'15px',
         position:'relative',
         minHeight:'540px',
-        margin:'10px',
+        margin:'10px auto',
         fontFamily:'Permanent Marker',
         border: '#C3BEBE solid 12px',
 		borderTop: '#ADA6A6 solid 12px',
@@ -82,7 +84,10 @@ const useStyles = makeStyles(theme => ({
         height:'4em',
         fontSize:'35px',
         paddingTop:'1em'
-    }     
+    },
+    boardContainer:{
+        padding:'10px'
+    }
 }))
 
 export default function ProsConsTable(props) {
@@ -192,20 +197,12 @@ export default function ProsConsTable(props) {
     return (
 
         <div className={classes.root}>
-
+            
             <Header handleSubmit={handleSubmit}/>
 
-
+            <br />
             <Title handleTitleChange={handleTitleChange} title={title} />
-                
-                    <IconButton type="submit" onClick={handleSubmit}>
-                        <Icon
-                            path={ICONS['Save']}
-                            title="Save"
-                            size={2}
-                        />    
-                    </IconButton>
-
+               
             {saveSuccess && 
                 <div>
                     <Chip
@@ -220,10 +217,8 @@ export default function ProsConsTable(props) {
                     />
                 </div>
             }
-
-            <br/>
-            <br/>
-
+            <br />
+            <div className={classes.boardContainer}>
             <div className={classes.blackBoard}>
             {!smallScreen && <>
                 <img className={classes.blackBoardHorizontalLine} alt="chalk line" src={`/images/chalk_sides${DARK_MODE?'':'_black'}.png`} />
@@ -277,6 +272,7 @@ export default function ProsConsTable(props) {
                     </Grid>
                 </Grid>
                 </div>
+            </div>
 
                 <Dialog open={showDialog}
                         fullWidth           
