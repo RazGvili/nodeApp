@@ -1,27 +1,21 @@
 
-import React, { useState } from "react"
+import React from "react"
 
 import {makeStyles} from "@material-ui/core/styles"
-import { IconButton,InputBase,TextField} from '@material-ui/core'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import { green,red } from "../GlobalVars"
+import { InputBase} from '@material-ui/core'
 
+
+const DARK_MODE = false
   
 const useStyles = makeStyles(theme => ({
-    container: {
-        width: '100%',
-        maxWidth: '200px',
-        margin: 'auto',
-        background:'rgba(0, 0, 0, 0.1)',
-        borderRadius:'5px',
-        display:'flex',
-        padding:'0px 5px 0px 10px'
-    }, 
-    input:{
-        color:'white',
+    inputRoot:{
+        color:DARK_MODE?'white':'black',
+        width:'95%',
+        borderRadius:'10px',
         fontFamily:'Permanent Marker',
-        textAlign:'center'
-    },
+        textAlign:'center',
+        background:DARK_MODE?'rgba(255, 255, 255, 0.1)':'rgba(0, 0, 0, 0.1)',fontSize:'25px',
+    }
     
 }))
 
@@ -31,20 +25,16 @@ export default function Title(props) {
     const classes = useStyles()
 
     return (
-        <div className={classes.container}>
                     <InputBase
                         required
                         id="title"
-                        //label="Clearly define your decision"
                         placeholder="Should i quit my job?"
-                        fullWidth
-                        autoComplete="off"
-                        //helperText="Defining and scoping is helpful"
+                        autoComplete="off" 
+                        classes={{root:classes.inputRoot}}
                         value={props.title}
-                        inputProps={{ 'aria-label': 'name of Decision', style: { textAlign: 'center'} }}
-
+                        inputProps={{ 'aria-label': 'name of Decision', style: {textAlign: 'center'}}}
                         onChange={props.handleTitleChange}
                     />
-        </div>
+
     )
 }

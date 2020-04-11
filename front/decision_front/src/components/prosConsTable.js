@@ -74,6 +74,12 @@ const useStyles = makeStyles(theme => ({
         maxWidth:'100%',
         maxHeight:'90%',
         top:'15px',
+    },
+    blackBoardTitle:{
+        fontFamily:'Permanent Marker',
+        height:'4em',
+        fontSize:'35px',
+        paddingTop:'1em'
     }     
 }))
 
@@ -216,12 +222,12 @@ export default function ProsConsTable(props) {
             }
                 <Grid container >
                     
-                    <Grid item xs={12} sm={6} style={{height:'4em',color:'#87BA55',fontSize:'35px',paddingTop:'1em'}}>
+                    <Grid item xs={12} sm={6} className={classes.blackBoardTitle} style={{color:'#87BA55'}}>
                         pros
                     </Grid>
 
                     {!smallScreen &&
-                    <Grid item xs={6} style={{height:'4em',color:'#BA3737',fontSize:'35px',paddingTop:'1em'}}>
+                    <Grid item xs={6} className={classes.blackBoardTitle} style={{color:'#BA3737'}}>
                         cons
                     </Grid> }
                     
@@ -241,7 +247,7 @@ export default function ProsConsTable(props) {
                     </Grid>
 
                     {smallScreen &&
-                        <Grid item xs={12} style={{height:'4em',color:'#BA3737',fontSize:'35px',paddingTop:'1em'}}>
+                        <Grid item xs={12} className={classes.blackBoardTitle} style={{color:'#BA3737'}}>
                             cons
                         </Grid> 
                     }
@@ -269,7 +275,7 @@ export default function ProsConsTable(props) {
                         onClose={()=> setShowDialog(false)} aria-labelledby="form-dialog-title"
                         >
                             <div style={{position:'relative'}}>
-                                <IconButton onClick={()=> setShowDialog(false)} style={{position:'absolute',right:'0px',padding:'15px'}}>
+                                <IconButton onClick={()=> setShowDialog(false)} size="small" style={{position:'absolute',right:'0px',padding:'8px'}}>
                                 <Icon path={ICONS['Close']} title="Close" size={1} />
                                 </IconButton>
                                 <DialogContent >
