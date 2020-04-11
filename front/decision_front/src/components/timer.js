@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     },
     countdown:{
         position: 'relative',
-        fontFamily: 'Arial',
+        //fontFamily: 'Arial',
         fontWeight: 'bold',
         color: '#333',
         width:'fit-content',

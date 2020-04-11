@@ -2,34 +2,67 @@
 import React, { useState } from "react"
 
 import {makeStyles,withStyles} from "@material-ui/core/styles"
-import {Switch,Slider,Typography,Button,InputBase} from '@material-ui/core'
+import {Slider,Button,InputBase, Grid,
+    //Switch
+} from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import { green,red } from "../GlobalVars"
+import { green,red,sliderTexts } from "../GlobalVars"
 
-const CustomSwitch = withStyles({
-    switchBase: {      
-      color: green,
-      '&$checked': {
-        color: red,
-      },
-      '& + $track':{
-        backgroundColor: '#909090',
-        },
-      '&$checked + $track': {
-        backgroundColor: '#909090',
-      },
-    },
-    checked: {},
-    track: {},
-  })(Switch);
+const sliderTextWidth=['','200','400','600','700','900']
+const DARK_MODE = false
+
+// const CustomSwitch = withStyles({
+//     switchBase: {      
+//       color: green,
+//       '&$checked': {
+//         color: red,
+//       },
+//       '& + $track':{
+//         backgroundColor: '#909090',
+//         },
+//       '&$checked + $track': {
+//         backgroundColor: '#909090',
+//       },
+//     },
+//     checked: {},
+//     track: {},
+//   })(Switch);
 
   const CustomSlider = withStyles({
+    root: {
+        color: '#52af77',
+        height: 8,
+      },
+      thumb: {
+        height: 24,
+        width: 24,
+        backgroundColor: '#fff',
+        border: '2px solid currentColor',
+        marginTop: -8,
+        content:'test',
+        marginLeft: -12,
+        '&:focus,&:hover,&$active': {
+          boxShadow: 'inherit',
+        },
+      },
+      active: {},
+      valueLabel: {
+        left: 'calc(-50% + 4px)',
+      },
+      track: {
+        height: 8,
+        borderRadius: 4,
+      },
+      rail: {
+        height: 8,
+        borderRadius: 4,
+      },
+
   })(props => <Slider {...props} defaultValue={3}
-    valueLabelDisplay="auto"
     step={1}
-    marks
     min={1}
     max={5}/>);
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -44,18 +77,24 @@ const useStyles = makeStyles(theme => ({
         margin: 'auto'
     },
     input:{
-        //color:'white',
+        color:DARK_MODE?'white':'black',
         //fontFamily:'Permanent Marker',
+        fontSize:'18px',
         margin:'auto',
         padding:'10px',
-        width:'100%',
+        width:'95%',
         fontWeight:'700',
-        textAlign:'center'
+        textAlign:'center',
+        borderRadius:'10px',
+        background:DARK_MODE?'rgba(255, 255, 255, 0.1)':'rgba(0, 0, 0, 0.1)'
     },
     actionButton:{
-        margin:'auto',
+        margin:'0px auto 10px',
+        borderRadius:'30px',
         width:'150px',
-        textTransform: 'none'
+        textTransform: 'none',
+        fontSize:'18px',
+        fontWeight:'700'
     }
 }))
 
@@ -63,7 +102,8 @@ const useStyles = makeStyles(theme => ({
 export default function AddProCon(props) {
 
     const classes = useStyles()
-    const [type, setType] = useState(props.type)
+    //const [type, setType] = useState(props.type)
+    const type = props.type
     const [text, setText] = useState(props.text)
 
     // Sliders ---------------------------------------
@@ -75,12 +115,12 @@ export default function AddProCon(props) {
         setText(event.target.value)
     }
 
-    const handleTypeChange = (event) => {
-        if (type==='pro')
-            setType('con')
-        else
-            setType('pro')
-    }
+    // const handleTypeChange = (event) => {
+    //     if (type==='pro')
+    //         setType('con')
+    //     else
+    //         setType('pro')
+    // }
 
     const handleImpactChange = (event, value) => {
         setImpact(value)
@@ -111,13 +151,12 @@ export default function AddProCon(props) {
 
     return (
             <div style={{textAlign:'center'}}>
-                <div style={{display:'flex',lineHeight:'2.4em',width:'fit-content'}}>
+                {/* <div style={{display:'flex',lineHeight:'2.4em',width:'fit-content'}}>
                     PRO
                     <CustomSwitch   defaultChecked={type==='con'}
                                     onChange={handleTypeChange} />
                     CON
-                </div>
-
+                </div> */}
                 <InputBase
                     required
                     className={classes.input}
@@ -126,50 +165,64 @@ export default function AddProCon(props) {
                     onChange={handleTextChange}
                     inputProps={{ 'aria-label': 'name of Argument', style: { textAlign: 'center'} }}
                 />
-                <br/>
 
                 <div className={classes.sliders}>  
-                    <Typography gutterBottom>
-                        Impact 
-                    </Typography>
-                    <CustomSlider
-                        style={{color: typeColor}}
-                        value={impact}
-                        onChange={handleImpactChange}
-                    />
+                <Grid container spacing={1} style={{margin:'15px auto',width:'100%'}}>
+                    <Grid item xs={6}>
+                        <span style={{}}>Impact</span>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <span style={{fontWeight:sliderTextWidth[impact]}}>
+                            {sliderTexts[impact]}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <CustomSlider
+                            style={{color: typeColor}}
+                            value={impact}
+                            onChange={handleImpactChange}
+                        />
+                    </Grid>
 
-                    <br/>
-                    <br/>
+                    <Grid item xs={6}>
+                    Confidence
+                    </Grid>
+                    <Grid item xs={6}>
+                        <span style={{fontWeight:sliderTextWidth[confidence]}}>
+                            {sliderTexts[confidence]}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <CustomSlider
+                            style={{color: typeColor}}
+                            value={confidence}
+                            onChange={handleConfidenceChange}
+                        />
+                    </Grid>
 
-                    <Typography gutterBottom>
-                        Confidence
-                    </Typography>
-                    <CustomSlider
-                        style={{color: typeColor}}
-                        value={confidence}
-                        onChange={handleConfidenceChange}
-                    />
-
-                    <br/>
-                    <br/>
-                    
-                    <Typography gutterBottom>
-                        Long term effects
-                    </Typography>
-                    <CustomSlider
-                        style={{color: typeColor}}
-                        value={effects}
-                        onChange={handleEffectsChange}
-                    />
-
+                    <Grid item xs={6}>
+                    Long term effects
+                    </Grid>
+                    <Grid item xs={6}>
+                        <span style={{fontWeight:sliderTextWidth[effects]}}>
+                            {sliderTexts[effects]}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <CustomSlider
+                            style={{color: typeColor}}
+                            value={effects}
+                            onChange={handleEffectsChange}
+                        />
+                    </Grid>
+                </Grid>
+                
                 </div>
 
-                <br/><br/>
-
                 <Button
-                    variant="contained"
                     className={classes.actionButton}
-                    startIcon={<AddCircleOutlineIcon style={{color: typeColor}}/>}
+                    style={{background:typeColor,color:'white'}}
+                    startIcon={<AddCircleOutlineIcon style={{color: 'white'}}/>}
                     onClick={addProCon}
                     disabled={text.length < 2 ? true : false } 
                 >
