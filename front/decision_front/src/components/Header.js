@@ -11,7 +11,6 @@ import { Link  } from 'react-router-dom'
 
 import {ICONS} from './custom/IconsData'
 import Icon from '@mdi/react'
-import Typography from 'material-ui/styles/typography'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,6 +61,7 @@ export default function Header({handleSubmit}) {
           </div>
         </Toolbar>
       </AppBar>
+
     </div>
   )
 }

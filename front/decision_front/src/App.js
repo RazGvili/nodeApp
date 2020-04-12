@@ -7,6 +7,8 @@ import Home from './components/home'
 import About from './components/main/About'
 import NotFound from './components/main/404'
 import Footer from './components/Footer.js'
+import Snack from './components/main/snack'
+
 
 function App() {
 
@@ -23,6 +25,8 @@ function App() {
         <Footer />
       </BrowserRouter>
       
+      <Snack/>
+
       </StateProvider>
       
   )
