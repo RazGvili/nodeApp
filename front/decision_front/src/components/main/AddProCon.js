@@ -121,14 +121,13 @@ export default function AddProCon(props) {
 
     const classes = useStyles()
     //const [type, setType] = useState(props.type)
-    const type = props.type
-    const [text, setText] = useState(props.edit?props.edit.proCon:props.text)
-
+    const {type,edit } = props
+    const [text, setText] = useState(edit?edit.proCon:props.text)
+    
     // Sliders ---------------------------------------
-    const [impact, setImpact] = useState(props.edit?props.edit.impact:3)
-    const [confidence, setConfidence] = useState(props.edit?props.edit.confidence:3)
-    const [effects, setEffects] = useState(props.edit?props.edit.effects:3)
-    console.log(impact+","+confidence+","+effects+",")
+    const [impact, setImpact] = useState(edit?edit.impact:3)
+    const [confidence, setConfidence] = useState(edit?edit.confidence:3)
+    const [effects, setEffects] = useState(edit?edit.effects:3)
     const handleTextChange = (event) => {
         setText(event.target.value)
     }
@@ -160,9 +159,9 @@ export default function AddProCon(props) {
             confidence: confidence, 
             effects: effects,
             type: type,
-            id: props.edit?props.edit.id:0
+            id: edit?edit.id:0
         }
-        if (props.edit)
+        if (edit)
             props.editAction(argumentObj)
         else
             props.setArgument(argumentObj)

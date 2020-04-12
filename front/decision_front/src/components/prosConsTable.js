@@ -5,6 +5,8 @@ import {makeStyles} from "@material-ui/core/styles"
 import {useMediaQuery,Slide,Grid,IconButton,Dialog,DialogContent} from '@material-ui/core'
 import {ICONS} from './custom/IconsData'
 import Icon from '@mdi/react'
+import { Redirect, useParams } from 'react-router-dom'
+import { Skeleton } from "@material-ui/lab"
 
 import AddProCon from './main/AddProCon'
 import AddButton from './main/AddButton'
@@ -21,7 +23,6 @@ import {BASE_URL} from './GlobalVars'
 
 import { store } from '../store'
 
-import { Redirect, useParams } from 'react-router-dom'
 
 
 //slide animation
@@ -29,7 +30,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />
 });
 
-const DARK_MODE = true;
+const DARK_MODE = false;
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -91,6 +92,9 @@ const useStyles = makeStyles(theme => ({
     },
     boardContainer:{
         padding:'10px'
+    },
+    titleContainer:{
+        margin:'10px auto'
     }
 }))
 
@@ -102,8 +106,9 @@ export default function ProsConsTable(props) {
     const context = useContext(store)
     const { dispatch } = context
     // ----------------------------------------------
+    const {loading,decisionFromUrl,errorAbove,setDecisionIfSuccess} = props
 
-    let decisionFromUrl = props.decision ? props.decision : false
+    //let decisionFromUrl = props.decision ? props.decision : false
     const [argumentEdit, setArgumentEdit] = useState(null)
     const [decision, setDecision] = useState(
         decisionFromUrl ? decisionFromUrl : {
@@ -120,11 +125,11 @@ export default function ProsConsTable(props) {
     const [decisionServer, setDecisionServer] = useState("")
     
     // Handle cases of save decision + redirect ---------
-    let { slug } = useParams()
+    // let { id } = useParams()
 
-    if (slug && typeof(decisionFromUrl) === 'boolean') { 
-        props.setDecisionIfSuccess(true)
-    }
+    // if (id && typeof(decisionFromUrl) === 'boolean') { 
+    //     setDecisionIfSuccess(true)
+    // }
     // --------------------------------------------------
 
     function handleArgumentRemove(arg) {
@@ -174,7 +179,12 @@ export default function ProsConsTable(props) {
             
             const addedDecision = res.data
             console.log(`Added a new decision!`, addedDecision)
+
             setDecisionServer(addedDecision)
+            //todo:: handle faliure
+            //if (addedDecision && decisionServer._id.length > 23) {
+                setSaveSuccess(true)
+            //}
 
             dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
 
@@ -237,14 +247,6 @@ export default function ProsConsTable(props) {
         setShowDialog(false)
     }
 
-    useEffect(() => {
-
-        if (decisionServer && decisionServer._id.length > 23) {
-            setSaveSuccess(true)
-        }
-            
-    }, [decisionServer])
-
     // ===================================================================================================
 
     return (
@@ -252,14 +254,21 @@ export default function ProsConsTable(props) {
         <div className={classes.root}>
 
             { saveSuccess && 
-                <Redirect to={{ pathname: `/${decisionServer._id}` }} /> 
+                <Redirect to={{
+                    pathname:`d/${decisionServer._id}`,
+                    state:{decision:decisionServer }}} /> 
             }
 
-            <Header handleSubmit={handleSubmit}/>
+            <Header handleSubmit={handleSubmit} loading={loading}/>
 
-            <br />
+            
+            <div className={classes.titleContainer}>
+            {loading?
+            <Skeleton animation="wave" width='50%' height={50} style={{margin:'auto'}}/>
+            :
             <Title handleTitleChange={handleTitleChange} title={title} />
-            <br />
+            }
+            </div>
 
             <div className={classes.boardContainer}>
             <div className={classes.blackBoard}>
@@ -280,18 +289,28 @@ export default function ProsConsTable(props) {
                     </Grid> }
                     
                     <Grid item xs={12} sm={6}>
-                        <AddButton type='pro' AddAction={HandleOpenArgumentDialog} />
-                    {
-                        decision.pros.map((arg, index) => {
-                            return (
-                                <Argument   arg={arg}
-                                key={index}
-                                handleArgumentRemove={() => handleArgumentRemove(arg)}
-                                type="pro"
-                    />
-                            )
-                        })
-                    }     
+                    {loading?
+                        <>
+                            <Skeleton animation="wave" width='70%' height={30} style={{margin:'auto'}}/>
+                            <Skeleton animation="wave" width='70%' height={30} style={{margin:'auto'}}/>
+                            <Skeleton animation="wave" width='70%' height={30} style={{margin:'auto'}}/>
+                        </>
+                        :
+                        <>
+                            <AddButton type='pro' AddAction={HandleOpenArgumentDialog} />
+                                {
+                                    decision.pros.map((arg, index) => {
+                                        return (
+                                            <Argument   arg={arg}
+                                            key={index}
+                                            handleArgumentRemove={() => handleArgumentRemove(arg)}
+                                            type="pro"
+                                />
+                                        )
+                                    })
+                                } 
+                        </>    
+                    }
                     </Grid>
 
                     {smallScreen &&
@@ -301,18 +320,28 @@ export default function ProsConsTable(props) {
                     }
 
                     <Grid item xs={12} sm={6} >
-                        <AddButton type='con' AddAction={HandleOpenArgumentDialog}/>
-                        
-                        {decision.cons.map((arg, index) => {
-                            return (
-                                <Argument   arg={arg}
-                                            key={index}
-                                            handleArgumentRemove={() => handleArgumentRemove(arg)}
-                                            handleEdit={()=> HandleOpenArgumentDialog('','con',arg)}
-                                            type="con"
-                                />
-                            )})
-                        }      
+                        {loading?
+                            <>
+                                <Skeleton animation="wave" width='70%' height={30} style={{margin:'auto'}}/>
+                                <Skeleton animation="wave" width='70%' height={30} style={{margin:'auto'}}/>
+                                <Skeleton animation="wave" width='70%' height={30} style={{margin:'auto'}}/>
+                            </>
+                            :
+                            <>
+                                <AddButton type='con' AddAction={HandleOpenArgumentDialog}/>
+                                
+                                {decision.cons.map((arg, index) => {
+                                    return (
+                                        <Argument   arg={arg}
+                                                    key={index}
+                                                    handleArgumentRemove={() => handleArgumentRemove(arg)}
+                                                    handleEdit={()=> HandleOpenArgumentDialog('','con',arg)}
+                                                    type="con"
+                                        />
+                                    )})
+                                }      
+                            </>
+                        }
                     </Grid>
                 </Grid>
                 </div>

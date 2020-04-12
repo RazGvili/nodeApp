@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import Timer from './timer'
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import { Link  } from 'react-router-dom'
 
@@ -22,10 +23,13 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  roundButton:{
+    width:'60px',height:'60px',margin:'auto 5px'
+  }
 }))
 
 
-export default function Header({handleSubmit}) {
+export default function Header({handleSubmit,loading}) {
   const classes = useStyles()
 
   return (
@@ -34,12 +38,21 @@ export default function Header({handleSubmit}) {
         <Toolbar style={{display:'flex', justifyContent:'space-between'}}>
 
         {/* Logo */}
-        <div>
-        <Button  component={Link} to="/"> logo </Button> name
-        </div>
+        <Button component={Link} to="/">
+        <img   src="/images/logo.png" alt="decisions" height="40px" />
+        </Button>
+
         {/* <Button component={Link} to="/About"> About </Button> */}
         <div style={{display:'flex'}}>
-        <IconButton  onClick={() => {handleSubmit()}}>
+          {loading?
+          <>
+                      <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
+                      <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
+
+          </>
+          :
+          <>
+        <IconButton  onClick={() => handleSubmit()} className={classes.roundButton}>
             <Icon
                 path={ICONS['Save']}
                 title="Save"
@@ -48,7 +61,7 @@ export default function Header({handleSubmit}) {
             />    
           </IconButton>
 
-          <IconButton  onClick={() => {handleSubmit()}}>
+          <IconButton  onClick={() => {handleSubmit()}} className={classes.roundButton}style={{width:'60px',height:'60px',margin:'auto'}}>
             <Icon
                 path={ICONS['Share']}
                 title="Share"
@@ -56,12 +69,13 @@ export default function Header({handleSubmit}) {
                 color='#9A9A9A'
             />    
           </IconButton>
-  
+          </>}
           <Timer seconds="15"/>
           </div>
         </Toolbar>
       </AppBar>
 
+      
     </div>
   )
 }
