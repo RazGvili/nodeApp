@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useContext } from "react"
 
 import {makeStyles} from "@material-ui/core/styles"
-import {useMediaQuery,Slide,Chip,Grid,IconButton,Dialog,DialogContent} from '@material-ui/core'
+import {useMediaQuery,Slide,Grid,IconButton,Dialog,DialogContent} from '@material-ui/core'
 import {ICONS} from './custom/IconsData'
 import Icon from '@mdi/react'
 
@@ -18,6 +18,9 @@ import axios from "axios"
 import Argument from "./main/Argument"
 
 import {BASE_URL} from './GlobalVars'
+
+import { store } from '../store'
+
 
 
 //slide animation
@@ -93,6 +96,13 @@ const useStyles = makeStyles(theme => ({
 export default function ProsConsTable(props) {
     const classes = useStyles()
     const smallScreen = useMediaQuery('(max-width:600px)')
+
+    // Store ----------------------------------------
+    const context = useContext(store)
+    const { dispatch } = context
+    const { Consumer } = store
+    // ----------------------------------------------
+
     let decisionFromUrl = props.decision ? props.decision : false
     const [argumentEdit, setArgumentEdit] = useState(null)
     const [decision, setDecision] = useState(
@@ -122,9 +132,11 @@ export default function ProsConsTable(props) {
     }
 
     const handleSubmit = async (event) => {
+
         console.log(decision)
         //todo:: make sure title and object is good
         //if (title)
+            
         try {  
             const res = await axios.post(`${BASE_URL}/decisions`, decision)
             const addedDecision = res.data
@@ -132,9 +144,14 @@ export default function ProsConsTable(props) {
             setSaveSuccess(true)
             setDecisionIdServer(addedDecision._id)
 
+            dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
+
         } catch (e) {
             console.error(e)
             setError(e.massage)
+
+            dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong. [${e}]`}})
+
         }
     }
 
@@ -200,10 +217,16 @@ export default function ProsConsTable(props) {
 
     // }, [argument])
 
-    // Header ----------------------------------------
-    //const [saveClick, setSaveClick] = useState(false)
+    useEffect(() => {
 
-    // -----------------------------------------------
+        setDecision({
+            desc: title,
+            pros: decision.pros,
+            cons: decision.cons
+        })
+
+    }, [title])
+
 
     // ===================================================================================================
 
@@ -215,22 +238,8 @@ export default function ProsConsTable(props) {
 
             <br />
             <Title handleTitleChange={handleTitleChange} title={title} />
-               
-            {saveSuccess && 
-                <div>
-                    <Chip
-                        icon={<Icon path={ICONS['Check']} title="Saved" size={1} />}
-                        label="Decision saved successfully!"
-                    />
-                    <br/>
-                    <br/>
-                    <Chip
-                        icon={<Icon path={ICONS['Share']} title="Share" size={1} />}
-                        label={`Share via --> ${decisionIdServer}`}
-                    />
-                </div>
-            }
             <br />
+
             <div className={classes.boardContainer}>
             <div className={classes.blackBoard}>
             {!smallScreen && <>
