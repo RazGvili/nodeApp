@@ -25,7 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />
 });
 
-const DARK_MODE = false;
+const DARK_MODE = true;
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -93,20 +93,21 @@ const useStyles = makeStyles(theme => ({
 export default function ProsConsTable(props) {
     const classes = useStyles()
     const smallScreen = useMediaQuery('(max-width:600px)')
-
     let decisionFromUrl = props.decision ? props.decision : false
-
-    // Argument - Pro/Con ----------------------------
-    
-    const [argument, setArgument] = useState({
-
-        proCon: "", // Argument pro/con text 
-        impact: 0,
-        confidence: 0, 
-        effects: 0,
-        type: 'pro',
-        id: 0
-    })
+    const [argumentEdit, setArgumentEdit] = useState(null)
+    const [decision, setDecision] = useState(
+        decisionFromUrl ? decisionFromUrl : {
+            desc: "",
+            pros: [], 
+            cons: [],
+        })
+    const [title, setTitle] = useState("")
+    const [showDialog, setShowDialog] = useState(false)
+    const [type, setType] = useState("")
+    const [text, setText] = useState("")
+    const [saveSuccess, setSaveSuccess] = useState(false)
+    const [error, setError] = useState("")
+    const [decisionIdServer, setDecisionIdServer] = useState("")
 
     function handleArgumentRemove(arg, index) {
         let temp = arg.type === 'pro' ? [...decision.pros] : [...decision.cons]
@@ -119,17 +120,6 @@ export default function ProsConsTable(props) {
         }
         setDecision(decisionObj)
     }
-
-    // -----------------------------------------------
-    // Decision --------------------------------------
-
-    const [title, setTitle] = useState("")
-    const [showDialog, setShowDialog] = useState(false)
-    const [type, setType] = useState("")
-    const [text, setText] = useState("")
-    const [saveSuccess, setSaveSuccess] = useState(false)
-    const [error, setError] = useState("")
-    const [decisionIdServer, setDecisionIdServer] = useState("")
 
     const handleSubmit = async (event) => {
         console.log(decision)
@@ -152,43 +142,66 @@ export default function ProsConsTable(props) {
         setTitle(event.target.value)
     }
 
-    const [decision, setDecision] = useState(
-        decisionFromUrl ? decisionFromUrl : {
-            desc: "",
-            pros: [], 
-            cons: [],
-        }
-    )
-
     const addProCon = (argumentObj) => {
-        argumentObj.id = argument.id + 1
-        setArgument(argumentObj)
+        setArgumentEdit(null)
+        argumentObj.id = argumentObj.id + 1
+        let decisionObj = {
+            desc: title,
+            pros: argumentObj.type === 'pro' ? [...decision.pros, argumentObj] : decision.pros,
+            cons: argumentObj.type === 'con' ? [...decision.cons, argumentObj] : decision.cons
+        }
+        setDecision(decisionObj)
         setShowDialog(false)
         setText('')
     }
 
-    const HandleOpenArgumentDialog = (text,type) => {
+    const editProCon = (argumentObj) => {
+        setArgumentEdit(null)
+        let decisionObj = {
+            desc: title,
+            pros: argumentObj.type === 'pro' ?
+                decision.pros.map(obj => argumentObj.id===obj.id? argumentObj : obj)
+                : decision.pros,
+            cons: argumentObj.type === 'con' ? 
+                decision.cons.map(obj => argumentObj.id===obj.id? argumentObj : obj)
+                : decision.cons
+        }
+        setDecision(decisionObj)
+        setShowDialog(false)
+        setText('')
+    }
+
+
+    const HandleOpenArgumentDialog = (text,type,arg='') => {
+        if (arg){
+            setArgumentEdit(arg)
+        }
         setType(type)
         setText(text)
         setShowDialog(true)
     }
 
-    useEffect(() => {
+    const HandleCloseArgumentDialog = () => {
+        setArgumentEdit(null)
+        setShowDialog(false)
+    }
 
-        if (argument.id > 0) {
-            let decisionObj = {
-                desc: title,
-                pros: argument.type === 'pro' ? [...decision.pros, argument] : decision.pros,
-                cons: argument.type === 'con' ? [...decision.cons, argument] : decision.cons
-            }
+    // useEffect(() => {
 
-            setDecision(decisionObj)
-        }
+    //     if (argument.id > 0) {
+    //         let decisionObj = {
+    //             desc: title,
+    //             pros: argument.type === 'pro' ? [...decision.pros, argument] : decision.pros,
+    //             cons: argument.type === 'con' ? [...decision.cons, argument] : decision.cons
+    //         }
 
-    }, [argument])
+    //         setDecision(decisionObj)
+    //     }
+
+    // }, [argument])
 
     // Header ----------------------------------------
-    const [saveClick, setSaveClick] = useState(false)
+    //const [saveClick, setSaveClick] = useState(false)
 
     // -----------------------------------------------
 
@@ -265,6 +278,7 @@ export default function ProsConsTable(props) {
                                 <Argument   arg={arg}
                                             key={index}
                                             handleArgumentRemove={() => handleArgumentRemove(arg, index)}
+                                            handleEdit={()=> HandleOpenArgumentDialog('','con',arg)}
                                             type="con"
                                 />
                             )})
@@ -278,14 +292,14 @@ export default function ProsConsTable(props) {
                         fullWidth           
                         maxWidth={'sm'}
                         TransitionComponent={Transition}
-                        onClose={()=> setShowDialog(false)} aria-labelledby="form-dialog-title"
+                        onClose={HandleCloseArgumentDialog} aria-labelledby="form-dialog-title"
                         >
                             <div style={{position:'relative'}}>
-                                <IconButton onClick={()=> setShowDialog(false)} size="small" style={{position:'absolute',right:'0px',padding:'8px'}}>
+                                <IconButton onClick={HandleCloseArgumentDialog} size="small" style={{position:'absolute',right:'0px',padding:'8px'}}>
                                 <Icon path={ICONS['Close']} title="Close" size={1} />
                                 </IconButton>
                                 <DialogContent >
-                                    <AddProCon type={type} setArgument={addProCon} text={text} />
+                                    <AddProCon type={type} setArgument={addProCon} text={text} edit={argumentEdit} editAction={editProCon}/>
                                 </DialogContent>
                             </div>
                 </Dialog>

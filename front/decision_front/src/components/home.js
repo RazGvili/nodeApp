@@ -56,7 +56,7 @@ export default function Home() {
         <div>
 
             {/* <Timer seconds={60}/> */}
-            {/* <Avatar /> */}
+            <Avatar />
             {loading?
                 <Loading/>
             :

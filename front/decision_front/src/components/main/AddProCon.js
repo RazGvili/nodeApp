@@ -122,13 +122,13 @@ export default function AddProCon(props) {
     const classes = useStyles()
     //const [type, setType] = useState(props.type)
     const type = props.type
-    const [text, setText] = useState(props.text)
+    const [text, setText] = useState(props.edit?props.edit.proCon:props.text)
 
     // Sliders ---------------------------------------
-    const [impact, setImpact] = useState(3)
-    const [confidence, setConfidence] = useState(3)
-    const [effects, setEffects] = useState(3)
-
+    const [impact, setImpact] = useState(props.edit?props.edit.impact:3)
+    const [confidence, setConfidence] = useState(props.edit?props.edit.confidence:3)
+    const [effects, setEffects] = useState(props.edit?props.edit.effects:3)
+    console.log(impact+","+confidence+","+effects+",")
     const handleTextChange = (event) => {
         setText(event.target.value)
     }
@@ -160,9 +160,12 @@ export default function AddProCon(props) {
             confidence: confidence, 
             effects: effects,
             type: type,
-            id: 0
+            id: props.edit?props.edit.id:0
         }
-        props.setArgument(argumentObj)
+        if (props.edit)
+            props.editAction(argumentObj)
+        else
+            props.setArgument(argumentObj)
     }
 
     let typeColor = type === 'con' ? red : green
@@ -243,7 +246,7 @@ export default function AddProCon(props) {
                     onClick={addProCon}
                     disabled={text.length < 2 ? true : false } 
                 >
-                    {"Add " + type} 
+                    {`${props.edit?'Edit':'Add'} ${type} `}
                 </Button>
        
         </div>
