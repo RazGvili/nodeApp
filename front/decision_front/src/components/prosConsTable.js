@@ -21,6 +21,7 @@ import {BASE_URL} from './GlobalVars'
 
 import { store } from '../store'
 
+import { Redirect, useParams } from 'react-router-dom'
 
 
 //slide animation
@@ -100,7 +101,6 @@ export default function ProsConsTable(props) {
     // Store ----------------------------------------
     const context = useContext(store)
     const { dispatch } = context
-    const { Consumer } = store
     // ----------------------------------------------
 
     let decisionFromUrl = props.decision ? props.decision : false
@@ -111,15 +111,23 @@ export default function ProsConsTable(props) {
             pros: [], 
             cons: [],
         })
-    const [title, setTitle] = useState("")
+    const [title, setTitle] = useState(decisionFromUrl ? decisionFromUrl.desc : "")
     const [showDialog, setShowDialog] = useState(false)
     const [type, setType] = useState("")
     const [text, setText] = useState("")
     const [saveSuccess, setSaveSuccess] = useState(false)
     const [error, setError] = useState("")
-    const [decisionIdServer, setDecisionIdServer] = useState("")
+    const [decisionServer, setDecisionServer] = useState("")
+    
+    // Handle cases of save decision + redirect ---------
+    let { slug } = useParams()
 
-    function handleArgumentRemove(arg, index) {
+    if (slug && typeof(decisionFromUrl) === 'boolean') { 
+        props.setDecisionIfSuccess(true)
+    }
+    // --------------------------------------------------
+
+    function handleArgumentRemove(arg) {
         let temp = arg.type === 'pro' ? [...decision.pros] : [...decision.cons]
         temp = temp.filter(argu => argu.id !== arg.id)
 
@@ -130,19 +138,43 @@ export default function ProsConsTable(props) {
         }
         setDecision(decisionObj)
     }
+    
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async () => {
 
         console.log(decision)
+
         //todo:: make sure title and object is good
         //if (title)
             
         try {  
-            const res = await axios.post(`${BASE_URL}/decisions`, decision)
+
+            let res = null
+
+            if (decision.hasOwnProperty("_id")) {
+
+                let decisionObj = {
+                    desc: title,
+                    pros: decision.pros,
+                    cons: decision.cons,
+                }
+
+                res = await axios.patch(`${BASE_URL}/decisions/${decision._id}`, decisionObj)
+
+            } else {
+
+                setDecision({
+                    desc: title,
+                    pros: decision.pros,
+                    cons: decision.cons
+                })
+
+                res = await axios.post(`${BASE_URL}/decisions`, decision)
+            }
+            
             const addedDecision = res.data
             console.log(`Added a new decision!`, addedDecision)
-            setSaveSuccess(true)
-            setDecisionIdServer(addedDecision._id)
+            setDecisionServer(addedDecision)
 
             dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
 
@@ -163,6 +195,7 @@ export default function ProsConsTable(props) {
         setArgumentEdit(null)
         argumentObj.id = argumentObj.id + 1
         let decisionObj = {
+            ...decision,
             desc: title,
             pros: argumentObj.type === 'pro' ? [...decision.pros, argumentObj] : decision.pros,
             cons: argumentObj.type === 'con' ? [...decision.cons, argumentObj] : decision.cons
@@ -175,6 +208,7 @@ export default function ProsConsTable(props) {
     const editProCon = (argumentObj) => {
         setArgumentEdit(null)
         let decisionObj = {
+            ...decision,
             desc: title,
             pros: argumentObj.type === 'pro' ?
                 decision.pros.map(obj => argumentObj.id===obj.id? argumentObj : obj)
@@ -203,37 +237,24 @@ export default function ProsConsTable(props) {
         setShowDialog(false)
     }
 
-    // useEffect(() => {
-
-    //     if (argument.id > 0) {
-    //         let decisionObj = {
-    //             desc: title,
-    //             pros: argument.type === 'pro' ? [...decision.pros, argument] : decision.pros,
-    //             cons: argument.type === 'con' ? [...decision.cons, argument] : decision.cons
-    //         }
-
-    //         setDecision(decisionObj)
-    //     }
-
-    // }, [argument])
-
     useEffect(() => {
 
-        setDecision({
-            desc: title,
-            pros: decision.pros,
-            cons: decision.cons
-        })
-
-    }, [title])
-
+        if (decisionServer && decisionServer._id.length > 23) {
+            setSaveSuccess(true)
+        }
+            
+    }, [decisionServer])
 
     // ===================================================================================================
 
     return (
 
         <div className={classes.root}>
-            
+
+            { saveSuccess && 
+                <Redirect to={{ pathname: `/${decisionServer._id}` }} /> 
+            }
+
             <Header handleSubmit={handleSubmit}/>
 
             <br />
@@ -265,7 +286,7 @@ export default function ProsConsTable(props) {
                             return (
                                 <Argument   arg={arg}
                                 key={index}
-                                handleArgumentRemove={() => handleArgumentRemove(arg, index)}
+                                handleArgumentRemove={() => handleArgumentRemove(arg)}
                                 type="pro"
                     />
                             )
@@ -286,7 +307,7 @@ export default function ProsConsTable(props) {
                             return (
                                 <Argument   arg={arg}
                                             key={index}
-                                            handleArgumentRemove={() => handleArgumentRemove(arg, index)}
+                                            handleArgumentRemove={() => handleArgumentRemove(arg)}
                                             handleEdit={()=> HandleOpenArgumentDialog('','con',arg)}
                                             type="con"
                                 />
@@ -312,6 +333,10 @@ export default function ProsConsTable(props) {
                                 </DialogContent>
                             </div>
                 </Dialog>
+
+                {/* { decision && !loading &&
+                <Comments decision={decision}/>
+            } */}
 
 
         </div>

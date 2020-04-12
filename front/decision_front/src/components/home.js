@@ -15,6 +15,8 @@ export default function Home() {
     const [decision, setDecision] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
+    const [decisionIfSuccess, setDecisionIfSuccess] = useState(false)
+
 
     let { slug } = useParams()
 
@@ -51,6 +53,18 @@ export default function Home() {
             setLoading(false)
     }, [])
 
+    useEffect(() => {
+        
+        if (decisionIfSuccess) {
+
+            let decisionId = slug || ''
+            if (decisionId.length > 23)
+                getDecision(decisionId)
+            else
+                setLoading(false)
+        }
+        
+    }, [decisionIfSuccess])
 
     return (
         <div>
@@ -60,7 +74,7 @@ export default function Home() {
             {loading?
                 <Loading/>
             :
-                <ProsConsTable decision={decision} error={error} />
+                <ProsConsTable decision={decision} error={error} setDecisionIfSuccess={setDecisionIfSuccess}/>
             }
                 
             { decision && !loading &&

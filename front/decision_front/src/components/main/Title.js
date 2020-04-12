@@ -28,7 +28,8 @@ export default function Title(props) {
                     <InputBase
                         required
                         id="title"
-                        placeholder="Should i quit my job?"
+                        label="Your decision"
+                        placeholder="Your decision"
                         autoComplete="off" 
                         classes={{root:classes.inputRoot}}
                         value={props.title}
