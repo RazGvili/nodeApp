@@ -130,9 +130,9 @@ router.patch('/decisions/:id', (req, res) => {
     const isValid = updates.every((update) => allowedUpdates.includes(update))
     const invalidFields = _.difference(updates, allowedUpdates)
 
-    console.log("========")
+    console.log("req.body ========")
     console.log(req.body)
-    console.log("========")
+    console.log("================ \n")
 
     if (!isValid) {
         return res.status(400).send({
@@ -240,6 +240,10 @@ router.post('/decisions', (req, res) => {
         })
     }
 
+    console.log("req.body ========")
+    console.log(req.body)
+    console.log("================ \n")
+
     const decision = new Decision({
         ...req.body,
     })
@@ -256,9 +260,7 @@ router.post('/decisions', (req, res) => {
 
         console.log("Decision object save failed! \n")
         console.log(err)
-        res.status(400).send({
-            err
-        })
+        res.status(400).send({ err })
 
     })
 

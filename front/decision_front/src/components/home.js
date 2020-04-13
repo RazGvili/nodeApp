@@ -13,7 +13,6 @@ export default function Home(props) {
     const [decision, setDecision] = useState(decisionFromState?decisionFromState:null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
-    const [decisionIfSuccess, setDecisionIfSuccess] = useState(false)
 
 
     let { id } = useParams()
@@ -55,24 +54,11 @@ export default function Home(props) {
             setLoading(false)
     }, [])
 
-    useEffect(() => {
-        
-        if (decisionIfSuccess) {
-
-            let decisionId = id || ''
-            if (decisionId.length > 23)
-                getDecision(decisionId)
-            else
-                setLoading(false)
-        }
-        
-    }, [decisionIfSuccess])
-
     return (
         <div>
             {/* <Avatar /> */}
 
-            <ProsConsTable loading={loading} decisionFromUrl={decision} errorAbove={error} setDecisionIfSuccess={setDecisionIfSuccess}/>
+            <ProsConsTable loading={loading} decisionFromUrl={decision} errorAbove={error} />
             
             { decision && !loading &&
                 <Comments decision={decision}/>

@@ -50,6 +50,10 @@ const decisionSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isReadOnly: {
+        type: Boolean,
+        required: true
+    },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         //required: true,

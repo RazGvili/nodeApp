@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useContext} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -12,6 +12,9 @@ import { Link  } from 'react-router-dom'
 
 import {ICONS} from './custom/IconsData'
 import Icon from '@mdi/react'
+
+import { store } from '../store'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,8 +41,23 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Header({handleSubmit,loading}) {
+export default function Header({handleSubmit,loading,showLock, isReadOnly, setIsReadOnly}) {
   const classes = useStyles()
+
+  // Store ----------------------------------------
+  const context = useContext(store)
+  const { dispatch } = context
+  // ----------------------------------------------
+
+
+  useEffect(() => {
+
+    if (isReadOnly) {
+
+        console.log("isReadOnly: " + isReadOnly) 
+        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: `[${isReadOnly ? "LOCKED" : "UNLOCKED"}] If locked, the board will be read-only after save & share`}})
+    }
+  }, [isReadOnly])
 
   return (
     <div className={classes.root}>
@@ -53,41 +71,54 @@ export default function Header({handleSubmit,loading}) {
 
         {/* <Button component={Link} to="/About"> About </Button> */}
         <div style={{display:'flex'}}>
-          {loading?
+          {loading ?
           <>
                       <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
                       <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
                       <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
-
           </>
           :
           <>
-        <IconButton  onClick={() => handleSubmit()} className={classes.roundButton}>
-            <Icon
-                path={ICONS['Save']}
-                title="Save"
-                size={1.5}
-                color='#9A9A9A'
-            />    
-          </IconButton>
+              
+              { showLock &&
+              <IconButton onClick={() => setIsReadOnly(!isReadOnly)} className={classes.roundButton}>
+                <Icon
+                    path={ICONS[!isReadOnly ? 'OpenedLock' : 'ClosedLock']}
+                    title="Save"
+                    size={1.5}
+                    color='#9A9A9A'
+                />    
+              </IconButton> 
+              }
+              
+              <IconButton  onClick={() => handleSubmit()} className={classes.roundButton}>
+                <Icon
+                    path={ICONS['Save']}
+                    title="Save"
+                    size={1.5}
+                    color='#9A9A9A'
+                />    
+              </IconButton>
 
-          <IconButton  onClick={() => {handleSubmit()}} className={classes.roundButton}>
-            <Icon
-                path={ICONS['Share']}
-                title="Share"
-                size={1.5}
-                color='#9A9A9A'
-            />    
-          </IconButton>
-          <IconButton  className={classes.roundButton}>
-            <Icon
-                path={ICONS['Theme']}
-                title="Share"
-                size={1.5}
-                color='#9A9A9A'
-            />    
-          </IconButton>
-          </>}
+              <IconButton  onClick={() => {handleSubmit()}} className={classes.roundButton}>
+                <Icon
+                    path={ICONS['Share']}
+                    title="Share"
+                    size={1.5}
+                    color='#9A9A9A'
+                />    
+              </IconButton>
+              
+              <IconButton  className={classes.roundButton}>
+                <Icon
+                    path={ICONS['Theme']}
+                    title="Share"
+                    size={1.5}
+                    color='#9A9A9A'
+                />    
+              </IconButton>
+          </>
+          }
           <Timer seconds="15"/>
           </div>
         </Toolbar>

@@ -13,7 +13,6 @@ import AddButton from './main/AddButton'
 import Title from "./main/Title"
 import Header from "./Header"
 
-
 //import Timer from './timer'
 
 import axios from "axios"
@@ -122,16 +121,19 @@ export default function ProsConsTable(props) {
     const [text, setText] = useState("")
     const [saveSuccess, setSaveSuccess] = useState(false)
     const [error, setError] = useState("")
-    //const [decisionServer, setDecisionServer] = useState("")
+
+    // Lock ----------------------------------------
+    // isReadOnly = true => readOnly
+    const [showLock, setShowLock] = useState(true)
+    const [isReadOnly, setIsReadOnly] = useState(false)
+    // ---------------------------------------------
     
     useEffect(() => {
         if (props.decisionFromUrl) {
-
             setDecision({...props.decisionFromUrl})
             setTitle(props.decisionFromUrl.desc)
-        }
+        } 
     }, [props.decisionFromUrl])
-
 
     function handleArgumentRemove(arg) {
         let temp = arg.type === 'pro' ? [...decision.pros] : [...decision.cons]
@@ -148,35 +150,37 @@ export default function ProsConsTable(props) {
     
 
     const handleSubmit = async () => {
+        console.log("handleSubmit")
         console.log(decision)
 
-        //todo:: make sure title and object is good
-        //if (title)
-        try {  
+        try {
+
             let res = null
+
             let changedObj = {
-                    desc: title,
-                    pros: decision.pros,
-                    cons: decision.cons,
+                desc: title,
+                pros: decision.pros,
+                cons: decision.cons,
             }
 
             if (decision.hasOwnProperty("_id")) {
                 res = await axios.patch(`${BASE_URL}/decisions/${decision._id}`, changedObj)
 
             } else {
+                changedObj.isReadOnly = isReadOnly
+                console.log(changedObj)
                 res = await axios.post(`${BASE_URL}/decisions`, changedObj)
-                //todo:: handle error??
                 setDecision(res.data)
             }
             setSaveSuccess(true)
 
             dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
+
         } catch (e) {
             console.error(e)
             setError(e.massage)
 
             dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong. [${e}]`}})
-
         }
     }
 
@@ -242,7 +246,7 @@ export default function ProsConsTable(props) {
                     state:{decision:decision }}} /> 
             }
 
-            <Header handleSubmit={handleSubmit} loading={loading}/>
+            <Header showLock={showLock} isReadOnly={isReadOnly} setIsReadOnly={setIsReadOnly} handleSubmit={handleSubmit} loading={loading}/>
 
             
             <div className={classes.titleContainer}>
