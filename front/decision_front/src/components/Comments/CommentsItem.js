@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography'
 
 import {ICONS} from '../custom/IconsData'
 import Icon from '@mdi/react'
+import Avatar from '../custom/Avatar'
 
 
 
@@ -43,7 +44,7 @@ export default function Comments({comment, lastOne, setRemoveLastOne}) {
             <ListItem alignItems="flex-start">
 
                 <ListItemIcon>
-                    <FaceIcon />    
+                    {/* <Avatar />    */}
                 </ListItemIcon>
 
                 <ListItemText
@@ -68,7 +69,7 @@ export default function Comments({comment, lastOne, setRemoveLastOne}) {
 
                 { lastOne && 
                     <ListItemSecondaryAction>
-                        <IconButton edge="end" onClick={()=>{setRemoveLastOne(true)}}>
+                        <IconButton  onClick={()=>{setRemoveLastOne(true)}}>
                             <Icon   
                                 path={ICONS['Remove']}
                                 title="Save"

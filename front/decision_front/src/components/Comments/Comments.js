@@ -75,7 +75,6 @@ export default function Comments({decision}) {
     }, [removeLastOne])
 
     return (
-
         <div className={classes.root}>
             <br/>
 
@@ -94,19 +93,18 @@ export default function Comments({decision}) {
                     comments.map((comment, index) => {
 
                         return (
-                            <>
+                            
                                 <CommentItem 
-                                    key={comment.title} 
+                                    key={Math.floor(Math.random() * 999)} 
                                     comment={comment} 
                                     lastOne={newComment.hasOwnProperty("_id") && index === comments.length-1} 
                                     setRemoveLastOne={setRemoveLastOne}
                                 />
-                                <Divider variant="inset" component="li" />
-                            </>
+                                
                         )
                     })
                 }
-
+{/* <Divider variant="inset" component="li" /> */}
             </List> 
 
             { error && 

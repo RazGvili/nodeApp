@@ -25,6 +25,15 @@ const useStyles = makeStyles((theme) => ({
   },
   roundButton:{
     width:'60px',height:'60px',margin:'auto 5px'
+  },
+  toolbar:{
+    display:'flex', justifyContent:'space-between',
+    
+  },
+  appbar:{
+    background:'none',
+    boxShadow:'none',
+    borderBottom:'4px grey'
   }
 }))
 
@@ -34,8 +43,8 @@ export default function Header({handleSubmit,loading}) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar style={{display:'flex', justifyContent:'space-between'}}>
+      <AppBar className={classes.appbar} position="static">
+        <Toolbar className={classes.toolbar} style={{}}>
 
         {/* Logo */}
         <Button component={Link} to="/">
@@ -46,6 +55,7 @@ export default function Header({handleSubmit,loading}) {
         <div style={{display:'flex'}}>
           {loading?
           <>
+                      <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
                       <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
                       <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
 
@@ -61,9 +71,17 @@ export default function Header({handleSubmit,loading}) {
             />    
           </IconButton>
 
-          <IconButton  onClick={() => {handleSubmit()}} className={classes.roundButton}style={{width:'60px',height:'60px',margin:'auto'}}>
+          <IconButton  onClick={() => {handleSubmit()}} className={classes.roundButton}>
             <Icon
                 path={ICONS['Share']}
+                title="Share"
+                size={1.5}
+                color='#9A9A9A'
+            />    
+          </IconButton>
+          <IconButton  className={classes.roundButton}>
+            <Icon
+                path={ICONS['Theme']}
                 title="Share"
                 size={1.5}
                 color='#9A9A9A'

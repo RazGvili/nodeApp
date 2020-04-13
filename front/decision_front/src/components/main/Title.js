@@ -11,7 +11,8 @@ const useStyles = makeStyles(theme => ({
     inputRoot:{
         color:DARK_MODE?'white':'black',
         width:'95%',
-        borderRadius:'10px',
+        maxWidth:'1000px',
+        borderRadius:'30px',
         fontFamily:'Permanent Marker',
         textAlign:'center',
         background:DARK_MODE?'rgba(255, 255, 255, 0.1)':'rgba(0, 0, 0, 0.1)',fontSize:'25px',

@@ -22,6 +22,7 @@ import Argument from "./main/Argument"
 import {BASE_URL} from './GlobalVars'
 
 import { store } from '../store'
+import ChoicesData from "./main/ChoicesData"
 
 //slide animation
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -252,6 +253,8 @@ export default function ProsConsTable(props) {
             }
             </div>
 
+            <ChoicesData data={decision} loading={loading} />
+
             <div className={classes.boardContainer}>
             <div className={classes.blackBoard}>
             {!smallScreen && <>
@@ -286,6 +289,7 @@ export default function ProsConsTable(props) {
                                             <Argument   arg={arg}
                                             key={index}
                                             handleArgumentRemove={() => handleArgumentRemove(arg)}
+                                            handleEdit={()=> HandleOpenArgumentDialog('','pro',arg)}
                                             type="pro"
                                 />
                                         )

@@ -110,7 +110,7 @@ const useStyles = makeStyles(theme => ({
         textTransform: 'none',
         fontSize:'18px',
         fontWeight:'700',
-        '&:focus,&:hover,&$active': {
+        '&:hover': {
             background:'#932b2b'
           },
     }

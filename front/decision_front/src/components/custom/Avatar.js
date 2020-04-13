@@ -22,12 +22,14 @@ export const Colors = ['#A4036F','#2DE1FC','#16DB93','#4062BB','#FF4365','#EABE2
 
 export default function Avatar(comment) {
     const classes = useStyles()
-
+    const randomPic = () => Animals[Math.floor(Math.random() * Animals.length)]
+    const randomColor = () => Colors[Math.floor(Math.random() * Colors.length)]
     function getRandomPic(){
-        return Animals[Math.floor(Math.random() * Animals.length)]
+        return 
       }
       function getRandomColor(){
-        return Colors[Math.floor(Math.random() * Colors.length)]
+          return <stop offset="100%" style={{stopColor:Colors[Math.floor(Math.random() * Colors.length)], stopOpacity:1}} />
+        //return Colors[Math.floor(Math.random() * Colors.length)]
       }
 
     return (
@@ -40,12 +42,12 @@ export default function Avatar(comment) {
                     </clipPath>
                     <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
                     <stop offset="0%" style={{stopColor:'rgb(162,162,162)', stopOpacity:1}}/>
-                    <stop offset="100%" style={{stopColor:getRandomColor(), stopOpacity:1}} />
+                    <stop offset="100%" style={{stopColor:randomColor(), stopOpacity:1}} />
                     </radialGradient>
                 </defs>
                 <circle cx="40" cy="40" r="40" fill="url(#grad1)" clipPath="url(#cut-off-bottom)" />
             </svg>
-            <img src={`/avatars/${getRandomPic()}.png`} style={{position:'absolute',bottom:'20px',left:'5px',width:'70px'}} alt="avatar" />
+            <img src={`/avatars/${randomPic()}.png`} style={{position:'absolute',bottom:'20px',left:'5px',width:'70px'}} alt="avatar" />
         </div>
     )
 }

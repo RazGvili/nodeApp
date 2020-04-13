@@ -10,7 +10,6 @@ import {useParams} from "react-router-dom"
 
 export default function Home(props) {
     const decisionFromState = props.location.state && props.location.state.decision
-    console.log(decisionFromState)
     const [decision, setDecision] = useState(decisionFromState?decisionFromState:null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")

@@ -63,7 +63,7 @@ export default function AddButton(props) {
             value={text}
             autoFocus
             onChange={handleTextChange}
-            inputProps={{ 'aria-label': 'Add New Argument',style:{fontFamily:'Permanent Marker',webkitFontSmoothing: 'antialiased',
+            inputProps={{ 'aria-label': 'Add New Argument',style:{fontFamily:'Permanent Marker',WebkitFontSmoothing: 'antialiased',
             MozOsxFontMmoothing: 'grayscale'} }}
             onKeyPress={(ev) => {
                 if (ev.key === 'Enter') {
@@ -72,7 +72,7 @@ export default function AddButton(props) {
               }}
             />
             :
-                <span style={{color:DARK_MODE?'white':'black',fontFamily:'Permanent Marker',webkitFontSmoothing: 'antialiased',
+                <span style={{color:DARK_MODE?'white':'black',fontFamily:'Permanent Marker',WebkitFontSmoothing: 'antialiased',
                 MozOsxFontMmoothing: 'grayscale'}}>{`Add ${props.type}`}</span>
             }
             
