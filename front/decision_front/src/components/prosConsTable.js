@@ -5,7 +5,7 @@ import {makeStyles} from "@material-ui/core/styles"
 import {useMediaQuery,Slide,Grid,IconButton,Dialog,DialogContent} from '@material-ui/core'
 import {ICONS} from './custom/IconsData'
 import Icon from '@mdi/react'
-import { Redirect, useParams } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { Skeleton } from "@material-ui/lab"
 
 import AddProCon from './main/AddProCon'
@@ -22,8 +22,6 @@ import Argument from "./main/Argument"
 import {BASE_URL} from './GlobalVars'
 
 import { store } from '../store'
-
-
 
 //slide animation
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -106,9 +104,9 @@ export default function ProsConsTable(props) {
     const context = useContext(store)
     const { dispatch } = context
     // ----------------------------------------------
-    const {loading,decisionFromUrl,errorAbove,setDecisionIfSuccess} = props
 
-    //let decisionFromUrl = props.decision ? props.decision : false
+    const {loading,decisionFromUrl,errorAbove} = props
+
     const [argumentEdit, setArgumentEdit] = useState(null)
     const [decision, setDecision] = useState(
         decisionFromUrl ? decisionFromUrl : {
@@ -116,27 +114,30 @@ export default function ProsConsTable(props) {
             pros: [], 
             cons: [],
         })
+
     const [title, setTitle] = useState(decisionFromUrl ? decisionFromUrl.desc : "")
     const [showDialog, setShowDialog] = useState(false)
     const [type, setType] = useState("")
     const [text, setText] = useState("")
     const [saveSuccess, setSaveSuccess] = useState(false)
     const [error, setError] = useState("")
-    const [decisionServer, setDecisionServer] = useState("")
+    //const [decisionServer, setDecisionServer] = useState("")
     
-    // Handle cases of save decision + redirect ---------
-    // let { id } = useParams()
+    useEffect(() => {
+        if (props.decisionFromUrl) {
 
-    // if (id && typeof(decisionFromUrl) === 'boolean') { 
-    //     setDecisionIfSuccess(true)
-    // }
-    // --------------------------------------------------
+            setDecision({...props.decisionFromUrl})
+            setTitle(props.decisionFromUrl.desc)
+        }
+    }, [props.decisionFromUrl])
+
 
     function handleArgumentRemove(arg) {
         let temp = arg.type === 'pro' ? [...decision.pros] : [...decision.cons]
         temp = temp.filter(argu => argu.id !== arg.id)
 
         let decisionObj = {
+            ...decision,
             desc: title,
             pros: arg.type === 'pro' ? temp : decision.pros,
             cons: arg.type === 'con' ? temp : decision.cons
@@ -146,48 +147,29 @@ export default function ProsConsTable(props) {
     
 
     const handleSubmit = async () => {
-
         console.log(decision)
 
         //todo:: make sure title and object is good
         //if (title)
-            
         try {  
-
             let res = null
-
-            if (decision.hasOwnProperty("_id")) {
-
-                let decisionObj = {
+            let changedObj = {
                     desc: title,
                     pros: decision.pros,
                     cons: decision.cons,
-                }
+            }
 
-                res = await axios.patch(`${BASE_URL}/decisions/${decision._id}`, decisionObj)
+            if (decision.hasOwnProperty("_id")) {
+                res = await axios.patch(`${BASE_URL}/decisions/${decision._id}`, changedObj)
 
             } else {
-
-                setDecision({
-                    desc: title,
-                    pros: decision.pros,
-                    cons: decision.cons
-                })
-
-                res = await axios.post(`${BASE_URL}/decisions`, decision)
+                res = await axios.post(`${BASE_URL}/decisions`, changedObj)
+                //todo:: handle error??
+                setDecision(res.data)
             }
-            
-            const addedDecision = res.data
-            console.log(`Added a new decision!`, addedDecision)
-
-            setDecisionServer(addedDecision)
-            //todo:: handle faliure
-            //if (addedDecision && decisionServer._id.length > 23) {
-                setSaveSuccess(true)
-            //}
+            setSaveSuccess(true)
 
             dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
-
         } catch (e) {
             console.error(e)
             setError(e.massage)
@@ -255,8 +237,8 @@ export default function ProsConsTable(props) {
 
             { saveSuccess && 
                 <Redirect to={{
-                    pathname:`d/${decisionServer._id}`,
-                    state:{decision:decisionServer }}} /> 
+                    pathname:`/d/${decision._id}`,
+                    state:{decision:decision }}} /> 
             }
 
             <Header handleSubmit={handleSubmit} loading={loading}/>
@@ -362,12 +344,6 @@ export default function ProsConsTable(props) {
                                 </DialogContent>
                             </div>
                 </Dialog>
-
-                {/* { decision && !loading &&
-                <Comments decision={decision}/>
-            } */}
-
-
         </div>
 
 

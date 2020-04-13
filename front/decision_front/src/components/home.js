@@ -75,7 +75,6 @@ export default function Home(props) {
 
             <ProsConsTable loading={loading} decisionFromUrl={decision} errorAbove={error} setDecisionIfSuccess={setDecisionIfSuccess}/>
             
-                
             { decision && !loading &&
                 <Comments decision={decision}/>
             }
