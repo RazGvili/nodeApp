@@ -121,9 +121,10 @@ export default function ProsConsTable(props) {
     const [text, setText] = useState("")
     const [saveSuccess, setSaveSuccess] = useState(false)
     const [error, setError] = useState("")
+    const [isNew, setIsNew] = useState(false)
+
 
     // Lock ----------------------------------------
-    // isReadOnly = true => readOnly
     const [showLock, setShowLock] = useState(true)
     const [isReadOnly, setIsReadOnly] = useState(false)
     // ---------------------------------------------
@@ -168,7 +169,6 @@ export default function ProsConsTable(props) {
 
             } else {
                 changedObj.isReadOnly = isReadOnly
-                console.log(changedObj)
                 res = await axios.post(`${BASE_URL}/decisions`, changedObj)
                 setDecision(res.data)
             }
@@ -233,6 +233,13 @@ export default function ProsConsTable(props) {
         setArgumentEdit(null)
         setShowDialog(false)
     }
+
+    // Needed to cover the case of decision from redirect & decision from url
+    useEffect(() => {
+        if (decision.hasOwnProperty("_id")) {
+            setShowLock(false)
+        }
+    }, [decision])
 
     // ===================================================================================================
 
