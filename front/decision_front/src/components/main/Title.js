@@ -1,7 +1,7 @@
 
 import React from "react"
 
-import {makeStyles} from "@material-ui/core/styles"
+import {makeStyles,useTheme} from "@material-ui/core/styles"
 import { InputBase} from '@material-ui/core'
 
 
@@ -9,7 +9,7 @@ const DARK_MODE = false
 
 const useStyles = makeStyles(theme => ({
     inputRoot:{
-        color:DARK_MODE?'white':'black',
+        color:props=> props.DARK_MODE?'white':'black',
         width:'95%',
         maxWidth:'1000px',
         borderRadius:'30px',
@@ -22,8 +22,10 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function Title(props) {
-
-    const classes = useStyles()
+    const theme = useTheme();
+    const DARK_MODE = theme.palette.type==='dark';
+    let styleProps = {DARK_MODE:DARK_MODE}
+    const classes = useStyles(styleProps)
 
     return (
                     <InputBase

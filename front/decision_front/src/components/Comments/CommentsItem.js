@@ -16,19 +16,22 @@ import Typography from '@material-ui/core/Typography'
 import {ICONS} from '../custom/IconsData'
 import Icon from '@mdi/react'
 import Avatar from '../custom/Avatar'
+import { Grid } from '@material-ui/core'
 
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        maxWidth: 360,
+        maxWidth: '460px',
         backgroundColor: theme.palette.background.paper,
     },
     inline: {
         display: 'inline',
+    },
+    container:{
+        display:'flex'
     }
-
 }))
 
 
@@ -36,36 +39,23 @@ export default function Comments({comment, lastOne, setRemoveLastOne}) {
     const classes = useStyles()
 
     let commentData = comment
-
+//todo change date string to how long ago
     return (
 
-        <div>
-
-            <ListItem alignItems="flex-start">
-
-                <ListItemIcon>
-                    {/* <Avatar />    */}
-                </ListItemIcon>
-
-                <ListItemText
-                    primary={<b>{commentData.title}</b>}
-
-                    secondary={
-                        <React.Fragment>
-                            <Typography
-                                component="span"
-                                variant="body2"
-                                className={classes.inline}
-                                color="textPrimary"
-                            >
-                                {commentData.name + " - "}
-                            </Typography>
-                                {commentData.text} <br/>
-                                {commentData.date}
-                        </React.Fragment>
-                    }
-
-                />                       
+        <div className={classes.container}>
+            <Grid container>
+                <Grid item xs={2}>
+                    {/* <Avatar />  */}
+                    
+                    </Grid>
+                    <Grid item xs={10}>
+                    {commentData.text}
+                    <br />
+                    <span>
+                    {commentData.name} <br />
+                    {commentData.date}
+                    </span>
+                     </Grid>                
 
                 { lastOne && 
                     <ListItemSecondaryAction>
@@ -78,9 +68,7 @@ export default function Comments({comment, lastOne, setRemoveLastOne}) {
                         </IconButton>
                     </ListItemSecondaryAction>
                 }
-
-            </ListItem>
-
+            </Grid>
         </div>
     )
 }   

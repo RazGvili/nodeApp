@@ -1,12 +1,10 @@
 
 import React, { useState } from "react"
 
-import {makeStyles} from "@material-ui/core/styles"
+import {makeStyles,useTheme} from "@material-ui/core/styles"
 import { IconButton,InputBase} from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { green,red } from "../GlobalVars"
-const DARK_MODE = false;
-
   
 const useStyles = makeStyles(theme => ({
     container: {
@@ -20,19 +18,21 @@ const useStyles = makeStyles(theme => ({
         padding:'0px 30px',
         lineHeight:'2.9em',
         '&:hover':{
-            backgroundColor:DARK_MODE?'rgba(255, 255, 255, 0.1)':'rgba(0, 0, 0, 0.1)'
+            backgroundColor:props => props.DARK_MODE?'rgba(255, 255, 255, 0.1)':'rgba(0, 0, 0, 0.1)'
         }
     }, 
     input:{
-        color:DARK_MODE?'white':'black',
+        color:props => props.DARK_MODE?'white':'black',
     },
     
 }))
 
 
 export default function AddButton(props) {
-
-    const classes = useStyles()
+    const theme = useTheme();
+    const DARK_MODE = theme.palette.type==='dark';
+    let styleProps = {DARK_MODE:DARK_MODE}
+    const classes = useStyles(styleProps)
     const [text, setText] = useState("")
     const [clicked, setClicked] = useState(false)
     const [error, setError] = useState(false)

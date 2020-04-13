@@ -12,7 +12,7 @@ const BorderLinearProgress = withStyles({
       margin: '0px',
     },
     bar: {
-      borderRadius: 0,
+      borderRadius:0,
       backgroundColor: '#87ba55',
     },
   })(LinearProgress);

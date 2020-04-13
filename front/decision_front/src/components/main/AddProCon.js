@@ -1,15 +1,14 @@
 
 import React, { useState } from "react"
 
-import {makeStyles,withStyles} from "@material-ui/core/styles"
-import {Slider,Button,InputBase, Grid,
+import {makeStyles,withStyles,useTheme} from "@material-ui/core/styles"
+import {Slider,Button, Grid,TextField
     //Switch
 } from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import { green,red,sliderTexts } from "../GlobalVars"
+import { green,red,darkGrey,sliderTexts } from "../GlobalVars"
 
 const sliderTextWidth=['','200','400','600','700','900']
-const DARK_MODE = false
 
 // const CustomSwitch = withStyles({
 //     switchBase: {      
@@ -27,6 +26,37 @@ const DARK_MODE = false
 //     checked: {},
 //     track: {},
 //   })(Switch);
+
+
+const CustomTextField = withStyles({
+    root: {
+      '& label.Mui-focused': {
+        color: red,
+      },
+      '& .MuiInput-underline': {
+        borderBottomColor: props => props.linecolor,
+      },
+      '& .MuiInput-underline:after': {
+        borderBottomColor: props => props.linecolor,
+      },
+      '& .MuiInputBase-input':{
+        fontSize:'22px',
+        fontWeight:600
+      },
+      '& .MuiFilledInput-root': {
+        '& fieldset': {
+          borderColor: props => props.lineColor,
+        },
+        '&:hover fieldset': {
+          borderColor: 'yellow',
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: props => props.lineColor,
+        },
+      },
+    },
+  })(TextField);
+
 
   const CustomSlider = withStyles({
     root: {
@@ -77,19 +107,18 @@ const useStyles = makeStyles(theme => ({
         margin: 'auto'
     },
     input:{
-        color:DARK_MODE?'white':'black',
+        color:props => props.DARK_MODE?'white':'black',
         //fontFamily:'Permanent Marker',
-        fontSize:'18px',
         margin:'auto',
-        padding:'10px',
+        padding:'0px',
         width:'95%',
         fontWeight:'700',
-        textAlign:'center',
-        borderRadius:'10px',
-        background:DARK_MODE?'rgba(255, 255, 255, 0.1)':'rgba(0, 0, 0, 0.1)'
+        //textAlign:'center',
+        borderRadius:'5px',
+        background:props => props.DARK_MODE?'rgba(255, 255, 255, 0.1)':'rgba(0, 0, 0, 0.1)'
     },
     actionButtonPro:{
-        margin:'0px auto 10px',
+        margin:'0px 2.5px 10px',
         color:'white',
         background:green,
         borderRadius:'30px',
@@ -97,12 +126,12 @@ const useStyles = makeStyles(theme => ({
         textTransform: 'none',
         fontSize:'18px',
         fontWeight:'700',
-        '&:focus,&:hover,&$active': {
+        '&:hover': {
             background:'#577836'
           },
     },
     actionButtonCon:{
-        margin:'0px auto 10px',
+        margin:'0px 2.5px 10px',
         color:'white',
         background:red,
         borderRadius:'30px',
@@ -113,13 +142,29 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             background:'#932b2b'
           },
+    },
+    cancelButton:{
+        margin:'0px 2.5px 10px',
+        color:props => props.DARK_MODE?'white':darkGrey,
+        //background:red,
+        borderRadius:'30px',
+        width:'150px',
+        textTransform: 'none',
+        fontSize:'18px',
+        fontWeight:'700',
+        '&:hover': {
+            background:'#838383',
+            color:'white'
+          },
     }
 }))
 
 
 export default function AddProCon(props) {
-
-    const classes = useStyles()
+    const theme = useTheme();
+    const DARK_MODE = theme.palette.type==='dark';
+    let styleProps = {DARK_MODE:DARK_MODE}
+    const classes = useStyles(styleProps)
     //const [type, setType] = useState(props.type)
     const {type,edit } = props
     const [text, setText] = useState(edit?edit.proCon:props.text)
@@ -171,20 +216,22 @@ export default function AddProCon(props) {
 
     return (
             <div style={{textAlign:'center'}}>
+
                 {/* <div style={{display:'flex',lineHeight:'2.4em',width:'fit-content'}}>
                     PRO
                     <CustomSwitch   defaultChecked={type==='con'}
                                     onChange={handleTypeChange} />
                     CON
                 </div> */}
-                <InputBase
-                    required
-                    className={classes.input}
-                    value={text}
-                    label="Add Pro / Con"
-                    onChange={handleTextChange}
-                    inputProps={{ 'aria-label': 'name of Argument', style: { textAlign: 'center'} }}
-                />
+
+                <CustomTextField    fullWidth
+                                    className={classes.input}
+                                    margin="normal"
+                                    value={text}
+                                    linecolor={typeColor}
+                                    onChange={handleTextChange}
+                                    inputProps={{  style: { textAlign: 'center'} }}
+                                    />
 
                 <div className={classes.sliders}>  
                 <Grid container spacing={1} style={{margin:'15px auto',width:'100%'}}>
@@ -246,6 +293,13 @@ export default function AddProCon(props) {
                     disabled={text.length < 2 ? true : false } 
                 >
                     {`${props.edit?'Edit':'Add'} ${type} `}
+                </Button>
+                <Button
+                    className={classes.cancelButton}
+                    onClick={props.closeAction}
+                    disabled={text.length < 2 ? true : false } 
+                >
+                    Cancel
                 </Button>
        
         </div>

@@ -1,14 +1,47 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect,useContext} from 'react'
 import ProsConsTable from './prosConsTable'
 import axios from "axios"
 import Comments from './Comments/Comments'
-import Avatar from './custom/Avatar'
+import { store } from '../store'
+import { createMuiTheme, ThemeProvider,responsiveFontSizes  } from '@material-ui/core/styles';
 
 import {BASE_URL} from './GlobalVars'
 
 import {useParams} from "react-router-dom"
 
 export default function Home(props) {
+    const context = useContext(store)
+    const { state } = context
+    const darkMode = state.isDark
+
+    const theme = responsiveFontSizes(createMuiTheme({
+        typography: {
+            fontFamily: 'Nunito Sans, Arial',
+          },
+            palette: {
+              type: darkMode ? 'dark' : 'light',
+              primary: {
+                light: '#000000',
+                main: '#000000',
+                dark: '#ffffff'
+              },
+              secondary: {
+                light:'#000000',
+                main: '#000000',
+                dark: '#ffffff'
+              },
+              background:{
+                light: '#dce8f3',
+                dark:'#35314f',
+              },
+              text:{
+                //light: '#dce8f3',
+                //dark:'#1e1d1e',
+              }
+            },
+          }))
+      
+
     const decisionFromState = props.location.state && props.location.state.decision
     const [decision, setDecision] = useState(decisionFromState?decisionFromState:null)
     const [loading, setLoading] = useState(true)
@@ -55,16 +88,17 @@ export default function Home(props) {
     }, [])
 
     return (
-        <div>
-            {/* <Avatar /> */}
+        <ThemeProvider theme={theme}>
+            <div style={{background:darkMode?theme.palette.background.dark:theme.palette.background.light}}>
 
             <ProsConsTable loading={loading} decisionFromUrl={decision} errorAbove={error} />
             
             { decision && !loading &&
                 <Comments decision={decision}/>
             }
+            </div>
+        </ThemeProvider>
 
-        </div>
     )
 
 }

@@ -50,6 +50,10 @@ export default function Header({handleSubmit,loading,showLock, isReadOnly, setIs
   // ----------------------------------------------
 
 
+  const handleDarkModeClick = () => {
+    dispatch({type: "TOGGLE_DARK_MODE"})
+  }
+
   useEffect(() => {
 
     if (isReadOnly) {
@@ -109,7 +113,7 @@ export default function Header({handleSubmit,loading,showLock, isReadOnly, setIs
                 />    
               </IconButton>
               
-              <IconButton  className={classes.roundButton}>
+              <IconButton  className={classes.roundButton}  onClick={handleDarkModeClick}>
                 <Icon
                     path={ICONS['Theme']}
                     title="Share"

@@ -1,33 +1,46 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios"
 
 import Button from '@material-ui/core/Button'
 
-import Loading from '../Loading'
-
 import {BASE_URL} from '../GlobalVars'
+import { Typography } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        '& .MuiTextField-root': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
-        
+        paddingBottom:'50px'
     },
+    nameSubmitContainer:{
+        display:'flex',
+        justifyContent:'space-between'
+    },
+    submitButton:{
+            margin:'auto',
+            color:theme.palette.type==='light'?theme.palette.background.light:theme.palette.background.dark,
+            background:theme.palette.type==='light'?theme.palette.background.dark:theme.palette.background.light,
+            borderRadius:'30px',
+            width:'120px',
+            textTransform: 'none',
+            fontSize:'14px',
+            fontWeight:'700',
+            '&:hover': {
+                color:theme.palette.type==='light'?theme.palette.background.dark:theme.palette.background.light,
+                background:theme.palette.type==='light'?theme.palette.background.light:theme.palette.background.dark
+              },
+    }
 }));
 
 
-export default function AddComment({decisionId, setNewComment}) {
+export default function AddComment({decisionId, addNewComment}) {
 
     const classes = useStyles()
 
     // ========================================
 
-    const [title, setTitle] = useState("")
+    const [title, setTitle] = useState("bla bla bla")
 
     const handleTitleChange = (event) => {
 
@@ -64,15 +77,11 @@ export default function AddComment({decisionId, setNewComment}) {
 
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
-    const [newCommentSuccess, setNewCommentSuccess] = useState({})
 
-
-    useEffect(() => {
-        if (newCommentSuccess.hasOwnProperty("_id")) {
-            setNewComment(newCommentSuccess)
-        }
-    }, [newCommentSuccess])
-
+    const handleNewComment = (newComment) => {
+        if (newComment.hasOwnProperty("_id"))
+            addNewComment(newComment)
+    }
     // ========================================
 
     const handleSubmit = async (e) => {
@@ -87,12 +96,12 @@ export default function AddComment({decisionId, setNewComment}) {
 
         try {
             
-            const res = await axios.patch(`${BASE_URL}`+"/decisions/"+decisionId, {comments: newComment})
+            const res = await axios.patch(`${BASE_URL}/decisions/${decisionId}`, {comments: newComment})
             
             if (res.status === 200) {
 
                 setLoading(false)
-                setNewCommentSuccess(res.data.comments.pop())
+                handleNewComment(res.data.comments.pop())
             }
             
         } catch (e) {
@@ -106,76 +115,54 @@ export default function AddComment({decisionId, setNewComment}) {
 
 
     return (
-
-        <div>
-
-            { !loading && !error &&
-
-                <div>
-
-                    <br/>
-
-                    <h4 style={{fontFamily:'Permanent Marker'}}> What do you think? </h4>
-
-                    <form noValidate autoComplete="off" onSubmit={handleSubmit}> 
+        <div className={classes.root}>
+            {loading?
+            <Typography>loading...</Typography>
+            :
+            error?
+            <>
+            <h3 style={{color: 'red'}}>{error}</h3>
+            <Button style={{fontFamily:'Permanent Marker'}} onClick={() => {window.location.reload()}}> Try refreshing </Button>
+            </>
+            :   
+            <>
+            <br />
+            <form noValidate autoComplete="off" onSubmit={handleSubmit}> 
 
                         <TextField
+                                    required
+                                    id="comment-text-input"
+                                    label="write what you think"
+                                    multiline
+                                    rows={4}
+                                    variant="filled"
+                                    rowsMax="6"
+                                    fullWidth
+                                    value={text}
+                                    onChange={handleTextChange}
+                        />
+
+                        
+                        
+
+                        <br/><br/>
+                        <div className={classes.nameSubmitContainer}>
+                        <TextField
                             required
-                            label="My name is"
-                            placeholder="John"
-                            variant="outlined"
+                            label="Name"
+                            size="small"
+                            //placeholder="John"
+                            variant="filled"
                             fullWidth
                             value={name}
+                            style={{width:'220px'}}
                             onChange={handleNameChange}
                         />
-
-                        <br/><br/>
-                        
-                        <TextField
-                            required
-                            label="Consider this maybe.."
-                            placeholder="Consider this maybe.."
-                            variant="outlined"
-                            fullWidth
-                            value={title}
-                            onChange={handleTitleChange}
-                        />
-
-                        <br/><br/>
-
-                        <TextField
-                            required
-                            label="Because of.."
-                            placeholder="Because of.."
-                            variant="outlined"
-                            fullWidth
-                            multiline
-                            rowsMax="6"
-                            value={text}
-                            onChange={handleTextChange}
-                        />
-
-                        <br/><br/>
-
-                        <Button type="submit" style={{fontFamily:'Permanent Marker'}}> Add </Button>
+                        <Button type="submit" className={classes.submitButton}> Add Comment</Button>
+                        </div>
 
                     </form>
-
-                    <br/><br/><br/>
-
-                </div>
-            }
-
-            { loading &&
-                <Loading/>            
-            }
-
-            { error &&
-                <div>
-                    <h3 style={{color: 'red'}}>{error}</h3>
-                    <Button style={{fontFamily:'Permanent Marker'}} onClick={() => {window.location.reload()}}> Try refreshing </Button>
-                    <br/><br/><br/>
-                </div>
+                </>
             }
 
         </div>        

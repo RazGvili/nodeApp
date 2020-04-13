@@ -1,44 +1,34 @@
 
 import React, { useState, useEffect, useContext } from "react"
-
-import {makeStyles} from "@material-ui/core/styles"
-import {useMediaQuery,Slide,Grid,IconButton,Dialog,DialogContent} from '@material-ui/core'
-import {ICONS} from './custom/IconsData'
-import Icon from '@mdi/react'
+import axios from "axios"
+import {makeStyles,useTheme} from "@material-ui/core/styles"
 import { Redirect } from 'react-router-dom'
 import { Skeleton } from "@material-ui/lab"
+import {useMediaQuery,Slide,Grid,Dialog,DialogContent} from '@material-ui/core'
 
 import AddProCon from './main/AddProCon'
 import AddButton from './main/AddButton'
 import Title from "./main/Title"
 import Header from "./Header"
-
-//import Timer from './timer'
-
-import axios from "axios"
-import Argument from "./main/Argument"
-
-import {BASE_URL} from './GlobalVars'
-
-import { store } from '../store'
 import ChoicesData from "./main/ChoicesData"
+import Argument from "./main/Argument"
+import {BASE_URL} from './GlobalVars'
+import { store } from '../store'
 
 //slide animation
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />
 });
 
-const DARK_MODE = false;
 
 const useStyles = makeStyles(theme => ({
     root: {
         width:'100%',
-        //maxWidth:'1000px',
+        //background:props=> props.DARK_MODE?theme.palette.background.dark:theme.palette.background.light,
         textAlign: 'center',
-        //margin: '10px auto'
     }, 
     blackBoard:
-    DARK_MODE?
+    props=> props.DARK_MODE?
     {
         background:'#323132',
         maxWidth:'1000px',
@@ -93,11 +83,17 @@ const useStyles = makeStyles(theme => ({
     },
     titleContainer:{
         margin:'10px auto'
+    },
+    dialogPaper:{
+        background:props=> props.DARK_MODE?theme.palette.background.dark:theme.palette.background.light,
     }
 }))
 
 export default function ProsConsTable(props) {
-    const classes = useStyles()
+    const theme = useTheme();
+    const DARK_MODE = theme.palette.type==='dark';
+    let styleProps = {DARK_MODE:DARK_MODE}
+    const classes = useStyles(styleProps)
     const smallScreen = useMediaQuery('(max-width:600px)')
 
     // Store ----------------------------------------
@@ -345,17 +341,15 @@ export default function ProsConsTable(props) {
             </div>
 
                 <Dialog open={showDialog}
-                        fullWidth           
+                        fullWidth
+                        classes={{paper:classes.dialogPaper}}        
                         maxWidth={'sm'}
                         TransitionComponent={Transition}
                         onClose={HandleCloseArgumentDialog} aria-labelledby="form-dialog-title"
                         >
                             <div style={{position:'relative'}}>
-                                <IconButton onClick={HandleCloseArgumentDialog} size="small" style={{position:'absolute',right:'0px',padding:'8px'}}>
-                                <Icon path={ICONS['Close']} title="Close" size={1} />
-                                </IconButton>
                                 <DialogContent >
-                                    <AddProCon type={type} setArgument={addProCon} text={text} edit={argumentEdit} editAction={editProCon}/>
+                                    <AddProCon type={type} setArgument={addProCon} text={text} edit={argumentEdit} editAction={editProCon} closeAction={HandleCloseArgumentDialog}/>
                                 </DialogContent>
                             </div>
                 </Dialog>
