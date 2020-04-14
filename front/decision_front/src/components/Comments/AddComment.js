@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddComment({decisionId, setNewComment}) {
 
     const classes = useStyles()
-    
+
     const [title, setTitle] = useState("bla bla bla")
 
     // ========================================
@@ -67,13 +67,6 @@ export default function AddComment({decisionId, setNewComment}) {
 
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
-    const [newCommentSuccess, setNewCommentSuccess] = useState({})
-
-    useEffect(() => {
-        if (newCommentSuccess.hasOwnProperty("_id")) {
-            setNewComment(newCommentSuccess)
-        }
-    }, [newCommentSuccess])
 
     // ========================================
 
@@ -94,7 +87,7 @@ export default function AddComment({decisionId, setNewComment}) {
             if (res.status === 200) {
 
                 setLoading(false)
-                setNewCommentSuccess(res.data.comments.pop())
+                setNewComment(res.data.comments.pop())
             }
             
         } catch (e) {
