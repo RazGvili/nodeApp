@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent:'space-between'
     },
     submitButton:{
-            margin:'auto',
+            //margin:'auto',
             color:theme.palette.type==='light'?theme.palette.background.light:theme.palette.background.dark,
             background:theme.palette.type==='light'?theme.palette.background.dark:theme.palette.background.light,
             borderRadius:'30px',
@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
                 color:theme.palette.type==='light'?theme.palette.background.dark:theme.palette.background.light,
                 background:theme.palette.type==='light'?theme.palette.background.light:theme.palette.background.dark
               },
+    },
+    textInput:{
+        borderRadius:'45px'
     }
 }));
 
@@ -118,9 +121,12 @@ export default function AddComment({decisionId, setNewComment}) {
                         <TextField
                                     required
                                     id="comment-text-input"
-                                    label="write what you think"
+                                    //label="write what you think"
                                     multiline
+                                    placeholder="Your comment"
                                     rows={4}
+                                    inputProps={{  style: {padding:'0px 10px'} }}
+                                    InputProps={{style:{borderRadius:'30px 30px 0px 0px',padding:'15px 10px'}}}
                                     variant="filled"
                                     rowsMax="6"
                                     fullWidth
@@ -129,16 +135,17 @@ export default function AddComment({decisionId, setNewComment}) {
                         />
 
                         
-                        
+                        {/* //todo:: handle empty name clicking add comment */}
 
                         <br/><br/>
                         <div className={classes.nameSubmitContainer}>
                         <TextField
                             required
-                            label="Name"
                             size="small"
-                            //placeholder="John"
+                            placeholder="Name"
                             variant="filled"
+                            inputProps={{  style: { textAlign: 'center',padding:'10px 0px'} }}
+                            InputProps={{style:{borderRadius:'30px 30px 0px 0px',height:'40px',textAlign:'center'}}}
                             fullWidth
                             value={name}
                             style={{width:'220px'}}
