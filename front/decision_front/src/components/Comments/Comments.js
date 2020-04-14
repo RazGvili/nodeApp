@@ -20,17 +20,14 @@ const useStyles = makeStyles((theme) => ({
         display: 'inline',
     },
     text:{
-        color: props=> props.DARK_MODE?'white':'black',
+        color: theme.palette.type==='dark'?'white':'black',
     }
 
 }))
 
 
 export default function Comments({decision}) {
-    const theme = useTheme();
-    const DARK_MODE = theme.palette.type==='dark';
-    let styleProps = {DARK_MODE:DARK_MODE}
-    const classes = useStyles(styleProps)
+    const classes = useStyles()
     
     let commentsProps = decision.comments
     //sconsole.log(commentsProps)
@@ -67,13 +64,13 @@ export default function Comments({decision}) {
                 
                 setLoading(true)
 
-                axios.patch(`${BASE_URL}`+"/decisions/"+decisionId, {comments: 'delete'})
+                axios.patch(`${BASE_URL}/decisions/${decisionId}`, {comments: 'delete'})
                 .then((res) => {
 
                     if (res.status === 200) {
 
                         setComments(comments => comments.slice(0,comments.length-2))
-                        setNewComment({})   
+                        setNewComment({})  
                         setLoading(false)
                     }
 
