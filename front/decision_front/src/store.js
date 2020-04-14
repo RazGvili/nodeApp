@@ -3,16 +3,17 @@
 import React, {createContext, useReducer} from 'react'
 
 const initialState = {
-    id:"",
-    isReadOnly:false,
-    title:"",
-    pros:[],
-    cons:[],
-    comments:[],
-    createdAt:"",
-    updatedAt:"",
-    error: "",
     
+    id: "",
+    isReadOnly: false,
+    title: "",
+    pros: [],
+    cons: [],
+    comments: [],
+    createdAt: "",
+    updatedAt: "",
+
+    error: "",
     isDark: false,
     showSnack: false,
     snackType: "",
@@ -49,7 +50,13 @@ const reducer = (state, action) => {
                 ...state,
                 showSnack: !state.showSnack
             }
-
+        
+        case "TITLE_CHANGE":
+            return {
+                ...state,
+                title: action.payload.text
+            }
+        
         default:
             return state
     }

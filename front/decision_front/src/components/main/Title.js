@@ -1,9 +1,10 @@
 
-import React from "react"
+import React, {useContext} from "react"
 
 import {makeStyles,useTheme} from "@material-ui/core/styles"
 import { InputBase} from '@material-ui/core'
 
+import { store } from '../../store'
 
 const DARK_MODE = false
 
@@ -27,6 +28,12 @@ export default function Title(props) {
     let styleProps = {DARK_MODE:DARK_MODE}
     const classes = useStyles(styleProps)
 
+    // Store ----------------------------------------
+    const context = useContext(store)
+    const { state } = context
+    console.log(state.title)
+    // ----------------------------------------------
+
     return (
                     <InputBase
                         required
@@ -35,7 +42,7 @@ export default function Title(props) {
                         placeholder="Your decision"
                         autoComplete="off" 
                         classes={{root:classes.inputRoot}}
-                        value={props.title}
+                        value={state.title}
                         inputProps={{ 'aria-label': 'name of Decision', style: {textAlign: 'center'}}}
                         onChange={props.handleTitleChange}
                     />
