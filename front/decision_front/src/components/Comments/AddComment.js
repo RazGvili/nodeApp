@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios"
@@ -34,21 +34,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function AddComment({decisionId, addNewComment}) {
+export default function AddComment({decisionId, setNewComment}) {
 
     const classes = useStyles()
-
-    // ========================================
-
+    
     const [title, setTitle] = useState("bla bla bla")
-
-    const handleTitleChange = (event) => {
-
-        if (event.target.value.length < 30) {
-            setTitle(event.target.value)
-        }
-        
-    }
 
     // ========================================
 
@@ -77,11 +67,14 @@ export default function AddComment({decisionId, addNewComment}) {
 
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+    const [newCommentSuccess, setNewCommentSuccess] = useState({})
 
-    const handleNewComment = (newComment) => {
-        if (newComment.hasOwnProperty("_id"))
-            addNewComment(newComment)
-    }
+    useEffect(() => {
+        if (newCommentSuccess.hasOwnProperty("_id")) {
+            setNewComment(newCommentSuccess)
+        }
+    }, [newCommentSuccess])
+
     // ========================================
 
     const handleSubmit = async (e) => {
@@ -101,7 +94,7 @@ export default function AddComment({decisionId, addNewComment}) {
             if (res.status === 200) {
 
                 setLoading(false)
-                handleNewComment(res.data.comments.pop())
+                setNewCommentSuccess(res.data.comments.pop())
             }
             
         } catch (e) {

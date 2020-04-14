@@ -33,7 +33,7 @@ export default function Comments({decision}) {
     const classes = useStyles(styleProps)
     
     let commentsProps = decision.comments
-    console.log(commentsProps)
+    //sconsole.log(commentsProps)
     let decisionId = decision._id
 
     const [newComment, setNewComment] = useState({})
@@ -44,12 +44,21 @@ export default function Comments({decision}) {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
 
-    const handleCommentAdd = (newComment) => {
+    // const handleCommentAdd = (newComment) => {
+    //     if (newComment.hasOwnProperty("_id")) {
+    //         console.log(newComment)
+    //         setComments(comments => [...comments, newComment])
+    //     }
+    // }
+
+    useEffect(() => {
+
         if (newComment.hasOwnProperty("_id")) {
             console.log(newComment)
             setComments(comments => [...comments, newComment])
         }
-    }
+
+    }, [newComment])
 
     
     useEffect(() => {
@@ -76,6 +85,8 @@ export default function Comments({decision}) {
         }
     }, [removeLastOne])
 
+    console.log(newComment)
+
     return (
         <div className={classes.root}>
             <br/>
@@ -89,15 +100,21 @@ export default function Comments({decision}) {
             <List>
                     {comments.map((comment, index) => {
 
+                        // console.log("=====")
+                        // console.log(comment)
+                        // console.log(index === comments.length-1)
+                        // console.log(newComment.hasOwnProperty("_id"))
+                        // console.log(newComment.hasOwnProperty("_id") && index === comments.length-1)
+                        // console.log("=====")
+
                         return (
-                            
+                        
                                 <CommentItem 
                                     key={'comment'+Math.floor(Math.random() * 9999)} 
                                     comment={comment}
                                     lastOne={newComment.hasOwnProperty("_id") && index === comments.length-1} 
                                     setRemoveLastOne={setRemoveLastOne}
-                                />
-                                
+                                />        
                         )
                     })
                 }
@@ -111,7 +128,7 @@ export default function Comments({decision}) {
             <Typography style={{fontSize:'17PX',fontWeight:'700'}} className={classes.text}>
                 Add your Comment
             </Typography>
-            <AddComment decisionId={decision._id} addNewComment={handleCommentAdd}/>
+            <AddComment decisionId={decision._id} setNewComment={setNewComment}/>
 
         </div>
 

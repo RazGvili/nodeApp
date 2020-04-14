@@ -104,7 +104,7 @@ export default function Header({handleSubmit,loading,showLock, isReadOnly, setIs
                 />    
               </IconButton>
 
-              <IconButton  onClick={() => {handleSubmit()}} className={classes.roundButton}>
+              <IconButton className={classes.roundButton}>
                 <Icon
                     path={ICONS['Share']}
                     title="Share"

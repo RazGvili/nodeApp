@@ -39,36 +39,36 @@ export default function Comments({comment, lastOne, setRemoveLastOne}) {
     const classes = useStyles()
 
     let commentData = comment
-//todo change date string to how long ago
+    //todo change date string to how long ago
+
     return (
 
         <div className={classes.container}>
             <Grid container>
                 <Grid item xs={2}>
-                    {/* <Avatar />  */}
-                    
-                    </Grid>
-                    <Grid item xs={10}>
-                    {commentData.text}
+                    {/* <Avatar />  */}    
+                </Grid>
+
+                <Grid item xs={10}>
+                    <b>{commentData.text}</b>
                     <br />
                     <span>
                     {commentData.name} <br />
                     {commentData.date}
                     </span>
-                     </Grid>                
-
-                { lastOne && 
-                    <ListItemSecondaryAction>
-                        <IconButton  onClick={()=>{setRemoveLastOne(true)}}>
-                            <Icon   
-                                path={ICONS['Remove']}
-                                title="Save"
-                                size={0.9}
-                            />
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                }
+                </Grid>                
             </Grid>
+            { lastOne && 
+                    
+                    <IconButton  onClick={()=>{setRemoveLastOne(true)}}>
+                        <Icon   
+                            path={ICONS['Remove']}
+                            title="Save"
+                            size={0.9}
+                        />
+                    </IconButton>
+                
+            }
         </div>
     )
 }   
