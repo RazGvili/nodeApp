@@ -3,11 +3,21 @@
 import React, {createContext, useReducer} from 'react'
 
 const initialState = {
+    id:"",
+    isReadOnly:false,
+    title:"",
+    pros:[],
+    cons:[],
+    comments:[],
+    createdAt:"",
+    updatedAt:"",
     error: "",
+    
     isDark: false,
     showSnack: false,
     snackType: "",
-    snackText: ""
+    snackText: "",
+
 }
 
 const store = createContext(initialState)
