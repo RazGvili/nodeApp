@@ -2,7 +2,6 @@ import React, {useState, useMemo} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-//import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import Timer from './timer'
@@ -48,13 +47,11 @@ export default function Header() {
   const [state,dispatch] = useTracked()
   const {title,pros,cons,id,loading,isReadOnly} = state
   const [redirect,setRedirect] = useState(false)
-  //todo:: put in global state, lets talk
-  const Lockable = true
-  //let desc = state.title
-  //let pros = [...state.pros]
-  //let cons = [...state.cons]
 
-  
+  //todo:: put in global state, lets talk
+  const Lockable = id.length < 23 ? true : false
+
+  console.log(pros[0])
 
   const handleLockClick = () => {
     dispatch({type: "TOGGLE_READ_ONLY"})
@@ -63,17 +60,6 @@ export default function Header() {
   const handleDarkModeClick = () => {
     dispatch({type: "TOGGLE_DARK_MODE"})
   }
-
-  //todo:: this should be initiated during dispatch 'lock'\'unlock' directly
-  // useEffect(() => {
-
-  //   if (isReadOnly) {
-
-  //       console.log("isReadOnly: " + isReadOnly) 
-  //       dispatch({type: "OPEN_SNACK", payload: {type: "info", text: `[${isReadOnly ? "LOCKED" : "UNLOCKED"}] If locked, the board will be read-only after save & share`}})
-  //   }
-  // }, [isReadOnly])
-
 
   async function handleSubmit() {
     console.log("handleSubmit")
@@ -95,8 +81,7 @@ export default function Header() {
         // new decision
         } else {
 
-            // todo --> isReadOnly should be a hook here
-            decisionToSave.isReadOnly = false
+            decisionToSave.isReadOnly = isReadOnly
             res = await axios.post(`${BASE_URL}/decisions`, decisionToSave)
             //todo:: why put the same object that was just saved? its already in the state
             dispatch({type: "SAVE_DECISION_NEW", payload: {decision: res.data}})
@@ -112,10 +97,7 @@ export default function Header() {
         dispatch({type: "SET_ERROR", payload: {error:e.message}})
 
     }
-    
-    // console.log("===")
-    // console.log(state)
-    // console.log("===")
+
 }
 
 return useMemo(() => {

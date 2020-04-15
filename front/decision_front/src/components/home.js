@@ -38,14 +38,10 @@ const theme = (darkMode) => responsiveFontSizes(createMuiTheme({
 
 export default function Home(props) {
     const [state,dispatch] = useTracked()
-    const {isDark} = state
+    const {isDark, id} = state
     const decisionFromState = props.location.state && props.location.state.decision
-    //const [decision, setDecision] = useState(decisionFromState?decisionFromState:null)
-    //const [loading, setLoading] = useState(true)
-    //const [error, setError] = useState("")
 
-
-    let { id } = useParams()
+    let { idFromUrl } = useParams()
 
     async function getDecision(decisionId) {
 
@@ -71,7 +67,7 @@ export default function Home(props) {
 
     useEffect(() => {
         if (!decisionFromState) {
-            let decisionId = id || ''
+            let decisionId = idFromUrl || ''
             if (decisionId.length > 23)
                 getDecision(decisionId)
             else
@@ -89,7 +85,7 @@ export default function Home(props) {
             <div style={{background:isDark?'#35314f':'#dce8f3'}}>
             {console.log('<--render: home-->')}
             <ProsConsTable />
-            <Comments />
+            {id.length >23 && <Comments />}
 
             </div>
         </ThemeProvider>
