@@ -61,7 +61,8 @@ export default function Header({loading,showLock, isReadOnly, setIsReadOnly}) {
     dispatch({type: "TOGGLE_DARK_MODE"})
   }
 
-  useEffect(() => {
+    // todo --> isReadOnly should be a hook here
+    useEffect(() => {
 
     if (isReadOnly) {
 
@@ -85,8 +86,6 @@ export default function Header({loading,showLock, isReadOnly, setIsReadOnly}) {
 
         // new decision
         } else {
-
-            // todo --> isReadOnly should be a hook here
             decisionToSave.isReadOnly = false
             res = await axios.post(`${BASE_URL}/decisions`, decisionToSave)
             dispatch({type: "SAVE_DECISION_NEW", payload: {decision: res.data}})
