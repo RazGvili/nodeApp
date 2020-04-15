@@ -1,9 +1,10 @@
 // store.js
 
-import React, {createContext, useReducer} from 'react'
+import { useReducer } from 'react';
+import { createContainer } from 'react-tracked';
 
 const initialState = {
-    
+    loading:true,
     id: "",
     isReadOnly: false,
     title: "",
@@ -21,8 +22,8 @@ const initialState = {
 
 }
 
-const store = createContext(initialState)
-const { Provider } = store
+//const store = createContext(initialState)
+//const { Provider } = store
 
 const reducer = (state, action) => {
 
@@ -81,11 +82,13 @@ const reducer = (state, action) => {
     }
 }
 
-const StateProvider = ( { children } ) => {
+const useValue = () => useReducer(reducer, initialState);
 
-    const [state, dispatch] = useReducer(reducer, initialState)
+export const {
+  Provider,
+  useTrackedState,
+  useTracked,
+  useUpdate: useDispatch,
+} = createContainer(useValue);
 
-    return <Provider value={{ state, dispatch }}>{children}</Provider>
-}
-
-export { store, StateProvider }
+// export { store, StateProvider }

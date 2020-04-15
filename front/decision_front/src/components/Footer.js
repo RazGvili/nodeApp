@@ -1,29 +1,31 @@
-import React,{useContext} from 'react';
+import React from 'react';
 import { Container,makeStyles} from '@material-ui/core';
 
 import { Link } from 'react-router-dom';
-import { store } from '../store'
+import { useTrackedState } from '../store'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   footer: {
     //position: 'absolute',
     //bottom: '0',
     padding:'20px 0px',
     width: '100%',
     height: '2.5rem',
-    color:props =>props.DARK_MODE?'white':'black',
-    backgroundColor: props =>props.DARK_MODE?'#35314f':'#dce8f3',
+    color:props=> props.darkMode?'white':'black',
+    backgroundColor: props=> props.darkMode?'#35314f':'#dce8f3',
   },
   button:{
       textDecoration:'none',
-      color:props =>props.DARK_MODE?'white':'black',
+      color:props=> props.darkMode?'white':'black',
   }
-  });
+  }));
 
-export default function Footer() {
-  const context = useContext(store)
-  const { state } = context
-  const classes = useStyles({DARK_MODE:state.isDark})
+function Footer() {
+  //const context = useContext(store)
+  //const { state } = context
+  const state = useTrackedState();
+  console.log('footer render')
+  const classes = useStyles({darkMode:state.isDark})
 
   return (
       <footer className={classes.footer}>
@@ -38,3 +40,4 @@ export default function Footer() {
   );
 }
 
+export default React.memo(Footer);

@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import { makeStyles } from '@material-ui/core/styles'
-import { store } from '../../store'
+import { useTrackedState,useDispatch } from '../../store'
 
 import IconButton from '@material-ui/core/IconButton'
 
@@ -24,12 +24,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Snack() {
-    const classes = useStyles()
-
+    //const classes = useStyles()
+    const dispatch = useDispatch();
+    const state = useTrackedState();
+    console.log('snack render')
      // Store ----------------------------------------
-    const context = useContext(store)
-    const { dispatch } = context
-    const { Consumer } = store
+    //const context = useContext(store)
+    //const { dispatch } = context
+    //const { Consumer } = store
      // ----------------------------------------------    
 
 
@@ -38,16 +40,13 @@ export default function Snack() {
     }
 
     return (
-        <div className={classes.root}>
-            <Consumer>
-                {val => 
                     <Snackbar 
-                        open={val.state.showSnack}
+                        open={state.showSnack}
                         autoHideDuration={6000}
                         onClose={handleClose}
                     >
                         <Alert 
-                            severity={val.state.snackType} 
+                            severity={state.snackType} 
                             action={
                                 <React.Fragment>
                                     <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
@@ -56,11 +55,8 @@ export default function Snack() {
                                 </React.Fragment>
                             }
                         >
-                            {val.state.snackText}
+                            {state.snackText}
                         </Alert>
                     </Snackbar>                    
-                }
-            </Consumer>
-        </div>
     )
 }

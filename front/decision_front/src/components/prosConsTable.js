@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect } from "react"
 import axios from "axios"
 import {makeStyles,useTheme} from "@material-ui/core/styles"
 import { Redirect } from 'react-router-dom'
@@ -13,7 +13,7 @@ import Header from "./Header"
 import ChoicesData from "./main/ChoicesData"
 import Argument from "./main/Argument"
 import {BASE_URL} from './GlobalVars'
-import { store } from '../store'
+import { useDispatch,useTracked } from '../store'
 
 //slide animation
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'center',
     }, 
     blackBoard:
-    props=> props.DARK_MODE?
+    props=> theme.palette.type==='dark'?
     {
         background:'#323132',
         maxWidth:'1000px',
@@ -85,7 +85,7 @@ const useStyles = makeStyles(theme => ({
         margin:'10px auto'
     },
     dialogPaper:{
-        background:props=> props.DARK_MODE?theme.palette.background.dark:theme.palette.background.light,
+        background:theme.palette.type==='dark'?theme.palette.background.dark:theme.palette.background.light,
     }
 }))
 
@@ -94,11 +94,13 @@ export default function ProsConsTable(props) {
     const DARK_MODE = theme.palette.type==='dark';
     let styleProps = {DARK_MODE:DARK_MODE}
     const classes = useStyles(styleProps)
+    console.log(DARK_MODE)
     const smallScreen = useMediaQuery('(max-width:600px)')
+    const dispatch = useDispatch();
 
     // Store ----------------------------------------
-    const context = useContext(store)
-    const { dispatch } = context
+    // const context = useContext(store)
+    // const { dispatch } = context
     // ----------------------------------------------
 
     const {loading,decisionFromUrl,errorAbove} = props
@@ -241,7 +243,7 @@ export default function ProsConsTable(props) {
     }, [decision])
 
     // ===================================================================================================
-
+    console.log('table render')
     return (
 
         <div className={classes.root}>
@@ -259,7 +261,7 @@ export default function ProsConsTable(props) {
             {loading?
             <Skeleton animation="wave" width='50%' height={50} style={{margin:'auto'}}/>
             :
-            <Title handleTitleChange={handleTitleChange} title={title} />
+            <Title />
             }
             </div>
 
