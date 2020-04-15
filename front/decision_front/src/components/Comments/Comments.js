@@ -4,6 +4,7 @@ import { makeStyles,useTheme } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import CommentItem from './CommentsItem'
 import AddComment from './AddComment'
+import { useTracked  } from '../../store'
 
 import axios from "axios"
 import {BASE_URL} from '../GlobalVars'
@@ -12,7 +13,7 @@ import { Typography } from '@material-ui/core'
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        maxWidth: 360,
+        maxWidth: '360px',
         textAlign: 'center',
         margin: 'auto',
     },
@@ -26,20 +27,22 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Comments({decision}) {
+export default function Comments() {
     const classes = useStyles()
-    
-    let commentsProps = decision.comments
+
+    const [state,dispatch] = useTracked();
+    const {comments,id,newComment,loading} = state
+    //let commentsProps = decision.comments
     //sconsole.log(commentsProps)
-    let decisionId = decision._id
+    //let decisionId = decision._id
 
-    const [newComment, setNewComment] = useState({})
-    const [comments, setComments] = useState(commentsProps)
+    //const [newComment, setNewComment] = useState({})
+    //const [comments, setComments] = useState(commentsProps)
 
-    const [removeLastOne, setRemoveLastOne] = useState(false)
+    //const [removeLastOne, setRemoveLastOne] = useState(false)
 
     const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
+    //const [loading, setLoading] = useState(false)
 
     // const handleCommentAdd = (newComment) => {
     //     if (newComment.hasOwnProperty("_id")) {
@@ -48,47 +51,46 @@ export default function Comments({decision}) {
     //     }
     // }
 
-    useEffect(() => {
+    // const handleAddComment = (comment) => {
+    //     dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})
+    // }
+    // useEffect(() => {
 
-        if (newComment.hasOwnProperty("_id")) {
-            console.log(newComment)
-            setComments(comments => [...comments, newComment])
-        }
+    //     if (newComment.hasOwnProperty("_id")) {
+    //         console.log(newComment)
+    //         setComments(comments => [...comments, newComment])
+    //     }
 
-    }, [newComment])
+    // }, [newComment])
 
-    
-    useEffect(() => {
-
-        if (removeLastOne) {
-                
-                setLoading(true)
-
-                axios.patch(`${BASE_URL}/decisions/${decisionId}`, {comments: 'delete'})
-                .then((res) => {
-
-                    if (res.status === 200) {
-
-                        setComments(comments => comments.slice(0,comments.length-2))
-                        setNewComment({})  
-                        setLoading(false)
-                    }
+    const handleRemoveComment = async(comment) => {
+        //setLoading(true)
+        axios.patch(`${BASE_URL}/decisions/${id}`, {comments: 'delete'})
+            .then((res) => {
+                if (res.status === 200) {
+                    dispatch({type: "REMOVE_COMMENT", payload: comment})
+                    //setComments(comments => comments.slice(0,comments.length-2))
+                    //setLoading(false)
+                }
 
                 }).catch((e) => {
                     console.log(e.message)
                     setError(e.message)
-                    setLoading(false)
+                    //setLoading(false)
                 })
-        }
-    }, [removeLastOne])
+    }
 
-    console.log(newComment)
 
     return (
         <div className={classes.root}>
+            {loading?
+            'loading...'
+            :
+            <>
             <br/>
             <Typography variant="h4" className={classes.text}> What others think </Typography>
             <br />
+            {console.log('render comments')}
             {comments.length === 0?
             
                 <Typography variant="h6" className={classes.text}> No comments yet.. Be the first! </Typography>
@@ -109,8 +111,7 @@ export default function Comments({decision}) {
                                 <CommentItem 
                                     key={'comment'+Math.floor(Math.random() * 9999)} 
                                     comment={comment}
-                                    lastOne={newComment.hasOwnProperty("_id") && index === comments.length-1} 
-                                    setRemoveLastOne={setRemoveLastOne}
+                                    setRemoveLastOne={(newComment && index === comments.length-1)?()=>handleRemoveComment(comment):null}
                                 />        
                         )
                     })
@@ -125,8 +126,10 @@ export default function Comments({decision}) {
             <Typography style={{fontSize:'17PX',fontWeight:'700'}} className={classes.text}>
                 Add your Comment
             </Typography>
-            <AddComment decisionId={decision._id} setNewComment={setNewComment}/>
 
+            <AddComment decisionId={id}/>
+            </>
+            }
         </div>
 
     )

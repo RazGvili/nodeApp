@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios"
+import { useDispatch  } from '../../store'
 
 import Button from '@material-ui/core/Button'
 
@@ -37,15 +38,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function AddComment({decisionId, setNewComment}) {
-
+export default function AddComment({decisionId}) {
     const classes = useStyles()
-
-    const [title, setTitle] = useState("bla bla bla")
-
-    // ========================================
+    const dispatch = useDispatch();
 
     const [name, setName] = useState("")
+    const [text, setText] = useState("")
+    const [sending,setSending] = useState(false)
+    const [error,setError] = useState("")
+    const [success,setSuccess] = useState(false)
 
     const handleNameChange = (event) => {
         
@@ -54,10 +55,6 @@ export default function AddComment({decisionId, setNewComment}) {
         }
     }
 
-    // ========================================
-
-    const [text, setText] = useState("")
-
     const handleTextChange = (event) => {
         
         if (event.target.value.length < 100) {
@@ -65,80 +62,69 @@ export default function AddComment({decisionId, setNewComment}) {
         }
     }
 
-    // ========================================
-    // Server 
+    const handleAddComment = async () => {
+        setSending(true)
 
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
-
-    // ========================================
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        setLoading(true)
-        
         let newComment = {
-            title,
+            title:"titleeeee",
             name,
             text
         }
-
+        
         try {
             
             const res = await axios.patch(`${BASE_URL}/decisions/${decisionId}`, {comments: newComment})
             
             if (res.status === 200) {
-
-                setLoading(false)
-                setNewComment(res.data.comments.pop())
+                dispatch({type: "ADD_COMMENT", payload: res.data.comments.pop()})
+                setSending(false)
+                setSuccess(true)  
             }
             
         } catch (e) {
-    
+            setSending(false)
             console.log(e.message)
             setError(e.message)
-            setLoading(false)
-
+            //setLoading(false)
         }
     }
 
 
     return (
         <div className={classes.root}>
-            {loading?
-            <Typography>loading...</Typography>
+            {success?
+                 <Typography>Sent!</Typography>
+            :
+            sending?
+                <Typography>loading...</Typography>
             :
             error?
             <>
-            <h3 style={{color: 'red'}}>{error}</h3>
-            <Button style={{fontFamily:'Permanent Marker'}} onClick={() => {window.location.reload()}}> Try refreshing </Button>
+                <h3 style={{color: 'red'}}>{error}</h3>
+                <Button style={{fontFamily:'Permanent Marker'}} onClick={() => {window.location.reload()}}> Try refreshing </Button>
             </>
             :   
-            <>
-            <br />
-            <form noValidate autoComplete="off" onSubmit={handleSubmit}> 
+                <>
+                    <br />
+                    <TextField
+                                required
+                                id="comment-text-input"
+                                multiline
+                                placeholder="Your comment"
+                                rows={4}
+                                inputProps={{  style: {padding:'0px 10px'} }}
+                                InputProps={{style:{borderRadius:'30px 30px 0px 0px',padding:'15px 10px'}}}
+                                variant="filled"
+                                rowsMax="6"
+                                fullWidth
+                                value={text}
+                                onChange={handleTextChange}
+                    />
 
-                        <TextField
-                                    required
-                                    id="comment-text-input"
-                                    //label="write what you think"
-                                    multiline
-                                    placeholder="Your comment"
-                                    rows={4}
-                                    inputProps={{  style: {padding:'0px 10px'} }}
-                                    InputProps={{style:{borderRadius:'30px 30px 0px 0px',padding:'15px 10px'}}}
-                                    variant="filled"
-                                    rowsMax="6"
-                                    fullWidth
-                                    value={text}
-                                    onChange={handleTextChange}
-                        />
+                    {/* //todo:: handle empty name clicking add comment */}
 
-                        
-                        {/* //todo:: handle empty name clicking add comment */}
-
-                        <br/><br/>
-                        <div className={classes.nameSubmitContainer}>
+                    <br/><br/>
+                    <div className={classes.nameSubmitContainer}>
                         <TextField
                             required
                             size="small"
@@ -151,13 +137,14 @@ export default function AddComment({decisionId, setNewComment}) {
                             style={{width:'220px'}}
                             onChange={handleNameChange}
                         />
-                        <Button type="submit" className={classes.submitButton}> Add Comment</Button>
-                        </div>
-
-                    </form>
+                        {sending?
+                        <Button type="submit" className={classes.submitButton} >Sending...</Button>
+                        :
+                        <Button type="submit" className={classes.submitButton} onClick={handleAddComment}> Add Comment</Button>
+                        }
+                    </div>
                 </>
-            }
-
+        }
         </div>        
     )
 }

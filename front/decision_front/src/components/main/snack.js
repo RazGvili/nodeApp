@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useMemo} from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import { makeStyles } from '@material-ui/core/styles'
@@ -27,7 +27,7 @@ export default function Snack() {
     //const classes = useStyles()
     const dispatch = useDispatch();
     const state = useTrackedState();
-    console.log('snack render')
+    let {showSnack,snackType,snackText} = state
      // Store ----------------------------------------
     //const context = useContext(store)
     //const { dispatch } = context
@@ -38,15 +38,17 @@ export default function Snack() {
     const handleClose = () => {
         dispatch({type: "CLOSE_SNACK"})
     }
-
+    
+    return useMemo(() => {
     return (
                     <Snackbar 
-                        open={state.showSnack}
+                        open={showSnack}
                         autoHideDuration={6000}
                         onClose={handleClose}
                     >
+                        
                         <Alert 
-                            severity={state.snackType} 
+                            severity={snackType} 
                             action={
                                 <React.Fragment>
                                     <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
@@ -55,8 +57,9 @@ export default function Snack() {
                                 </React.Fragment>
                             }
                         >
-                            {state.snackText}
+                            {console.log('snack render')}
+                            {snackText}
                         </Alert>
                     </Snackbar>                    
-    )
+    )},[showSnack,snackType,snackText])
 }

@@ -1,8 +1,8 @@
-import React, {useState, useEffect,useContext} from 'react'
+import React, {useState, useEffect,useMemo} from 'react'
 import ProsConsTable from './prosConsTable'
 import axios from "axios"
 import Comments from './Comments/Comments'
-import { useTrackedState  } from '../store'
+import { useTracked  } from '../store'
 import { createMuiTheme, ThemeProvider,responsiveFontSizes  } from '@material-ui/core/styles';
 
 import {BASE_URL} from './GlobalVars'
@@ -37,13 +37,12 @@ const theme = (darkMode) => responsiveFontSizes(createMuiTheme({
     }))
 
 export default function Home(props) {
-    const state = useTrackedState();
-    const darkMode = state.isDark
-
+    const [state,dispatch] = useTracked();
+    const {isDark} = state
     const decisionFromState = props.location.state && props.location.state.decision
-    const [decision, setDecision] = useState(decisionFromState?decisionFromState:null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState("")
+    //const [decision, setDecision] = useState(decisionFromState?decisionFromState:null)
+    //const [loading, setLoading] = useState(true)
+    //const [error, setError] = useState("")
 
 
     let { id } = useParams()
@@ -58,16 +57,12 @@ export default function Home(props) {
             if (res.status === 200) {
 
                 console.log(decisionFromServer)
-                setDecision(decisionFromServer)
-                setLoading(false)
-
+                dispatch({type: "SET_DECISION", payload: decisionFromServer})
             }
             
         } catch (e) {
-
-            console.log(e.message)
-            setError(e.message)
-            setLoading(false)
+          console.log(e.message)
+          dispatch({type: "SET_ERROR", payload: {error:e.message}})
 
         }
     
@@ -79,24 +74,24 @@ export default function Home(props) {
             if (decisionId.length > 23)
                 getDecision(decisionId)
             else
-                setLoading(false)
+              dispatch({type: "INIT_DECISION", payload: decisionFromState})
         }
         else
-            setLoading(false)
+          dispatch({type: "SET_DECISION", payload: decisionFromState})
+    
     }, [])
-    console.log('render home')
-    return (
-        <ThemeProvider theme={theme(darkMode)}>
-            <div style={{background:darkMode?'#35314f':'#dce8f3'}}>
 
-            <ProsConsTable loading={loading} decisionFromUrl={decision} errorAbove={error} />
-            
-            { decision && !loading &&
-                <Comments decision={decision}/>
-            }
+    return useMemo(() => {
+    return (
+        <ThemeProvider theme={theme(isDark)}>
+            <div style={{background:isDark?'#35314f':'#dce8f3'}}>
+            {console.log('render home')}
+            <ProsConsTable />
+            <Comments />
+
             </div>
         </ThemeProvider>
 
-    )
+    )},[isDark])
 
 }

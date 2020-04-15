@@ -1,15 +1,15 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
+//import ListItem from '@material-ui/core/ListItem'
+//import ListItemText from '@material-ui/core/ListItemText'
 
-import FaceIcon from '@material-ui/icons/Face'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+//import FaceIcon from '@material-ui/icons/Face'
+//import ListItemIcon from '@material-ui/core/ListItemIcon'
+//import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import IconButton from '@material-ui/core/IconButton'
 
-import Typography from '@material-ui/core/Typography'
+//import Typography from '@material-ui/core/Typography'
 
 
 
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Comments({comment, lastOne, setRemoveLastOne}) {
+export default function Comments({comment, setRemoveLastOne}) {
     const classes = useStyles()
 
     let commentData = comment
@@ -58,9 +58,9 @@ export default function Comments({comment, lastOne, setRemoveLastOne}) {
                     </span>
                 </Grid>                
             </Grid>
-            { lastOne && 
+            { setRemoveLastOne && 
                     
-                    <IconButton  onClick={()=>{setRemoveLastOne(true)}}>
+                    <IconButton  onClick={()=>{setRemoveLastOne()}}>
                         <Icon   
                             path={ICONS['Remove']}
                             title="Save"
