@@ -34,7 +34,6 @@ const reducer = (state, action) => {
                 isDark: !state.isDark
             }
 
-
         case "OPEN_SNACK":
 
             return {
@@ -56,6 +55,26 @@ const reducer = (state, action) => {
                 ...state,
                 title: action.payload.text
             }
+        
+        case "PRO_CON_ADD":
+            
+            if (action.payload.arg.type === 'pro') {
+                let newArr = [...state.pros, action.payload.arg]
+                    
+                return {
+                    ...state,
+                    pros: newArr
+                }
+
+            } else {
+                let newArr = [...state.cons, action.payload.arg]
+                    
+                return {
+                    ...state,
+                    cons: newArr
+                }
+            }
+        
         
         default:
             return state

@@ -31,7 +31,6 @@ export default function Title(props) {
     // Store ----------------------------------------
     const context = useContext(store)
     const { state } = context
-    console.log(state.title)
     // ----------------------------------------------
 
     return (
@@ -42,7 +41,8 @@ export default function Title(props) {
                         placeholder="Your decision"
                         autoComplete="off" 
                         classes={{root:classes.inputRoot}}
-                        value={state.title}
+                        //value={state.title}
+                        value={props.title}
                         inputProps={{ 'aria-label': 'name of Decision', style: {textAlign: 'center'}}}
                         onChange={props.handleTitleChange}
                     />

@@ -181,9 +181,8 @@ export default function ProsConsTable(props) {
     }
 
     const handleTitleChange = (event) => {
-        //setTitle(event.target.value)
-        dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})
-
+        setTitle(event.target.value)
+        //dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})
     }
 
     const addProCon = (argumentObj) => {
@@ -198,6 +197,8 @@ export default function ProsConsTable(props) {
         setDecision(decisionObj)
         setShowDialog(false)
         setText('')
+
+        dispatch({type: "PRO_CON_ADD", payload: { arg: argumentObj}})
     }
 
     const editProCon = (argumentObj) => {

@@ -11,22 +11,21 @@ import Snack from './components/main/snack'
 
 
 function App() {
-  
 
   return (
 
       <StateProvider>
         <BrowserRouter>   
-        <Switch>
-            <Route path="/" component={Home} exact={true}/>
-            <Route path="/d/:id" component={Home} /> 
-            <Route path="/About" component={About}/>
-            <Route component={NotFound}/>
-        </Switch>
-        <Footer />
-      </BrowserRouter>
+            <Switch>
+                <Route path="/" component={Home} exact={true}/>
+                <Route path="/d/:id" component={Home} /> 
+                <Route path="/About" component={About}/>
+                <Route component={NotFound}/>
+            </Switch>
+          <Footer />
+        </BrowserRouter>
       
-      <Snack/>
+        <Snack/>
       </StateProvider>
       
   )
