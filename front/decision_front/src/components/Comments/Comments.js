@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import { makeStyles,useTheme } from '@material-ui/core/styles'
+import React, {useState, useMemo} from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 
 import List from '@material-ui/core/List'
 import CommentItem from './CommentsItem'
@@ -9,6 +9,7 @@ import { useTracked  } from '../../store'
 import axios from "axios"
 import {BASE_URL} from '../GlobalVars'
 import { Typography } from '@material-ui/core'
+import useLocalStorage from '../custom/UseLocalStorage'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,47 +30,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Comments() {
     const classes = useStyles()
-
     const [state,dispatch] = useTracked();
-    const {comments,id,newComment,loading} = state
-    //let commentsProps = decision.comments
-    //sconsole.log(commentsProps)
-    //let decisionId = decision._id
+    const [newCommentID] = useLocalStorage('newCommentID', '');
 
-    //const [newComment, setNewComment] = useState({})
-    //const [comments, setComments] = useState(commentsProps)
-
-    //const [removeLastOne, setRemoveLastOne] = useState(false)
-
+    const {comments,id,loading} = state
     const [error, setError] = useState("")
-    //const [loading, setLoading] = useState(false)
 
-    // const handleCommentAdd = (newComment) => {
-    //     if (newComment.hasOwnProperty("_id")) {
-    //         console.log(newComment)
-    //         setComments(comments => [...comments, newComment])
-    //     }
-    // }
-
-    // const handleAddComment = (comment) => {
-    //     dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})
-    // }
-    // useEffect(() => {
-
-    //     if (newComment.hasOwnProperty("_id")) {
-    //         console.log(newComment)
-    //         setComments(comments => [...comments, newComment])
-    //     }
-
-    // }, [newComment])
-
+    //todo:: make sure removing comment is only possible to the last one and maximum after 1 hour? (so people wont delete all)
     const handleRemoveComment = async(comment) => {
-        //setLoading(true)
         axios.patch(`${BASE_URL}/decisions/${id}`, {comments: 'delete'})
             .then((res) => {
                 if (res.status === 200) {
                     dispatch({type: "REMOVE_COMMENT", payload: comment})
-                    //setComments(comments => comments.slice(0,comments.length-2))
                     //setLoading(false)
                 }
 
@@ -80,7 +52,7 @@ export default function Comments() {
                 })
     }
 
-
+    return useMemo(() => {
     return (
         <div className={classes.root}>
             {loading?
@@ -90,31 +62,20 @@ export default function Comments() {
             <br/>
             <Typography variant="h4" className={classes.text}> What others think </Typography>
             <br />
-            {console.log('render comments')}
+            {console.log('<--render comments-->')}
             {comments.length === 0?
             
                 <Typography variant="h6" className={classes.text}> No comments yet.. Be the first! </Typography>
             
             :
             <List>
-                    {comments.map((comment, index) => {
-
-                        // console.log("=====")
-                        // console.log(comment)
-                        // console.log(index === comments.length-1)
-                        // console.log(newComment.hasOwnProperty("_id"))
-                        // console.log(newComment.hasOwnProperty("_id") && index === comments.length-1)
-                        // console.log("=====")
-
-                        return (
-                        
+                    {comments.map((comment, index) => 
                                 <CommentItem 
-                                    key={'comment'+Math.floor(Math.random() * 9999)} 
+                                    key={'comment'+index+Math.floor(Math.random() * 9999)} 
                                     comment={comment}
-                                    setRemoveLastOne={(newComment && index === comments.length-1)?()=>handleRemoveComment(comment):null}
+                                    setRemoveLastOne={(newCommentID === comment._id)?()=>handleRemoveComment(comment):null}
                                 />        
-                        )
-                    })
+                    )
                 }
             </List> 
             }
@@ -132,5 +93,5 @@ export default function Comments() {
             }
         </div>
 
-    )
+    )},[comments,id,loading,classes,newCommentID])
 }

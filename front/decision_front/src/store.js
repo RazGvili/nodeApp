@@ -78,13 +78,12 @@ const reducer = (state, action) => {
                 }
             }
         
-        case "PRO_CON_EDIT":
+        case "PRO_CON_REMOVE":
 
-            let argToEdit = action.payload.arg
-        
-            if (argToEdit.type === 'pro') {
-                let newArr = [...state.pros]
-                newArr.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
+            let argToDelete = action.payload.arg
+            if (argToDelete.type === 'pro') {
+                let newArr = state.pros.filter(argIter => argIter._id !== argToDelete._id)
+                
                     
                 return {
                     ...state,
@@ -92,8 +91,27 @@ const reducer = (state, action) => {
                 }
 
             } else {
-                let newArr = [...state.cons]
-                newArr.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
+                let newArr = state.cons.filter(argIter => argIter._id !== argToDelete._id)
+                return {
+                    ...state,
+                    cons: newArr
+                }
+            }
+
+        case "PRO_CON_EDIT":
+
+            let argToEdit = action.payload.arg
+            if (argToEdit.type === 'pro') {
+                let newArr = state.pros.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
+                
+                    
+                return {
+                    ...state,
+                    pros: newArr
+                }
+
+            } else {
+                let newArr = state.cons.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
                 return {
                     ...state,
                     cons: newArr
@@ -186,12 +204,13 @@ const reducer = (state, action) => {
 
             return {
                 ...state,
-                comments: [state.comments, commentToAdd]
+                comments: [...state.comments, commentToAdd]
             }
         
         // ------------------------------------------------------------------------------------------------
 
         default:
+            console.log('bad dispatch:'+action.type)
             return state
     }
 }

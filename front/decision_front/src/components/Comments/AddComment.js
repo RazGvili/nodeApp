@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios"
 import { useDispatch  } from '../../store'
 
 import Button from '@material-ui/core/Button'
+import useLocalStorage from '../custom/UseLocalStorage'
 
 import {BASE_URL} from '../GlobalVars'
 import { Typography } from '@material-ui/core';
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddComment({decisionId}) {
     const classes = useStyles()
     const dispatch = useDispatch();
-
+    const [newCommentID, setNewComment] = useLocalStorage('newCommentID', '');
     const [name, setName] = useState("")
     const [text, setText] = useState("")
     const [sending,setSending] = useState(false)
@@ -76,7 +77,9 @@ export default function AddComment({decisionId}) {
             const res = await axios.patch(`${BASE_URL}/decisions/${decisionId}`, {comments: newComment})
             
             if (res.status === 200) {
-                dispatch({type: "ADD_COMMENT", payload: res.data.comments.pop()})
+                let comment = res.data.comments.pop()
+                setNewComment(comment._id)
+                dispatch({type: "ADD_COMMENT", payload: {comment}})
                 setSending(false)
                 setSuccess(true)  
             }

@@ -1,4 +1,4 @@
-import React, {useState, useEffect,useMemo} from 'react'
+import React, {useEffect,useMemo} from 'react'
 import ProsConsTable from './prosConsTable'
 import axios from "axios"
 import Comments from './Comments/Comments'
@@ -77,10 +77,10 @@ export default function Home(props) {
             else
               dispatch({type: "INIT_DECISION"})
         }
-        else
+        else{
           console.log("decisionFromState")
           dispatch({type: "SET_DECISION", payload: {decision: decisionFromState}})
-    
+        }
     }, [])
 
     return useMemo(() => {

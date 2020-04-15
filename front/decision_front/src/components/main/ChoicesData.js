@@ -27,9 +27,9 @@ const BorderLinearProgress = withStyles({
   }));
 
   
-export default function ChoicesData({data,loading}) {
+export default function ChoicesData({cons,pros,loading}) {
     const classes = useStyles();
-    const prosConsRatio = data.cons.length+data.pros.length>0? (data.pros.length/(data.cons.length+data.pros.length))*100 : 50
+    const prosConsRatio = cons.length+pros.length>0? (pros.length/(cons.length+pros.length))*100 : 50
     return (
         <div className={classes.root}>
             <BorderLinearProgress

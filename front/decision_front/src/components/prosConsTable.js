@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect } from "react"
-import axios from "axios"
+import React, { useState, useMemo } from "react"
+//import axios from "axios"
 import {makeStyles,useTheme} from "@material-ui/core/styles"
 import { Redirect } from 'react-router-dom'
 import { Skeleton } from "@material-ui/lab"
@@ -13,7 +13,7 @@ import Header from "./Header"
 import ChoicesData from "./main/ChoicesData"
 import Argument from "./main/Argument"
 import {BASE_URL} from './GlobalVars'
-import { useDispatch,useTracked } from '../store'
+import { useTracked } from '../store'
 
 //slide animation
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -89,133 +89,40 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function ProsConsTable(props) {
-    const theme = useTheme();
-    const DARK_MODE = theme.palette.type==='dark';
+export default function ProsConsTable() {
+    //const theme = useTheme();
+    const [state,dispatch] = useTracked();
+    const {isDark,cons,pros,loading} = state
     //let styleProps = {DARK_MODE:DARK_MODE}
     const classes = useStyles()
-    //console.log(DARK_MODE)
     const smallScreen = useMediaQuery('(max-width:600px)')
-    const dispatch = useDispatch();
-
-    // Store ----------------------------------------
-    // const context = useContext(store)
-    // const { dispatch } = context
-    // ----------------------------------------------
-
-    const {loading,decisionFromUrl,errorAbove} = props
 
     const [argumentEdit, setArgumentEdit] = useState(null)
-    const [decision, setDecision] = useState(
-        decisionFromUrl ? decisionFromUrl : {
-            desc: "",
-            pros: [], 
-            cons: [],
-        })
 
-    const [title, setTitle] = useState(decisionFromUrl ? decisionFromUrl.desc : "")
     const [showDialog, setShowDialog] = useState(false)
     const [type, setType] = useState("")
     const [text, setText] = useState("")
-    const [saveSuccess, setSaveSuccess] = useState(false)
-    const [error, setError] = useState("")
-    const [isNew, setIsNew] = useState(false)
-
-
-    // Lock ----------------------------------------
-    const [showLock, setShowLock] = useState(true)
-    const [isReadOnly, setIsReadOnly] = useState(false)
-    // ---------------------------------------------
-    
-    useEffect(() => {
-        if (props.decisionFromUrl) {
-            setDecision({...props.decisionFromUrl})
-            setTitle(props.decisionFromUrl.desc)
-        } 
-    }, [props.decisionFromUrl])
+    //const [error, setError] = useState("")
 
     function handleArgumentRemove(arg) {
-        let temp = arg.type === 'pro' ? [...decision.pros] : [...decision.cons]
-        temp = temp.filter(argu => argu.id !== arg.id)
+            dispatch({type: "PRO_CON_REMOVE", payload: {arg}})
 
-        let decisionObj = {
-            ...decision,
-            desc: title,
-            pros: arg.type === 'pro' ? temp : decision.pros,
-            cons: arg.type === 'con' ? temp : decision.cons
-        }
-        setDecision(decisionObj)
-    }
-    
-
-    const handleSubmit = async () => {
-        console.log("handleSubmit")
-        console.log(decision)
-
-        try {
-
-            let res = null
-
-            let changedObj = {
-                desc: title,
-                pros: decision.pros,
-                cons: decision.cons,
-            }
-
-            if (decision.hasOwnProperty("_id")) {
-                res = await axios.patch(`${BASE_URL}/decisions/${decision._id}`, changedObj)
-
-            } else {
-                changedObj.isReadOnly = isReadOnly
-                res = await axios.post(`${BASE_URL}/decisions`, changedObj)
-                setDecision(res.data)
-            }
-            setSaveSuccess(true)
-
-            dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
-
-        } catch (e) {
-            console.error(e)
-            setError(e.massage)
-
-            dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong. [${e}]`}})
-        }
     }
 
-    const handleTitleChange = (event) => {
-        setTitle(event.target.value)
-        //dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})
-    }
-
-    const addProCon = (argumentObj) => {
+    const addProCon = (arg) => {
+        arg.id = arg.id + 1
+        dispatch({type: "PRO_CON_ADD", payload: {arg}})
         setArgumentEdit(null)
-        argumentObj.id = argumentObj.id + 1
-        let decisionObj = {
-            ...decision,
-            desc: title,
-            pros: argumentObj.type === 'pro' ? [...decision.pros, argumentObj] : decision.pros,
-            cons: argumentObj.type === 'con' ? [...decision.cons, argumentObj] : decision.cons
-        }
-        setDecision(decisionObj)
         setShowDialog(false)
         setText('')
-
-        dispatch({type: "PRO_CON_ADD", payload: { arg: argumentObj}})
     }
 
-    const editProCon = (argumentObj) => {
+    
+
+    const editProCon = (arg) => {
         setArgumentEdit(null)
-        let decisionObj = {
-            ...decision,
-            desc: title,
-            pros: argumentObj.type === 'pro' ?
-                decision.pros.map(obj => argumentObj.id===obj.id? argumentObj : obj)
-                : decision.pros,
-            cons: argumentObj.type === 'con' ? 
-                decision.cons.map(obj => argumentObj.id===obj.id? argumentObj : obj)
-                : decision.cons
-        }
-        setDecision(decisionObj)
+        dispatch({type: "PRO_CON_EDIT", payload: {arg}})
+
         setShowDialog(false)
         setText('')
     }
@@ -235,28 +142,15 @@ export default function ProsConsTable(props) {
         setShowDialog(false)
     }
 
-    // Needed to cover the case of decision from redirect & decision from url
-    useEffect(() => {
-        if (decision.hasOwnProperty("_id")) {
-            setShowLock(false)
-        }
-    }, [decision])
-
-    // ===================================================================================================
-    console.log('table render')
+    return useMemo(() => {
     return (
 
         <div className={classes.root}>
-
-            { saveSuccess && 
-                <Redirect to={{
-                    pathname:`/d/${decision._id}`,
-                    state:{decision:decision }}} /> 
-            }
-
-            <Header showLock={showLock} isReadOnly={isReadOnly} setIsReadOnly={setIsReadOnly} handleSubmit={handleSubmit} loading={loading}/>
-
+            {console.log('<--table render-->')}
             
+
+            <Header />
+
             <div className={classes.titleContainer}>
             {loading?
             <Skeleton animation="wave" width='50%' height={50} style={{margin:'auto'}}/>
@@ -265,13 +159,13 @@ export default function ProsConsTable(props) {
             }
             </div>
 
-            <ChoicesData data={decision} loading={loading} />
+            <ChoicesData  loading={loading} cons={cons} pros={pros}/>
 
             <div className={classes.boardContainer}>
             <div className={classes.blackBoard}>
             {!smallScreen && <>
-                <img className={classes.blackBoardHorizontalLine} alt="chalk line" src={`/images/chalk_sides${DARK_MODE?'':'_black'}.png`} />
-                <img className={classes.blackBoardVerticalLine} alt="chalk line" src={`/images/chalk_updown${DARK_MODE?'':'_black'}.png`} />
+                <img className={classes.blackBoardHorizontalLine} alt="chalk line" src={`/images/chalk_sides${isDark?'':'_black'}.png`} />
+                <img className={classes.blackBoardVerticalLine} alt="chalk line" src={`/images/chalk_updown${isDark?'':'_black'}.png`} />
                 </>
             }
                 <Grid container >
@@ -296,7 +190,7 @@ export default function ProsConsTable(props) {
                         <>
                             <AddButton type='pro' AddAction={HandleOpenArgumentDialog} />
                                 {
-                                    decision.pros.map((arg, index) => {
+                                    pros.map((arg, index) => {
                                         return (
                                             <Argument   arg={arg}
                                             key={index}
@@ -326,9 +220,9 @@ export default function ProsConsTable(props) {
                             </>
                             :
                             <>
-                                <AddButton type='con' AddAction={HandleOpenArgumentDialog}/>
+                                <AddButton type='con' AddAction={HandleOpenArgumentDialog} setArgument/>
                                 
-                                {decision.cons.map((arg, index) => {
+                                {cons.map((arg, index) => {
                                     return (
                                         <Argument   arg={arg}
                                                     key={index}
@@ -360,6 +254,5 @@ export default function ProsConsTable(props) {
                 </Dialog>
         </div>
 
-
-    )
+    )},[isDark,cons,pros,loading,classes,smallScreen,showDialog,type,text])
 }

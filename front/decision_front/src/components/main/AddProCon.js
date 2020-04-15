@@ -166,7 +166,7 @@ export default function AddProCon(props) {
     let styleProps = {DARK_MODE:DARK_MODE}
     const classes = useStyles(styleProps)
     //const [type, setType] = useState(props.type)
-    const {type,edit } = props
+    const {type,edit, } = props
     const [text, setText] = useState(edit?edit.proCon:props.text)
     
     // Sliders ---------------------------------------

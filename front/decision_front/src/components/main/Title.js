@@ -1,5 +1,5 @@
 
-import React from "react"
+import React,{useMemo} from "react"
 
 import {makeStyles,useTheme} from "@material-ui/core/styles"
 import { InputBase} from '@material-ui/core'
@@ -20,20 +20,16 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const Title = React.memo(() => {
-    //const theme = useTheme();
+
+export default function Title(){
     const [state, dispatch] = useTracked();
-    //const DARK_MODE = theme.palette.type==='dark';
-    //let styleProps = {DARK_MODE:DARK_MODE}
+    const {title} = state
     const classes = useStyles()
 
-    // Store ----------------------------------------
-    //const context = useContext(store)
-    //const { state } = context
-    console.log(state.title)
-    // ----------------------------------------------
-
+    return useMemo(() => {
     return (
+        <>
+        {console.log(`<--render title: ${title} -->`)}
                     <InputBase
                         required
                         id="title"
@@ -41,14 +37,11 @@ const Title = React.memo(() => {
                         placeholder="Your decision"
                         autoComplete="off" 
                         classes={{root:classes.inputRoot}}
-                        //value={state.title}
-                        value={state.title}
+                        value={title}
                         inputProps={{ 'aria-label': 'name of Decision', style: {textAlign: 'center'}}}
                         onChange={(event)=> dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})}
                     />
+        </>
+    )},[title,classes])
+}
 
-    )
-})
-
-
-export default React.memo(Title);

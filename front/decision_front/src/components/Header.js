@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react'
+import React, {useState, useMemo} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button'
 import Timer from './timer'
 import Skeleton from '@material-ui/lab/Skeleton';
 
-import { Link  } from 'react-router-dom'
+import { Link, Redirect  } from 'react-router-dom'
 
 import {ICONS} from './custom/IconsData'
 import Icon from '@mdi/react'
@@ -43,52 +43,64 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Header({loading,showLock, isReadOnly, setIsReadOnly}) {
+export default function Header() {
   const classes = useStyles()
   const [state,dispatch] = useTracked()
+  const {title,pros,cons,id,loading,isReadOnly} = state
+  const [redirect,setRedirect] = useState(false)
+  //todo:: put in global state, lets talk
+  const Lockable = true
+  //let desc = state.title
+  //let pros = [...state.pros]
+  //let cons = [...state.cons]
 
-  let desc = state.title
-  let pros = [...state.pros]
-  let cons = [...state.cons]
+  
 
-  let decisionToSave = {
-    desc,
-    pros,
-    cons
+  const handleLockClick = () => {
+    dispatch({type: "TOGGLE_READ_ONLY"})
   }
 
   const handleDarkModeClick = () => {
     dispatch({type: "TOGGLE_DARK_MODE"})
   }
 
-    // todo --> isReadOnly should be a hook here
-    useEffect(() => {
+  //todo:: this should be initiated during dispatch 'lock'\'unlock' directly
+  // useEffect(() => {
 
-    if (isReadOnly) {
+  //   if (isReadOnly) {
 
-        console.log("isReadOnly: " + isReadOnly) 
-        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: `[${isReadOnly ? "LOCKED" : "UNLOCKED"}] If locked, the board will be read-only after save & share`}})
-    }
-  }, [isReadOnly])
+  //       console.log("isReadOnly: " + isReadOnly) 
+  //       dispatch({type: "OPEN_SNACK", payload: {type: "info", text: `[${isReadOnly ? "LOCKED" : "UNLOCKED"}] If locked, the board will be read-only after save & share`}})
+  //   }
+  // }, [isReadOnly])
 
 
   async function handleSubmit() {
     console.log("handleSubmit")
-
+    let decisionToSave = {
+      desc:title,
+      pros,
+      cons
+    }
     try {
 
         let res = null
 
         // existing decision
-        if (state.id.length > 20) {
-            res = await axios.patch(`${BASE_URL}/decisions/${state.id}`, decisionToSave)
+        if (id.length > 20) {
+            res = await axios.patch(`${BASE_URL}/decisions/${id}`, decisionToSave)
+            //todo:: why put the same object that was just saved? its already in the state
             dispatch({type: "SAVE_DECISION_EDIT", payload: {decision: res.data}})
-
+            setRedirect(true)
         // new decision
         } else {
+
+            // todo --> isReadOnly should be a hook here
             decisionToSave.isReadOnly = false
             res = await axios.post(`${BASE_URL}/decisions`, decisionToSave)
+            //todo:: why put the same object that was just saved? its already in the state
             dispatch({type: "SAVE_DECISION_NEW", payload: {decision: res.data}})
+            setRedirect(true)
         }
 
         dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
@@ -106,10 +118,16 @@ export default function Header({loading,showLock, isReadOnly, setIsReadOnly}) {
     // console.log("===")
 }
 
-
+return useMemo(() => {
   return (
     <div className={classes.root}>
-      {console.log("<--render: header-->")}
+      {redirect &&
+                <Redirect to={{
+                    pathname:`/d/${id}`,
+                    //state:{decision:decision }
+                }} />
+      }
+      {console.log("<--render header-->")}
       <AppBar className={classes.appbar} position="static">
         <Toolbar className={classes.toolbar} style={{}}>
 
@@ -129,10 +147,10 @@ export default function Header({loading,showLock, isReadOnly, setIsReadOnly}) {
           :
           <>
               
-              { showLock &&
-              <IconButton onClick={() => setIsReadOnly(!isReadOnly)} className={classes.roundButton}>
+              { Lockable &&
+              <IconButton onClick={handleLockClick} className={classes.roundButton}>
                 <Icon
-                    path={ICONS[!isReadOnly ? 'OpenedLock' : 'ClosedLock']}
+                    path={ICONS[isReadOnly ? 'ClosedLock':'OpenedLock' ]}
                     title="Save"
                     size={1.5}
                     color='#9A9A9A'
@@ -175,6 +193,6 @@ export default function Header({loading,showLock, isReadOnly, setIsReadOnly}) {
 
       
     </div>
-  )
+  )},[title,pros,cons,id,loading,isReadOnly,classes,redirect])
 }
 
