@@ -46,10 +46,6 @@ const decisionSchema = new mongoose.Schema({
             }
         ]
     },
-    completed: {
-        type: Boolean,
-        default: false
-    },
     isReadOnly: {
         type: Boolean,
         required: true

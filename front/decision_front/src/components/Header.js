@@ -13,7 +13,9 @@ import { Link  } from 'react-router-dom'
 import {ICONS} from './custom/IconsData'
 import Icon from '@mdi/react'
 
-import { useDispatch } from '../store'
+import axios from "axios"
+import {BASE_URL} from './GlobalVars'
+import { useTracked  } from '../store'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,15 +43,19 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Header({handleSubmit,loading,showLock, isReadOnly, setIsReadOnly}) {
+export default function Header({loading,showLock, isReadOnly, setIsReadOnly}) {
   const classes = useStyles()
-  const dispatch = useDispatch();
-  console.log('header render')
-  // Store ----------------------------------------
-  // const context = useContext(store)
-  // const { dispatch } = context
-  // ----------------------------------------------
+  const [state,dispatch] = useTracked()
 
+  let desc = state.title
+  let pros = [...state.pros]
+  let cons = [...state.cons]
+
+  let decisionToSave = {
+    desc,
+    pros,
+    cons
+  }
 
   const handleDarkModeClick = () => {
     dispatch({type: "TOGGLE_DARK_MODE"})
@@ -64,8 +70,47 @@ export default function Header({handleSubmit,loading,showLock, isReadOnly, setIs
     }
   }, [isReadOnly])
 
+
+  async function handleSubmit() {
+    console.log("handleSubmit")
+
+    try {
+
+        let res = null
+
+        // existing decision
+        if (state.id.length > 20) {
+            res = await axios.patch(`${BASE_URL}/decisions/${state.id}`, decisionToSave)
+            dispatch({type: "SAVE_DECISION_EDIT", payload: {decision: res.data}})
+
+        // new decision
+        } else {
+
+            // todo --> isReadOnly should be a hook here
+            decisionToSave.isReadOnly = false
+            res = await axios.post(`${BASE_URL}/decisions`, decisionToSave)
+            dispatch({type: "SAVE_DECISION_NEW", payload: {decision: res.data}})
+        }
+
+        dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
+
+    } catch (e) {
+        console.error(e)
+
+        dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong. [${e}]`}})
+        dispatch({type: "SET_ERROR", payload: {error:e.message}})
+
+    }
+    
+    // console.log("===")
+    // console.log(state)
+    // console.log("===")
+}
+
+
   return (
     <div className={classes.root}>
+      {console.log("<--render: header-->")}
       <AppBar className={classes.appbar} position="static">
         <Toolbar className={classes.toolbar} style={{}}>
 

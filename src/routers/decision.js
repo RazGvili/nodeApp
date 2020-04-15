@@ -135,10 +135,9 @@ router.patch('/decisions/:id', (req, res) => {
     console.log("================ \n")
 
     if (!isValid) {
-        return res.status(400).send({
-            "err": "Invalid update",
-            "invalidFields": invalidFields
-        })
+        console.log("invalidFields")
+        console.log(invalidFields)
+        return res.status(400).send()
     }
 
     const _id = req.params.id

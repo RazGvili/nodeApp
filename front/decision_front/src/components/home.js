@@ -37,7 +37,7 @@ const theme = (darkMode) => responsiveFontSizes(createMuiTheme({
     }))
 
 export default function Home(props) {
-    const [state,dispatch] = useTracked();
+    const [state,dispatch] = useTracked()
     const {isDark} = state
     const decisionFromState = props.location.state && props.location.state.decision
     //const [decision, setDecision] = useState(decisionFromState?decisionFromState:null)
@@ -56,8 +56,9 @@ export default function Home(props) {
             
             if (res.status === 200) {
 
+                console.log("decisionFromServer")
                 console.log(decisionFromServer)
-                dispatch({type: "SET_DECISION", payload: decisionFromServer})
+                dispatch({type: "SET_DECISION", payload: {decision: decisionFromServer}})
             }
             
         } catch (e) {
@@ -74,10 +75,11 @@ export default function Home(props) {
             if (decisionId.length > 23)
                 getDecision(decisionId)
             else
-              dispatch({type: "INIT_DECISION", payload: decisionFromState})
+              dispatch({type: "INIT_DECISION"})
         }
         else
-          dispatch({type: "SET_DECISION", payload: decisionFromState})
+          console.log("decisionFromState")
+          dispatch({type: "SET_DECISION", payload: {decision: decisionFromState}})
     
     }, [])
 
@@ -85,7 +87,7 @@ export default function Home(props) {
     return (
         <ThemeProvider theme={theme(isDark)}>
             <div style={{background:isDark?'#35314f':'#dce8f3'}}>
-            {console.log('render home')}
+            {console.log('<--render: home-->')}
             <ProsConsTable />
             <Comments />
 
