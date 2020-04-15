@@ -13,7 +13,7 @@ import { Link  } from 'react-router-dom'
 import {ICONS} from './custom/IconsData'
 import Icon from '@mdi/react'
 
-import { store } from '../store'
+import { useDispatch } from '../store'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,10 +43,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header({handleSubmit,loading,showLock, isReadOnly, setIsReadOnly}) {
   const classes = useStyles()
-
+  const dispatch = useDispatch();
+  console.log('header render')
   // Store ----------------------------------------
-  const context = useContext(store)
-  const { dispatch } = context
+  // const context = useContext(store)
+  // const { dispatch } = context
   // ----------------------------------------------
 
 
@@ -132,3 +133,4 @@ export default function Header({handleSubmit,loading,showLock, isReadOnly, setIs
     </div>
   )
 }
+

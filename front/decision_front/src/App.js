@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { StateProvider } from './store.js'
+import { Provider } from './store.js'
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 
 import Home from './components/home'
@@ -15,7 +15,7 @@ function App() {
 
   return (
 
-      <StateProvider>
+      <Provider>
         <BrowserRouter>   
         <Switch>
             <Route path="/" component={Home} exact={true}/>
@@ -27,7 +27,7 @@ function App() {
       </BrowserRouter>
       
       <Snack/>
-      </StateProvider>
+      </Provider>
       
   )
 }
