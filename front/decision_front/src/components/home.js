@@ -84,7 +84,7 @@ export default function Home(props) {
         else
             setLoading(false)
     }, [])
-
+    console.log('render home')
     return (
         <ThemeProvider theme={theme(darkMode)}>
             <div style={{background:darkMode?'#35314f':'#dce8f3'}}>

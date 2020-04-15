@@ -8,8 +8,7 @@ import NotFound from './components/main/404'
 import Footer from './components/Footer.js'
 import Snack from './components/main/snack'
 
-
-function App() {
+const App = () => {
 
   return (
 

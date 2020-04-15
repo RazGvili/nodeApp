@@ -44,7 +44,6 @@ const reducer = (state, action) => {
                 snackText: action.payload.text
             }
 
-
         case "CLOSE_SNACK":
             return {
                 ...state,

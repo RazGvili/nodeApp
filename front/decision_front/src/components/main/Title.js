@@ -42,7 +42,7 @@ const Title = React.memo(() => {
                         autoComplete="off" 
                         classes={{root:classes.inputRoot}}
                         //value={state.title}
-                        value={props.title}
+                        value={state.title}
                         inputProps={{ 'aria-label': 'name of Decision', style: {textAlign: 'center'}}}
                         onChange={(event)=> dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})}
                     />

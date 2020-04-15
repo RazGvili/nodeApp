@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useMemo} from 'react';
 import { Container,makeStyles} from '@material-ui/core';
 
 import { Link } from 'react-router-dom';
@@ -20,31 +20,23 @@ const useStyles = makeStyles(theme => ({
   }
   }));
 
-const Footer = () => {
+  export default function Footer(){
   //const context = useContext(store)
   //const { state } = context
-  const {isDark} = useTrackedState();
-  console.log('footer render')
-  const classes = useStyles({darkMode:isDark})
+  const state = useTrackedState();
+  let darkMode = state.isDark
+  //console.log('footer render')
+  const classes = useStyles({darkMode:darkMode})
 
-  return (
-      <footer className={classes.footer}>
+  return useMemo(() => {
+      return <footer className={classes.footer}>
+        {console.log('render footer')}
         <Container maxWidth="md" style={{textAlign:'center',padding: '0px'}}>
         <span style={{verticalAlign:'middle',paddingRight:'15px'}}><span style={{fontFamily:'Arial'}}>©</span> decisions 2020</span>
         <Link to="/about" className={classes.button}>
           About us
         </Link>
-        
         </Container>
       </footer>
-  );
+  },[darkMode]);
 }
-function areEqual(prevProps, nextProps) {
-  return true
-  /*
-  return true if passing nextProps to render would return
-  the same result as passing prevProps to render,
-  otherwise return false
-  */
-}
-export default React.memo(Footer,areEqual);
