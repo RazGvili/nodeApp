@@ -92,9 +92,9 @@ const useStyles = makeStyles(theme => ({
 export default function ProsConsTable(props) {
     const theme = useTheme();
     const DARK_MODE = theme.palette.type==='dark';
-    let styleProps = {DARK_MODE:DARK_MODE}
-    const classes = useStyles(styleProps)
-    console.log(DARK_MODE)
+    //let styleProps = {DARK_MODE:DARK_MODE}
+    const classes = useStyles()
+    //console.log(DARK_MODE)
     const smallScreen = useMediaQuery('(max-width:600px)')
     const dispatch = useDispatch();
 

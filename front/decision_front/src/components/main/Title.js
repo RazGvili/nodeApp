@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const Title = () => {
+const Title = React.memo(() => {
     //const theme = useTheme();
     const [state, dispatch] = useTracked();
     //const DARK_MODE = theme.palette.type==='dark';
@@ -47,7 +47,7 @@ const Title = () => {
                     />
 
     )
-}
+})
+
 
 export default React.memo(Title);
-
