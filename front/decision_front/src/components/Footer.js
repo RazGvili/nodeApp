@@ -20,12 +20,12 @@ const useStyles = makeStyles(theme => ({
   }
   }));
 
-function Footer() {
+const Footer = () => {
   //const context = useContext(store)
   //const { state } = context
-  const state = useTrackedState();
+  const {isDark} = useTrackedState();
   console.log('footer render')
-  const classes = useStyles({darkMode:state.isDark})
+  const classes = useStyles({darkMode:isDark})
 
   return (
       <footer className={classes.footer}>
@@ -39,5 +39,12 @@ function Footer() {
       </footer>
   );
 }
-
-export default React.memo(Footer);
+function areEqual(prevProps, nextProps) {
+  return true
+  /*
+  return true if passing nextProps to render would return
+  the same result as passing prevProps to render,
+  otherwise return false
+  */
+}
+export default React.memo(Footer,areEqual);
