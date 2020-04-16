@@ -53,6 +53,15 @@ export default function Comments() {
                 })
     }
 
+    const handleLikeComment = async(comment) => {
+        
+    }
+
+    const handleUnlikeComment = async(comment) => {
+        
+    }
+
+
     return useMemo(() => {
     return (
         id.length>23?
@@ -73,7 +82,7 @@ export default function Comments() {
             <List>
                     {getUntrackedObject(state.comments).map((comment, index) => 
                                 <CommentItem 
-                                    key={'comment'+index} 
+                                    key={'comment'+comment._id} 
                                     comment={comment}
                                     canDelete = {newCommentID === comment._id}
                                     setRemoveLastOne={()=> handleRemoveComment(comment)}

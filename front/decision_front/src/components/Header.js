@@ -15,6 +15,7 @@ import Icon from '@mdi/react'
 import axios from "axios"
 import {BASE_URL} from './GlobalVars'
 import { useTracked  } from '../store'
+import SaveButton from './Comments/header/SaveButton'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +49,9 @@ export default function Header() {
   const {title,pros,cons,id,loading,isReadOnly} = state
   const [redirect,setRedirect] = useState(false)
 
+  const [saving,setSaving] = useState(false)
+  const [savingSuccess,setSavingSuccess] = useState(false)
+
   //todo:: put in global state, lets talk
   const Lockable = id.length < 23 ? true : false
 
@@ -62,7 +66,7 @@ export default function Header() {
   }
 
   async function handleSubmit() {
-    console.log("handleSubmit")
+    setSaving(true)
     let decisionToSave = {
       desc:title,
       pros,
@@ -75,6 +79,9 @@ export default function Header() {
         // existing decision
         if (id.length > 20) {
             res = await axios.patch(`${BASE_URL}/decisions/${id}`, decisionToSave)
+            //todo:: handle success and error?
+            setSaving(false)
+            setSavingSuccess(true)
             //todo:: why put the same object that was just saved? its already in the state
             //dispatch({type: "SAVE_DECISION_EDIT", payload: {decision: res.data}})
             setRedirect(true)
@@ -85,6 +92,8 @@ export default function Header() {
             res = await axios.post(`${BASE_URL}/decisions`, decisionToSave)
             //todo:: why put the same object that was just saved? its already in the state
             dispatch({type: "SAVE_DECISION_NEW", payload: {decision: res.data}})
+            setSaving(false)
+            setSavingSuccess(true)
             setRedirect(true)
         }
 
@@ -92,7 +101,7 @@ export default function Header() {
 
     } catch (e) {
         console.error(e)
-
+        setSaving(false)
         dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong. [${e}]`}})
         dispatch({type: "SET_ERROR", payload: {error:e.message}})
 
@@ -139,14 +148,8 @@ return useMemo(() => {
               </IconButton> 
               }
               
-              <IconButton  onClick={() => handleSubmit()} className={classes.roundButton}>
-                <Icon
-                    path={ICONS['Save']}
-                    title="Save"
-                    size={1.5}
-                    color='#9A9A9A'
-                />    
-              </IconButton>
+              <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} />
+              
 
               <IconButton className={classes.roundButton}>
                 <Icon

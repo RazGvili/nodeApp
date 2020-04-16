@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useMemo} from 'react'
 //import { makeStyles } from '@material-ui/core/styles'
 
 
@@ -21,7 +21,7 @@ const Animals =
 'cat1','cat2','cat3','cat4','mouse','dog1']
 const Colors = ['#A4036F','#2DE1FC','#16DB93','#4062BB','#FF4365','#EABE2C','#605A5E']
 
-export default function Avatar(comment) {
+export default function Avatar({commentID}) {
     //const classes = useStyles()
     let randomPic = () => Animals[Math.floor(Math.random() * Animals.length)]
     let randomColor = Colors[Math.floor(Math.random() * Colors.length)]
@@ -33,7 +33,7 @@ export default function Avatar(comment) {
     //       return <stop offset="100%" style={{stopColor:Colors[Math.floor(Math.random() * Colors.length)], stopOpacity:1}} />
     //     //return Colors[Math.floor(Math.random() * Colors.length)]
     //   }
-
+    return useMemo(() => {
     return (
         <div style={{position:'relative',width:'60px',height:'60px',marginTop:'20px'}}>
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink"
@@ -51,5 +51,5 @@ export default function Avatar(comment) {
             </svg>
             <img src={`/avatars/${randomPic()}.png`} style={{position:'absolute',bottom:'20px',left:'5px',width:'50px'}} alt="avatar" />
         </div>
-    )
+    )},[commentID])
 }

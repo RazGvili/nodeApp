@@ -120,7 +120,7 @@ export default function Comments({comment, setRemoveLastOne,canDelete}) {
         <div className={classes.container}>
             <Grid container>
                 <Grid item xs={2} style={{position:'relative'}}>
-                    <Avatar />
+                    <Avatar commentID={comment._id}/>
                     <Typography className={classes.name}>
                     {commentData.name}
                         </Typography> 

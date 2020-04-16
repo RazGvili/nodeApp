@@ -51,21 +51,21 @@ export default function AddComment({decisionId}) {
 
     const handleNameChange = (event) => {
         
-        if (event.target.value.length < 30) {
+        if (event.target.value.length < 20) {
             setName(event.target.value)
         }
     }
 
     const handleTextChange = (event) => {
         
-        if (event.target.value.length < 100) {
+        if (event.target.value.length < 300) {
             setText(event.target.value)
         }
     }
 
     const handleAddComment = async () => {
         setSending(true)
-
+        //todo:: lets remove title from front and back?
         let newComment = {
             title:"titleeeee",
             name,
