@@ -36,15 +36,15 @@ const theme = (darkMode) => responsiveFontSizes(createMuiTheme({
       },
     }))
 
-export default function Home(props) {
+export default function Home() {
     const [state,dispatch] = useTracked()
-    const {isDark, id} = state
-    const decisionFromState = props.location.state && props.location.state.decision
+    const {isDark,id} = state
 
-    let { idFromUrl } = useParams()
+    const params = useParams()
+    const idFromURL= params.id
 
     async function getDecision(decisionId) {
-
+        //console.log('getting decision from server')
         try {
             
             const res = await axios.get(`${BASE_URL}/decisions/${decisionId}`)
@@ -53,7 +53,7 @@ export default function Home(props) {
             if (res.status === 200) {
 
                 console.log("decisionFromServer")
-                console.log(decisionFromServer)
+                //console.log(decisionFromServer)
                 dispatch({type: "SET_DECISION", payload: {decision: decisionFromServer}})
             }
             
@@ -66,16 +66,18 @@ export default function Home(props) {
     }
 
     useEffect(() => {
-        if (!decisionFromState) {
-            let decisionId = idFromUrl || ''
+      console.log('run effects!')
+        if (!id) {
+            //console.log(idFromUrl)
+            let decisionId =  idFromURL || ''
             if (decisionId.length > 23)
                 getDecision(decisionId)
             else
               dispatch({type: "INIT_DECISION"})
         }
         else{
-          console.log("decisionFromState")
-          dispatch({type: "SET_DECISION", payload: {decision: decisionFromState}})
+          console.log("decisionFromContextAfterRedirect")
+          //dispatch({type: "SET_DECISION", payload: {decision: decisionFromState}})
         }
     }, [])
 
@@ -85,11 +87,11 @@ export default function Home(props) {
             <div style={{background:isDark?'#35314f':'#dce8f3'}}>
             {console.log('<--render: home-->')}
             <ProsConsTable />
-            {id.length >23 && <Comments />}
+            <Comments />
 
             </div>
         </ThemeProvider>
 
-    )},[isDark])
+    )},[isDark,idFromURL])
 
 }

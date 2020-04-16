@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+//import { makeStyles } from '@material-ui/core/styles'
 
 
 // const useStyles = makeStyles((theme) => ({
@@ -14,23 +14,25 @@ import { makeStyles } from '@material-ui/core/styles'
 
 // }))
 
-export const Animals =
+
+const Animals =
 ['huski','bird','chicken','bulldog','horns','leopard',
 //'snowleopard',
 'cat1','cat2','cat3','cat4','mouse','dog1']
-export const Colors = ['#A4036F','#2DE1FC','#16DB93','#4062BB','#FF4365','#EABE2C','#605A5E']
+const Colors = ['#A4036F','#2DE1FC','#16DB93','#4062BB','#FF4365','#EABE2C','#605A5E']
 
 export default function Avatar(comment) {
     //const classes = useStyles()
-    const randomPic = () => Animals[Math.floor(Math.random() * Animals.length)]
-    const randomColor = () => Colors[Math.floor(Math.random() * Colors.length)]
-    function getRandomPic(){
-        return 
-      }
-      function getRandomColor(){
-          return <stop offset="100%" style={{stopColor:Colors[Math.floor(Math.random() * Colors.length)], stopOpacity:1}} />
-        //return Colors[Math.floor(Math.random() * Colors.length)]
-      }
+    let randomPic = () => Animals[Math.floor(Math.random() * Animals.length)]
+    let randomColor = Colors[Math.floor(Math.random() * Colors.length)]
+    //const randomColor1 = randomColor()
+    // function getRandomPic(){
+    //     return 
+    //   }
+    //   function getRandomColor(){
+    //       return <stop offset="100%" style={{stopColor:Colors[Math.floor(Math.random() * Colors.length)], stopOpacity:1}} />
+    //     //return Colors[Math.floor(Math.random() * Colors.length)]
+    //   }
 
     return (
         <div style={{position:'relative',width:'60px',height:'60px',marginTop:'20px'}}>
@@ -40,12 +42,12 @@ export default function Avatar(comment) {
                     <clipPath id="cut-off-bottom">
                     <rect x="0" y="0" width="60" height="40" />
                     </clipPath>
-                    <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                    <radialGradient id={randomColor.slice(1)} cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
                     <stop offset="0%" style={{stopColor:'rgb(162,162,162)', stopOpacity:1}}/>
-                    <stop offset="100%" style={{stopColor:randomColor(), stopOpacity:1}} />
+                    <stop offset="100%" style={{stopColor:randomColor, stopOpacity:1}} />
                     </radialGradient>
                 </defs>
-                <circle cx="30" cy="30" r="30" fill="url(#grad1)" clipPath="url(#cut-off-bottom)" />
+                <circle cx="30" cy="30" r="30" fill={`url(${randomColor})`} clipPath="url(#cut-off-bottom)" />
             </svg>
             <img src={`/avatars/${randomPic()}.png`} style={{position:'absolute',bottom:'20px',left:'5px',width:'50px'}} alt="avatar" />
         </div>

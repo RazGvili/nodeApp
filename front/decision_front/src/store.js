@@ -25,7 +25,7 @@ const initialState = {
 
 
 const reducer = (state, action) => {
-
+    console.log('dispatch:'+action.type)
     switch(action.type) {
         
         case "TOGGLE_DARK_MODE":
@@ -137,7 +137,7 @@ const reducer = (state, action) => {
         case "INIT_DECISION":
             return  {
                 ...state,
-                loading: !state.loading
+                loading: false
             }
 
         case "SAVE_DECISION_NEW":
@@ -161,7 +161,7 @@ const reducer = (state, action) => {
         
         case "SET_DECISION":
 
-            console.log(action.payload.decision)
+            //console.log(action.payload.decision)
 
             if (!action.payload.decision) {
                 return state
@@ -189,17 +189,15 @@ const reducer = (state, action) => {
         
         case "REMOVE_COMMENT":
 
-            console.log(action.payload.comment)
-            let commentToDelete = action.payload.comment
-
+            let commentIDToDelete = action.payload.comment._id
             return {
                 ...state,
-                comments: state.comments.filter((commentIter) => commentIter._id !== commentToDelete._id),
+                comments: state.comments.filter(commentIter => commentIter._id !== commentIDToDelete),
             }
         
         case "ADD_COMMENT":
 
-            console.log(action.payload.comment)
+            //console.log(action.payload.comment)
             let commentToAdd = action.payload.comment
 
             return {

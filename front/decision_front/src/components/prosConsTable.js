@@ -1,8 +1,7 @@
 
 import React, { useState, useMemo } from "react"
 //import axios from "axios"
-import {makeStyles,useTheme} from "@material-ui/core/styles"
-import { Redirect } from 'react-router-dom'
+import {makeStyles} from "@material-ui/core/styles"
 import { Skeleton } from "@material-ui/lab"
 import {useMediaQuery,Slide,Grid,Dialog,DialogContent} from '@material-ui/core'
 
@@ -12,7 +11,7 @@ import Title from "./main/Title"
 import Header from "./Header"
 import ChoicesData from "./main/ChoicesData"
 import Argument from "./main/Argument"
-import {BASE_URL} from './GlobalVars'
+//import {BASE_URL} from './GlobalVars'
 import { useTracked } from '../store'
 
 //slide animation

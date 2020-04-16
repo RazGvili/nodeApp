@@ -51,7 +51,7 @@ export default function Header() {
   //todo:: put in global state, lets talk
   const Lockable = id.length < 23 ? true : false
 
-  console.log(pros[0])
+  //console.log(pros[0])
 
   const handleLockClick = () => {
     dispatch({type: "TOGGLE_READ_ONLY"})
@@ -76,7 +76,7 @@ export default function Header() {
         if (id.length > 20) {
             res = await axios.patch(`${BASE_URL}/decisions/${id}`, decisionToSave)
             //todo:: why put the same object that was just saved? its already in the state
-            dispatch({type: "SAVE_DECISION_EDIT", payload: {decision: res.data}})
+            //dispatch({type: "SAVE_DECISION_EDIT", payload: {decision: res.data}})
             setRedirect(true)
         // new decision
         } else {
@@ -106,7 +106,7 @@ return useMemo(() => {
       {redirect &&
                 <Redirect to={{
                     pathname:`/d/${id}`,
-                    //state:{decision:decision }
+                    state:{decisionFromState:true }
                 }} />
       }
       {console.log("<--render header-->")}
@@ -118,7 +118,6 @@ return useMemo(() => {
         <img   src="/images/logo.png" alt="decisions" height="40px" />
         </Button>
 
-        {/* <Button component={Link} to="/About"> About </Button> */}
         <div style={{display:'flex'}}>
           {loading ?
           <>

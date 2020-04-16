@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import CommentItem from './CommentsItem'
 import AddComment from './AddComment'
-import { useTracked  } from '../../store'
-
+import { useTracked,   } from '../../store'
+import { getUntrackedObject } from 'react-tracked';
 import axios from "axios"
 import {BASE_URL} from '../GlobalVars'
 import { Typography } from '@material-ui/core'
@@ -31,17 +31,18 @@ const useStyles = makeStyles((theme) => ({
 export default function Comments() {
     const classes = useStyles()
     const [state,dispatch] = useTracked();
-    const [newCommentID] = useLocalStorage('newCommentID', '');
-
+    let newCommentID = localStorage.getItem('newCommentID') || '';
+    //console.log(newCommentID)
     const {comments,id,loading} = state
     const [error, setError] = useState("")
+
 
     //todo:: make sure removing comment is only possible to the last one and maximum after 1 hour? (so people wont delete all)
     const handleRemoveComment = async(comment) => {
         axios.patch(`${BASE_URL}/decisions/${id}`, {comments: 'delete'})
             .then((res) => {
                 if (res.status === 200) {
-                    dispatch({type: "REMOVE_COMMENT", payload: comment})
+                    dispatch({type: "REMOVE_COMMENT", payload: {comment}})
                     //setLoading(false)
                 }
 
@@ -54,6 +55,7 @@ export default function Comments() {
 
     return useMemo(() => {
     return (
+        id.length>23?
         <div className={classes.root}>
             {loading?
             'loading...'
@@ -69,12 +71,14 @@ export default function Comments() {
             
             :
             <List>
-                    {comments.map((comment, index) => 
+                    {getUntrackedObject(state.comments).map((comment, index) => 
                                 <CommentItem 
-                                    key={'comment'+index+Math.floor(Math.random() * 9999)} 
+                                    key={'comment'+index} 
                                     comment={comment}
-                                    setRemoveLastOne={(newCommentID === comment._id)?()=>handleRemoveComment(comment):null}
-                                />        
+                                    canDelete = {newCommentID === comment._id}
+                                    setRemoveLastOne={()=> handleRemoveComment(comment)}
+                                />    
+                               
                     )
                 }
             </List> 
@@ -92,6 +96,7 @@ export default function Comments() {
             </>
             }
         </div>
+        :null
 
-    )},[comments,id,loading,classes,newCommentID])
+    )},[comments,id,loading,classes])
 }

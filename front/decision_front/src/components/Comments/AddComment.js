@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddComment({decisionId}) {
     const classes = useStyles()
     const dispatch = useDispatch();
-    const [newCommentID, setNewComment] = useLocalStorage('newCommentID', '');
+    //const [newCommentID, setNewComment] = useLocalStorage('newCommentID', '');
     const [name, setName] = useState("")
     const [text, setText] = useState("")
     const [sending,setSending] = useState(false)
@@ -78,7 +78,7 @@ export default function AddComment({decisionId}) {
             
             if (res.status === 200) {
                 let comment = res.data.comments.pop()
-                setNewComment(comment._id)
+                localStorage.setItem('newCommentID', comment._id);
                 dispatch({type: "ADD_COMMENT", payload: {comment}})
                 setSending(false)
                 setSuccess(true)  
