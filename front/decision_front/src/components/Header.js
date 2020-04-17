@@ -15,7 +15,10 @@ import Icon from '@mdi/react'
 import axios from "axios"
 import {BASE_URL} from './GlobalVars'
 import { useTracked  } from '../store'
-import SaveButton from './Comments/header/SaveButton'
+
+import SaveButton from './header/SaveButton'
+import ShowShare from './header/ShowShare'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,8 +51,10 @@ export default function Header() {
   const [state,dispatch] = useTracked()
   const {title,pros,cons,id,loading,isReadOnly} = state
   const [redirect,setRedirect] = useState(false)
+  const [redirectHome,setRedirectHome] = useState(false)
 
   const [saving,setSaving] = useState(false)
+  const [showShare,setShowShare] = useState(false)
   const [savingSuccess,setSavingSuccess] = useState(false)
 
   //todo:: put in global state, lets talk
@@ -65,6 +70,10 @@ export default function Header() {
     dispatch({type: "TOGGLE_DARK_MODE"})
   }
 
+  const handleShare = () => {
+    setShowShare(!showShare)
+  }
+  
   async function handleSubmit() {
     setSaving(true)
     let decisionToSave = {
@@ -72,9 +81,10 @@ export default function Header() {
       pros,
       cons
     }
+
     try {
 
-        let res = null
+        let res
 
         // existing decision
         if (id.length > 20) {
@@ -85,6 +95,7 @@ export default function Header() {
             //todo:: why put the same object that was just saved? its already in the state
             //dispatch({type: "SAVE_DECISION_EDIT", payload: {decision: res.data}})
             setRedirect(true)
+
         // new decision
         } else {
 
@@ -112,19 +123,26 @@ export default function Header() {
 return useMemo(() => {
   return (
     <div className={classes.root}>
+      {console.log("<--render: header-->")}
+
       {redirect &&
                 <Redirect to={{
                     pathname:`/d/${id}`,
                     state:{decisionFromState:true }
                 }} />
       }
-      {console.log("<--render header-->")}
+
+      {/* {redirectHome &&
+                <Redirect to={{
+                    pathname: '/',
+                }} />
+      } */}
+      
       <AppBar className={classes.appbar} position="static">
         <Toolbar className={classes.toolbar} style={{}}>
 
-        {/* Logo */}
-        <Button component={Link} to="/">
-        <img   src="/images/logo.png" alt="decisions" height="40px" />
+        <Button onClick={()=>setRedirectHome(true)}>
+          <img src="/images/logo.png" alt="decisions" height="40px" />
         </Button>
 
         <div style={{display:'flex'}}>
@@ -138,32 +156,33 @@ return useMemo(() => {
           <>
               
               { Lockable &&
-              <IconButton onClick={handleLockClick} className={classes.roundButton}>
-                <Icon
-                    path={ICONS[isReadOnly ? 'ClosedLock':'OpenedLock' ]}
-                    title="Save"
-                    size={1.5}
-                    color='#9A9A9A'
-                />    
-              </IconButton> 
+                <IconButton onClick={handleLockClick} className={classes.roundButton}>
+                  <Icon
+                      path={ICONS[isReadOnly ? 'ClosedLock':'OpenedLock' ]}
+                      title="Save"
+                      size={1.5}
+                      color='#9A9A9A'
+                  />    
+                </IconButton> 
               }
               
               <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} />
               
-
-              <IconButton className={classes.roundButton}>
-                <Icon
-                    path={ICONS['Share']}
-                    title="Share"
-                    size={1.5}
-                    color='#9A9A9A'
-                />    
-              </IconButton>
+              { !Lockable &&
+                <IconButton className={classes.roundButton} onClick={handleShare}>
+                  <Icon
+                      path={ICONS['Share']}
+                      title="Share"
+                      size={1.5}
+                      color='#9A9A9A'
+                  />    
+                </IconButton>
+              }
               
               <IconButton  className={classes.roundButton}  onClick={handleDarkModeClick}>
                 <Icon
                     path={ICONS['Theme']}
-                    title="Share"
+                    title="Toogle dark mode"
                     size={1.5}
                     color='#9A9A9A'
                 />    
@@ -175,8 +194,10 @@ return useMemo(() => {
         </Toolbar>
       </AppBar>
 
+      {showShare && <ShowShare />}
+
       
     </div>
-  )},[title,pros,cons,id,loading,isReadOnly,classes,redirect])
+  )},[title,pros,cons,id,loading,isReadOnly,classes,redirect,redirectHome, showShare])
 }
 

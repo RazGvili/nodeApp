@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { CircularProgress,IconButton, Button } from '@material-ui/core'
-import {ICONS} from '../../custom/IconsData'
+import {ICONS} from '../custom/IconsData'
 import Icon from '@mdi/react'
 
 

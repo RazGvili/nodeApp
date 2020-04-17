@@ -28,11 +28,6 @@ export default function Snack() {
     const dispatch = useDispatch();
     const state = useTrackedState();
     let {showSnack,snackType,snackText} = state
-     // Store ----------------------------------------
-    //const context = useContext(store)
-    //const { dispatch } = context
-    //const { Consumer } = store
-     // ----------------------------------------------    
 
 
     const handleClose = () => {
@@ -41,6 +36,8 @@ export default function Snack() {
     
     return useMemo(() => {
     return (
+        <> 
+            {console.log('<--render: snack-->')} 
                     <Snackbar 
                         open={showSnack}
                         autoHideDuration={6000}
@@ -57,9 +54,9 @@ export default function Snack() {
                                 </React.Fragment>
                             }
                         >
-                            {console.log('snack render')}
                             {snackText}
                         </Alert>
-                    </Snackbar>                    
+                    </Snackbar>    
+        </>                
     )},[showSnack,snackType,snackText])
 }

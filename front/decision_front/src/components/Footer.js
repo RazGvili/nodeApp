@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 
   return useMemo(() => {
       return <footer className={classes.footer}>
-        {console.log('render footer')}
+        {console.log('<--render: footer-->')}
         <Container maxWidth="md" style={{textAlign:'center',padding: '0px'}}>
         <span style={{verticalAlign:'middle',paddingRight:'15px'}}><span style={{fontFamily:'Arial'}}>©</span> decisions 2020</span>
         <Link to="/about" className={classes.button}>

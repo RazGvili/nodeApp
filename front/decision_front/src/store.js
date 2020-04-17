@@ -137,6 +137,15 @@ const reducer = (state, action) => {
         case "INIT_DECISION":
             return  {
                 ...state,
+
+                id: "",
+                isReadOnly: false,
+                title: "",
+                pros: [],
+                cons: [],
+                comments: [],
+                createdAt: "",
+                updatedAt: "",
                 loading: false
             }
 

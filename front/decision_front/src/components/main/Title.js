@@ -29,7 +29,7 @@ export default function Title(){
     return useMemo(() => {
     return (
         <>
-        {console.log(`<--render title: ${title} -->`)}
+        {console.log(`<--render: title | ${title} -->`)}
                     <InputBase
                         required
                         id="title"

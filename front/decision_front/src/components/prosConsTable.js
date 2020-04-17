@@ -145,7 +145,7 @@ export default function ProsConsTable() {
     return (
 
         <div className={classes.root}>
-            {console.log('<--table render-->')}
+            {console.log('<--render: table -->')}
             
 
             <Header />
