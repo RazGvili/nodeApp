@@ -86,7 +86,7 @@ export default function Home() {
     return useMemo(() => {
     return (
         <ThemeProvider theme={theme(isDark)}>
-            <div style={{background:isDark?'#35314f':'#dce8f3'}}>
+            <div style={{background:isDark?'#35314f':'#dce8f3',minHeight:'95vh'}}>
             {console.log('<--render: home-->')}
             <ProsConsTable />
             <Comments />
