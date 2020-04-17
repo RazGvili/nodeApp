@@ -18,6 +18,7 @@ import { useTracked  } from '../store'
 
 import SaveButton from './header/SaveButton'
 import ShowShare from './header/ShowShare'
+import { Typography } from '@material-ui/core'
 
 
 
@@ -32,7 +33,13 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   roundButton:{
-    width:'60px',height:'60px',margin:'auto 5px'
+    //backgroundColor:props=> props.success?'rgba(135, 186, 85, 0.75)':'inherit',
+    width:'65px',
+    height:'65px',
+    margin:'auto 5px',
+    display:'grid',
+    textTransform:'none',
+    borderRadius:'45px',
   },
   toolbar:{
     display:'flex', justifyContent:'space-between',
@@ -42,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
     background:'none',
     boxShadow:'none',
     borderBottom:'4px grey'
+  },
+  buttonText:{
+    fontSize:'0.9em',
+    fontWeight:600
   }
 }))
 
@@ -49,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const classes = useStyles()
   const [state,dispatch] = useTracked()
-  const {title,pros,cons,id,loading,isReadOnly} = state
+  const {title,pros,cons,id,loading,isReadOnly,isDark} = state
   const [redirect,setRedirect] = useState(false)
   const [redirectHome,setRedirectHome] = useState(false)
 
@@ -92,6 +103,9 @@ export default function Header() {
             //todo:: handle success and error?
             setSaving(false)
             setSavingSuccess(true)
+            setTimeout(() => {
+              setSavingSuccess(false)
+            }, 3000);
             //todo:: why put the same object that was just saved? its already in the state
             //dispatch({type: "SAVE_DECISION_EDIT", payload: {decision: res.data}})
             setRedirect(true)
@@ -105,6 +119,9 @@ export default function Header() {
             dispatch({type: "SAVE_DECISION_NEW", payload: {decision: res.data}})
             setSaving(false)
             setSavingSuccess(true)
+            setTimeout(() => {
+              setSavingSuccess(false)
+            }, 3000);
             setRedirect(true)
         }
 
@@ -156,37 +173,51 @@ return useMemo(() => {
           <>
               
               { Lockable &&
-                <IconButton onClick={handleLockClick} className={classes.roundButton}>
+                <Button onClick={handleLockClick} className={classes.roundButton}>
                   <Icon
                       path={ICONS[isReadOnly ? 'ClosedLock':'OpenedLock' ]}
-                      title="Save"
-                      size={1.5}
+                      title="Lock"
+                      size={1}
                       color='#9A9A9A'
-                  />    
-                </IconButton> 
+                      style={{margin:'auto'}}
+                  /> 
+                   <Typography className={classes.buttonText}>
+                  Lock   
+                  </Typography>
+                </Button> 
+              }
+
+              { !Lockable &&
+                <Button className={classes.roundButton} onClick={handleShare}>
+                  <Icon
+                      path={ICONS['Share']}
+                      title="Share"
+                      size={1}
+                      color='#9A9A9A'
+                      style={{margin:'auto'}}
+                  />
+                  <Typography className={classes.buttonText}>
+                  Share 
+                  </Typography>
+                </Button>
               }
               
               <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} />
               
-              { !Lockable &&
-                <IconButton className={classes.roundButton} onClick={handleShare}>
-                  <Icon
-                      path={ICONS['Share']}
-                      title="Share"
-                      size={1.5}
-                      color='#9A9A9A'
-                  />    
-                </IconButton>
-              }
               
-              <IconButton  className={classes.roundButton}  onClick={handleDarkModeClick}>
+              
+              <Button  className={classes.roundButton}  onClick={handleDarkModeClick}>
                 <Icon
                     path={ICONS['Theme']}
                     title="Toogle dark mode"
-                    size={1.5}
+                    size={1}
                     color='#9A9A9A'
-                />    
-              </IconButton>
+                    style={{margin:'auto'}}
+                />
+                <Typography className={classes.buttonText}>
+                {isDark?'Dark':'Light'}
+                </Typography>    
+              </Button>
           </>
           }
           <Timer seconds="15"/>
@@ -194,10 +225,10 @@ return useMemo(() => {
         </Toolbar>
       </AppBar>
 
-      {showShare && <ShowShare />}
+      {showShare && <ShowShare closeAction={()=> setShowShare(false)}/>}
 
       
     </div>
-  )},[title,pros,cons,id,loading,isReadOnly,classes,redirect,redirectHome, showShare])
+  )},[title,pros,cons,id,loading,isReadOnly,classes,redirect,redirectHome, showShare,saving,savingSuccess,isDark,Lockable])
 }
 

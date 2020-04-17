@@ -3,23 +3,34 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useTracked  } from '../../store'
 import Paper from '@material-ui/core/Paper'
-
+import {green} from '../GlobalVars'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { Button, Typography, IconButton } from '@material-ui/core'
+import Icon from '@mdi/react'
+import { ICONS } from '../custom/IconsData'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      '& > *': {
-        margin: theme.spacing(1),
-        width: theme.spacing(16),
-        height: theme.spacing(16),
-      },
+    copyButton:{
+    background:'none',
+    textTransform:'none',
+    paddingRight:'20px',
+    borderRadius: '45px',
+    width:'200px',
+    border: '1px grey solid',
+    '&:hover':{
+      background:green,
+      border: '1px green solid',
+    }
     },
+    closeIcon:{
+      position:'absolute',
+      right:'15px',
+      top:'10px'
+    }
   }));
 
 
-export default function ShowShare(props) {
+export default function ShowShare({closeAction}) {
     const classes = useStyles();
 
     const [ state, dispatch ] = useTracked()
@@ -28,20 +39,25 @@ export default function ShowShare(props) {
     let id = state.id
     
     return (
-        <div>
-            <Paper elevation={8} style={{ padding: '10px 0px', backgroundColor: '#dce8f3'}}>
-
-                <h3> Get some feedback! Click to copy link and share with smart people :)</h3>
+        <div style={{background:'rgba(0, 0, 0, 0.1)',padding:'15px',position:'relative'}}>
+          <IconButton onClick={closeAction} className={classes.closeIcon}>
+            <Icon path={ICONS['Close']} size={1} />
+          </IconButton>
+                
+                {/* <Typography> Get some feedback! Click to copy link and share with smart people :)</Typography> */}
 
                 <CopyToClipboard text={id}
                     onCopy={() => setCopied(true)}>
-                    <button>Copy to clipboard</button>
+                    <Button className={classes.copyButton} endIcon={<Icon path={ICONS['Copy']} size={0.7} color="rgba(0, 0, 0, 0.3)"/>}>
+                      <Typography style={{width:'100%'}}>
+                      {copied? 'Copied!' : 'Copy to clipboard'}
+                        
+                      </Typography>
+        
+                      </Button>
                 </CopyToClipboard>
 
-                {copied && <p>Copied!</p>}
-
-            </Paper>
-
+                
             <br/>
         </div>
     )
