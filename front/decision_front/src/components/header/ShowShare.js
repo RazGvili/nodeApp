@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
     width:'200px',
     border: '1px grey solid',
     '&:hover':{
-      background:green,
-      border: '1px green solid',
+      background:'rgba(135, 185, 85, 0.5)',
+      border: `${green} solid 1px`,
     }
     },
     closeIcon:{
