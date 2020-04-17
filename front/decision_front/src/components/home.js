@@ -66,15 +66,6 @@ export default function Home() {
     }
 
 
-    // Redirect from decision to home via logo click
-    // useEffect(() => {
-    //     if (!idFromURL && id.length > 22) {
-    //       console.log("Redirected from decision to home")
-    //       dispatch({type: "INIT_DECISION"})
-    //     }
-    // }, [idFromURL])
-
-
     useEffect(() => {
       console.log('run effects!')
 

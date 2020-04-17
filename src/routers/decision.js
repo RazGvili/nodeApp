@@ -55,9 +55,14 @@ router.get('/decisions/:id', (req, res) => {
             })
         }
 
+        console.log("successful get, returning --->")
+        console.log(decision)
+        console.log("\n")
         res.send(decision)
 
     }).catch((err) => {
+        console.log(err)
+        console.log("\n")
         res.status(500).send(err)
     })
 
