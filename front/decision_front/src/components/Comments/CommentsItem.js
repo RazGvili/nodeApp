@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Comments({comment, setRemoveLastOne,canDelete}) {
     const classes = useStyles()
 
-    let commentData = comment
+    const {_id,text,name,date} = comment
     //todo change date string to how long ago
 
     return (
@@ -120,9 +120,9 @@ export default function Comments({comment, setRemoveLastOne,canDelete}) {
         <div className={classes.container}>
             <Grid container>
                 <Grid item xs={2} style={{position:'relative'}}>
-                    <Avatar commentID={comment._id}/>
+                    <Avatar commentID={_id} name={name}/>
                     <Typography className={classes.name}>
-                    {commentData.name}
+                    {name}
                         </Typography> 
                     
                 </Grid>
@@ -130,9 +130,9 @@ export default function Comments({comment, setRemoveLastOne,canDelete}) {
                 <Grid item xs={10} style={{textAlign:'left',padding:'10px 10px 0px'}} >
                     <div className={classes.bubbleContainer}>
                     <div className={classes.BubbleText}>
-                    <b>{commentData.text}</b><br />
+                    <b>{text}</b><br />
                     <Typography style={{color:'grey',fontSize:'12px'}}>
-                    {timeSince(new Date(commentData.date))} ago
+                    {timeSince(new Date(date))} ago
                     </Typography>
                     <div className={classes.tail} />
                     </div>
