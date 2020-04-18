@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useTracked  } from '../../store'
 import Paper from '@material-ui/core/Paper'
@@ -37,6 +37,14 @@ export default function ShowShare({closeAction}) {
     const [ copied, setCopied ] = useState(false)
 
     let id = state.id
+
+    useEffect(() => {
+    
+        if (copied) {
+          setTimeout( () => setCopied(false), 3000 )
+        }
+            
+    }, [copied])
     
     return (
         <div style={{background:'rgba(0, 0, 0, 0.1)',padding:'15px',position:'relative'}}>
@@ -44,7 +52,9 @@ export default function ShowShare({closeAction}) {
             <Icon path={ICONS['Close']} size={1} />
           </IconButton>
                 
-                {/* <Typography> Get some feedback! Click to copy link and share with smart people :)</Typography> */}
+                <Typography> Get some feedback! <br/> Copy your decision link and share </Typography> 
+
+                <br/>
 
                 <CopyToClipboard text={id}
                     onCopy={() => setCopied(true)}>

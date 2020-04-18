@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react'
+import React, {useState, useMemo, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -135,7 +135,16 @@ export default function Header() {
 
     }
 
-}
+  }
+
+  useEffect(() => {
+    
+      if (redirectHome) {
+        window.location.href = window.location.origin
+      }
+          
+  }, [redirectHome])
+
 
 return useMemo(() => {
   return (
@@ -148,12 +157,6 @@ return useMemo(() => {
                     state:{decisionFromState:true }
                 }} />
       }
-
-      {/* {redirectHome &&
-                <Redirect to={{
-                    pathname: '/',
-                }} />
-      } */}
       
       <AppBar className={classes.appbar} position="static">
         <Toolbar className={classes.toolbar} style={{}}>
@@ -231,4 +234,3 @@ return useMemo(() => {
     </div>
   )},[title,pros,cons,id,loading,isReadOnly,classes,redirect,redirectHome, showShare,saving,savingSuccess,isDark,Lockable])
 }
-
