@@ -65,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
   marginBottom: '1em',
     },
     BubbleText:{
+      //borderBottom:'2px solid grey',
     boxSizing: 'border-box',
     float: 'left',
     width: '100%',
@@ -77,14 +78,16 @@ const useStyles = makeStyles((theme) => ({
 
     },
     tail:{
+      //:'2px solid grey',
     height: '25px',
     width: '25px',
     background: '#C0CAD4',
     position: 'absolute',
-    left: '-9px',
-    top: '10px',
+    left: '-10px',
+    top: '50px',
     borderRadius: '50%',
     '&:before':{
+      //borderBottom:'2px solid grey',
       height: '12px',
       width: '12px',
       background: '#C0CAD4',
@@ -102,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
                     position: 'absolute',
                     left: '0px',
                     width: '60px',
-                    top: '65px',
+                    top: '105px',
                     fontSize: '11px'
     }
     
@@ -119,7 +122,7 @@ export default function Comments({comment, setRemoveLastOne,canDelete}) {
 
         <div className={classes.container}>
             <Grid container>
-                <Grid item xs={2} style={{position:'relative'}}>
+                <Grid item xs={2} style={{position:'relative',paddingTop:'40px'}}>
                     <Avatar commentID={_id} name={name}/>
                     <Typography className={classes.name}>
                     {name}
