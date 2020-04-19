@@ -107,6 +107,32 @@ const useStyles = makeStyles((theme) => ({
                     width: '60px',
                     top: '105px',
                     fontSize: '11px'
+    },
+    gradeContainer:{
+      width: '80px',
+      textAlign: 'right',
+      height: 'fit-content',
+      padding: '0px 0px 0px 30px',
+      background: 'aliceblue',
+      marginTop: '10px',
+      marginLeft: '-90px',
+      borderRadius: '0px 25px 25px 0px',
+    },
+    gradeButtonUp:{
+      background:'aliceblue',
+      paddingRight: '10px',
+      borderRadius: '0px 25px 0px 0px',
+      '&:hover':{
+        background:'rgba(135, 185, 85, 0.5)'
+      }
+    },
+    gradeButtonDown:{
+      background:'aliceblue',
+      paddingRight: '10px',
+      borderRadius: '0px 0px 25px 0px',
+      '&:hover':{
+        background:'rgba(185, 55, 55, 0.5)'
+      }
     }
     
 }))
@@ -123,6 +149,7 @@ export default function Comments({comment, setRemoveLastOne,canDelete}) {
         <div className={classes.container}>
             <Grid container>
                 <Grid item xs={2} style={{position:'relative',paddingTop:'40px'}}>
+                  
                     <Avatar commentID={_id} name={name}/>
                     <Typography className={classes.name}>
                     {name}
@@ -131,6 +158,7 @@ export default function Comments({comment, setRemoveLastOne,canDelete}) {
                 </Grid>
 
                 <Grid item xs={10} style={{textAlign:'left',padding:'10px 10px 0px'}} >
+                
                     <div className={classes.bubbleContainer}>
                     <div className={classes.BubbleText}>
                     <b>{text}</b><br />
@@ -157,6 +185,16 @@ export default function Comments({comment, setRemoveLastOne,canDelete}) {
                     </IconButton>
                 
             }
+            <div className={classes.gradeContainer}>
+              <div className={classes.gradeButtonUp}>
+                <Icon path={ICONS['ArrowUp']} size={0.6} color={'grey'}/>
+              </div>
+                    
+                    <Typography style={{fontSize:'10px',fontWeight:'700',color:'grey', paddingRight: '10px',}}>12</Typography>
+                    <div className={classes.gradeButtonDown}>
+                    <Icon path={ICONS['ArrowDown']} size={0.6} color={'grey'} />
+                    </div>
+                  </div>
         </div>
     )
 }   
