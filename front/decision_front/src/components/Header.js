@@ -74,10 +74,14 @@ export default function Header() {
 
   const isNewDecision = id ? false : true
 
-  //console.log(pros[0])
-
   const handleLockClick = () => {
     dispatch({type: "TOGGLE_READ_ONLY"})
+
+    if (isReadOnly) {
+        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[UNLOCKED] After the first save, this decision will be editable for all"}})
+    } else {
+        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[LOCKED] After the first save, this decision will be read-only for all"}})
+    }
   }
 
   const handleDarkModeClick = () => {

@@ -69,7 +69,7 @@ export default function ShowShare({closeAction}) {
                 <TwitterShareButton title="" via="Decidy" hashtags={[]} related={[]} url="" />
                 <WhatsappShareButton title="" url="" />
 
-                <CopyToClipboard text={id}
+                <CopyToClipboard text={window.location.origin + "/d/" + id}
                     onCopy={handleCopied}>
                     <Button className={classes.copyButton} endIcon={<Icon path={ICONS['Copy']} size={0.7} color="rgba(0, 0, 0, 0.3)"/>}>
                       <Typography style={{width:'100%'}}>
