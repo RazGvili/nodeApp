@@ -53,7 +53,7 @@ export default function ShowShare({closeAction}) {
 
                 <br/>
 
-                <CopyToClipboard text={id}
+                <CopyToClipboard text={window.location.origin + "/d/" + id}
                     onCopy={handleCopied}>
                     <Button className={classes.copyButton} endIcon={<Icon path={ICONS['Copy']} size={0.7} color="rgba(0, 0, 0, 0.3)"/>}>
                       <Typography style={{width:'100%'}}>

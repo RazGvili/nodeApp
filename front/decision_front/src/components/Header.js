@@ -71,10 +71,14 @@ export default function Header() {
   //todo:: put in global state, lets talk
   const Lockable = id.length < 23 ? true : false
 
-  //console.log(pros[0])
-
   const handleLockClick = () => {
     dispatch({type: "TOGGLE_READ_ONLY"})
+
+    if (isReadOnly) {
+        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[UNLOCKED] After the first save, this decision will be editable for all"}})
+    } else {
+        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[LOCKED] After the first save, this decision will be read-only for all"}})
+    }
   }
 
   const handleDarkModeClick = () => {

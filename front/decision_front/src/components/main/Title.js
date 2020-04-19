@@ -29,18 +29,20 @@ export default function Title(){
     return useMemo(() => {
     return (
         <>
-        {console.log(`<--render: title | ${title} -->`)}
+            {console.log(`<--render: title | ${title} -->`)}
+
                     <InputBase
                         required
                         id="title"
-                        label="Your decision"
-                        placeholder="Your decision"
+                        placeholder="What you're trying to figure out?"
                         autoComplete="off" 
                         classes={{root:classes.inputRoot}}
                         value={title}
                         inputProps={{ 'aria-label': 'name of Decision', style: {textAlign: 'center'}}}
                         onChange={(event)=> dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})}
                     />
+
+
         </>
     )},[title,classes])
 }
