@@ -2,3 +2,4 @@ db
 mon
 node_modules
 config
+*.cache
