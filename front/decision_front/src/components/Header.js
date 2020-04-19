@@ -53,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
   buttonText:{
     fontSize:'0.9em',
     fontWeight:600
+  },
+  logoButton:{
+    textTransform:'none',
+    
   }
 }))
 
@@ -68,8 +72,7 @@ export default function Header() {
   const [showShare,setShowShare] = useState(false)
   const [savingSuccess,setSavingSuccess] = useState(false)
 
-  //todo:: put in global state, lets talk
-  const Lockable = id.length < 23 ? true : false
+  const isNewDecision = id ? false : true
 
   //console.log(pros[0])
 
@@ -98,7 +101,8 @@ export default function Header() {
         let res
 
         // existing decision
-        if (id.length > 20) {
+        if (!isNewDecision) {
+            //todo:: handle empty title
             res = await axios.patch(`${BASE_URL}/decisions/${id}`, decisionToSave)
             //todo:: handle success and error?
             setSaving(false)
@@ -106,16 +110,13 @@ export default function Header() {
             setTimeout(() => {
               setSavingSuccess(false)
             }, 3000);
-            //todo:: why put the same object that was just saved? its already in the state
-            //dispatch({type: "SAVE_DECISION_EDIT", payload: {decision: res.data}})
             setRedirect(true)
 
         // new decision
         } else {
-
+            //todo:: handle empty title
             decisionToSave.isReadOnly = isReadOnly
             res = await axios.post(`${BASE_URL}/decisions`, decisionToSave)
-            //todo:: why put the same object that was just saved? its already in the state
             dispatch({type: "SAVE_DECISION_NEW", payload: {decision: res.data}})
             setSaving(false)
             setSavingSuccess(true)
@@ -161,8 +162,9 @@ return useMemo(() => {
       <AppBar className={classes.appbar} position="static">
         <Toolbar className={classes.toolbar} style={{}}>
 
-        <Button onClick={()=>setRedirectHome(true)}>
+        <Button onClick={()=>setRedirectHome(true)} className={classes.logoButton}>
           <img src="/images/logo.png" alt="decisions" height="40px" />
+          <Typography style={{fontFamily:'Permanent Marker',fontSize:'28px'}}>Decidy</Typography>
         </Button>
 
         <div style={{display:'flex'}}>
@@ -175,7 +177,7 @@ return useMemo(() => {
           :
           <>
               
-              { Lockable &&
+              { isNewDecision &&
                 <Button onClick={handleLockClick} className={classes.roundButton}>
                   <Icon
                       path={ICONS[isReadOnly ? 'ClosedLock':'OpenedLock' ]}
@@ -190,7 +192,7 @@ return useMemo(() => {
                 </Button> 
               }
 
-              { !Lockable &&
+              { !isNewDecision &&
                 <Button className={classes.roundButton} onClick={handleShare}>
                   <Icon
                       path={ICONS['Share']}
@@ -232,5 +234,5 @@ return useMemo(() => {
 
       
     </div>
-  )},[title,pros,cons,id,loading,isReadOnly,classes,redirect,redirectHome, showShare,saving,savingSuccess,isDark,Lockable])
+  )},[title,pros,cons,id,loading,isReadOnly,classes,redirect,redirectHome, showShare,saving,savingSuccess,isDark,isNewDecision])
 }
