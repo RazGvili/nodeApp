@@ -131,7 +131,7 @@ router.patch('/decisions/:id', (req, res) => {
 
     // Assure only desired fields are being modified 
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['desc', 'completed', 'cons', 'pros', 'comments', 'idToDelete']
+    const allowedUpdates = ['desc', 'completed', 'cons', 'pros', 'newComment', 'commentIdToDelete']
     const isValid = updates.every((update) => allowedUpdates.includes(update))
     const invalidFields = _.difference(updates, allowedUpdates)
 
@@ -158,21 +158,29 @@ router.patch('/decisions/:id', (req, res) => {
             })
         }
 
+
+
         updates.forEach((update) => {
 
-            if (update === 'comments') {
+            if (update === 'newComment') {
 
-                const newComment = req.body.comments
+                let newComment = req.body.newComment
                 newComment.date = new Date()
+
+                console.log("Adding comment")
+                console.log(newComment)
+
                 decision.comments = decision.comments.concat(newComment)
+            } 
 
-                if (req.body.comments === 'delete') {
+            if (update === 'commentIdToDelete') {
 
-                    console.log(decision.comments)
-                    decision.comments = decision.comments.filter((commentIter) => commentIter._id !== req.body.idToDelete)
-                }
+                console.log("Deleting comment with id -->" + req.body.commentIdToDelete)
+                decision.comments = decision.comments.filter((commentIter) => commentIter._id !== req.body.idToDelete)
+            } 
 
-            } else {
+            if (update !== 'newComment' && update !== 'commentIdToDelete') {
+
                 decision[update] = req.body[[update]]
             }
         })

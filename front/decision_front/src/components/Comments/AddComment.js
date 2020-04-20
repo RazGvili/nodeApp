@@ -72,7 +72,7 @@ export default function AddComment({decisionId}) {
         
         try {
             
-            const res = await axios.patch(`${BASE_URL}/decisions/${decisionId}`, {comments: newComment})
+            const res = await axios.patch(`${BASE_URL}/decisions/${decisionId}`, {newComment: newComment})
             
             if (res.status === 200) {
                 let comment = res.data.comments.pop()
