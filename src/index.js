@@ -10,7 +10,7 @@ if (cluster.isMaster) {
     log.info("CPUs: %s", numCPUs)
 
     // Create a worker for each CPU
-    for (var i = 0; i < cpuCount; i += 1) {
+    for (var i = 0; i < numCPUs; i += 1) {
         cluster.fork();
     }
 
