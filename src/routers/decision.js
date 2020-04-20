@@ -9,6 +9,8 @@ let _ = require('lodash')
 // middleware 
 const auth = require('../middleware/auth')
 
+let log = require('../logger')
+
 
 // router.get('/decisions/:id', auth, (req, res) => {
 
@@ -55,9 +57,8 @@ router.get('/decisions/:id', (req, res) => {
             })
         }
 
-        console.log("successful get, returning --->")
-        console.log(decision)
-        console.log("\n")
+        log.info("successful get, returning --->")
+        log.info({dec: decision})
         res.send(decision)
 
     }).catch((err) => {
