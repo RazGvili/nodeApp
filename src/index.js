@@ -29,5 +29,5 @@ app.use(decisionRouter)
 
 
 app.listen(port, () => {
-    log.info("Server is up :) \nport --> " + port + "\n")
+    log.info("Server is up, port --> %s", port)
 })
