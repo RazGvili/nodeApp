@@ -15,7 +15,7 @@ const initialState = {
 
     loading: true,
     error: "",
-    isDark: false,
+    isDark: true,
     showSnack: false,
     snackType: "",
     snackText: "",

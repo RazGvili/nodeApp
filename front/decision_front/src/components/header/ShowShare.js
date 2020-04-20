@@ -63,7 +63,7 @@ export default function ShowShare({closeAction}) {
                 <FacebookShareButton quote="text here" hashtag="hashtag todo" url="" />
                 <FacebookShareCount url={""} />
 
-                <LinkedinShareButton title="" summary="" source="Decidy" url="http://test.com"/>
+                <LinkedinShareButton title="lets try" summary="sfsf" source="Decidy" url="http://test.com"/>
                 <RedditShareButton title="" url="" />
                 <RedditShareCount url={""} />
                 <TwitterShareButton title="" via="Decidy" hashtags={[]} related={[]} url="" />
