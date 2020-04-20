@@ -8,7 +8,7 @@ import {useMediaQuery,Slide,Grid,Dialog,DialogContent} from '@material-ui/core'
 import AddProCon from './main/AddProCon'
 import AddButton from './main/AddButton'
 import Title from "./main/Title"
-import Header from "./Header"
+import Header from "./header/Header"
 import ChoicesData from "./main/ChoicesData"
 import Argument from "./main/Argument"
 //import {BASE_URL} from './GlobalVars'

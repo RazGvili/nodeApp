@@ -1,25 +1,20 @@
 import React, {useState, useMemo, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
-import Button from '@material-ui/core/Button'
-import Timer from './timer'
+import {AppBar,Toolbar,Button,Typography} from '@material-ui/core'
+
+//import Timer from '../timer'
 import Skeleton from '@material-ui/lab/Skeleton';
+import { Redirect  } from 'react-router-dom'
 
-import { Link, Redirect  } from 'react-router-dom'
-
-import {ICONS} from './custom/IconsData'
+import {ICONS} from '../custom/IconsData'
 import Icon from '@mdi/react'
 
 import axios from "axios"
-import {BASE_URL} from './GlobalVars'
-import { useTracked  } from '../store'
+import {BASE_URL} from '../GlobalVars'
+import { useTracked  } from '../../store'
 
-import SaveButton from './header/SaveButton'
-import ShowShare from './header/ShowShare'
-import { Typography } from '@material-ui/core'
-
+import SaveButton from './SaveButton'
+import ShowShare from './ShowShare'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius:'45px',
   },
   toolbar:{
-    display:'flex', justifyContent:'space-between',
+    display:'flex', justifyContent:'space-between',padding:'15px 15px 0px 15px'
     
   },
   appbar:{
@@ -56,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
   },
   logoButton:{
     textTransform:'none',
-    
   }
 }))
 
@@ -171,7 +165,7 @@ return useMemo(() => {
 
         <Button onClick={()=>setRedirectHome(true)} className={classes.logoButton}>
           <img src="/images/logo.png" alt="decisions" height="40px" />
-          <Typography style={{fontFamily:'Permanent Marker',fontSize:'28px'}}>Decidy</Typography>
+          <Typography style={{fontFamily:'Permanent Marker',fontSize:'28px',paddingRight:'5px'}}>Decidy</Typography>
         </Button>
 
         <div style={{display:'flex'}}>
@@ -232,7 +226,7 @@ return useMemo(() => {
               </Button>
           </>
           }
-          <Timer seconds="15"/>
+          {/* <Timer seconds="15"/> */}
           </div>
         </Toolbar>
       </AppBar>
