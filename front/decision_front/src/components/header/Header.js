@@ -72,9 +72,9 @@ export default function Header() {
     dispatch({type: "TOGGLE_READ_ONLY"})
 
     if (isReadOnly) {
-        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[UNLOCKED] After the first save, this decision will be editable for all"}})
+        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[Editable mode] After the first save, this decision will be editable for all users who have the unique link"}})
     } else {
-        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[LOCKED] After the first save, this decision will be read-only for all"}})
+        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[Read-only mode] After the first save, this decision will be read-only for all (even you)"}})
     }
   }
 
@@ -145,8 +145,6 @@ export default function Header() {
       }
           
   }, [redirectHome])
-  console.log(process.env.BASE_URL_DEV)
-
 
 return useMemo(() => {
   return (
@@ -188,7 +186,7 @@ return useMemo(() => {
                       style={{margin:'auto'}}
                   /> 
                    <Typography className={classes.buttonText}>
-                  Lock   
+                   {isReadOnly ? 'Locked':'Editable'   }
                   </Typography>
                 </Button> 
               }

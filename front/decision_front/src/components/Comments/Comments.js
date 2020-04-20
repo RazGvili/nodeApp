@@ -39,7 +39,8 @@ export default function Comments() {
 
     //todo:: make sure removing comment is only possible to the last one and maximum after 1 hour? (so people wont delete all)
     const handleRemoveComment = async(comment) => {
-        axios.patch(`${BASE_URL}/decisions/${id}`, {comments: 'delete'})
+        console.log(comment)
+        axios.patch(`${BASE_URL}/decisions/${id}`, {comments: 'delete', idToDelete: comment._id})
             .then((res) => {
                 if (res.status === 200) {
                     dispatch({type: "REMOVE_COMMENT", payload: {comment}})

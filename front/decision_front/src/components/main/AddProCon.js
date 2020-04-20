@@ -234,6 +234,7 @@ export default function AddProCon(props) {
                                     />
 
                 <div className={classes.sliders}>  
+
                 <Grid container spacing={1} style={{margin:'15px auto',width:'100%'}}>
                     <Grid item xs={6}>
                         <span style={{}}>Impact</span>

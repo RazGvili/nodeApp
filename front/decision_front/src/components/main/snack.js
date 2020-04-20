@@ -40,7 +40,7 @@ export default function Snack() {
             {console.log('<--render: snack-->')} 
                     <Snackbar 
                         open={showSnack}
-                        autoHideDuration={6000}
+                        autoHideDuration={20000}
                         onClose={handleClose}
                     >
                         
