@@ -2,38 +2,65 @@
 const os = require('os')
 const cluster = require('cluster')
 
-const express = require('express')
-const compression = require('compression');
-let cors = require('cors')
 
-// Assure file runs -> connect db
-require('./dbm/mongoose')
+// Code to run if we're in the master process
+if (cluster.isMaster) {
 
-let log = require('./logger')
+    let numCPUs = os.cpus().length
+    log.info("CPUs: ", numCPUs)
 
-const userRouter = require('./routers/user')
-const decisionRouter = require('./routers/decision')
+    // Create a worker for each CPU
+    for (var i = 0; i < cpuCount; i += 1) {
+        cluster.fork();
+    }
 
-let numCPUs = os.cpus().length
+    // Listen for dying workers
+    cluster.on('exit', function (worker) {
 
-let app = express()
-app.use(cors())
-app.options('*', cors())
+        // Replace the dead worker,
+        // we're not sentimental
+        console.log('Worker %d died :(', worker.id);
+        cluster.fork();
 
-// compress all responses
-app.use(compression())
+    })
 
-const port = process.env.PORT
+// Code to run if we're in a worker process
+} else {
 
-// Parse incoming req 
-app.use(express.json())
+    log.info('Worker %d running!', cluster.worker.id);
 
-// Routes 
-app.use(userRouter)
-app.use(decisionRouter)
+    // Assure file runs -> connect db
+    require('./dbm/mongoose')
 
-log.info(numCPUs)
+    const express = require('express')
+    const compression = require('compression')
+    let cors = require('cors')
+    let log = require('./logger')
+    
+    // Routes
+    const userRouter = require('./routers/user')
+    const decisionRouter = require('./routers/decision')
+        
+    let app = express()
+    const port = process.env.PORT
 
-app.listen(port, () => {
-    log.info("Server is up, port --> %s", port)
-})
+    app.use(cors())
+    app.options('*', cors())
+
+    // compress all responses
+    app.use(compression())
+
+
+    // Parse incoming req 
+    app.use(express.json())
+
+    // Routes 
+    app.use(userRouter)
+    app.use(decisionRouter)
+
+
+    app.listen(port, () => {
+        log.info("Server is up, port --> %s", port)
+    })
+
+}
