@@ -1,5 +1,6 @@
 
 const express = require('express')
+const compression = require('compression');
 var cors = require('cors')
 
 // Assure file runs -> connect db
@@ -11,6 +12,9 @@ const decisionRouter = require('./routers/decision')
 let app = express()
 app.use(cors())
 app.options('*', cors())
+
+// compress all responses
+app.use(compression())
 
 const port = process.env.PORT
 
