@@ -9,14 +9,6 @@ let _ = require('lodash')
 // middleware 
 const auth = require('../middleware/auth')
 
-const parseDate = dateString => {
-    const b = dateString.split(/\D+/);
-    const offsetMult = dateString.indexOf('+') !== -1 ? -1 : 1;
-    const hrOffset = offsetMult * (+b[7] || 0);
-    const minOffset = offsetMult * (+b[8] || 0);  
-    return new Date(Date.UTC(+b[0], +b[1] - 1, +b[2], +b[3] + hrOffset, +b[4] + minOffset, +b[5], +b[6] || 0));
-};
-
 
 // router.get('/decisions/:id', auth, (req, res) => {
 
@@ -182,15 +174,7 @@ router.patch('/decisions/:id', (req, res) => {
             if (update === 'commentIdToDelete') {
 
                 console.log("Deleting comment with id --> " + req.body.commentIdToDelete)
-
-                //let now = new Date()
-                decision.comments = decision.comments.filter((commentIter) => {
-                    
-                    if (commentIter._id !== req.body.idToDelete) {
-                        return commentIter
-                    }
-
-                })
+                decision.comments = decision.comments.filter((commentIter) => {commentIter._id !== req.body.idToDelete})
             } 
 
             if (update !== 'newComment' && update !== 'commentIdToDelete') {
