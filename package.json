@@ -25,5 +25,8 @@
     "nodemon": "^2.0.2",
     "sharp": "^0.25.2",
     "validator": "^13.0.0"
+  },
+  "devDependencies": {
+    "loadtest": "^5.0.3"
   }
 }

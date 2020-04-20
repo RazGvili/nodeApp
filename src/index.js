@@ -1,4 +1,7 @@
 
+const os = require('os')
+const cluster = require('cluster')
+
 const express = require('express')
 const compression = require('compression');
 let cors = require('cors')
@@ -10,6 +13,8 @@ let log = require('./logger')
 
 const userRouter = require('./routers/user')
 const decisionRouter = require('./routers/decision')
+
+let numCPUs = os.cpus().length
 
 let app = express()
 app.use(cors())
@@ -27,6 +32,7 @@ app.use(express.json())
 app.use(userRouter)
 app.use(decisionRouter)
 
+log.info(numCPUs)
 
 app.listen(port, () => {
     log.info("Server is up, port --> %s", port)
