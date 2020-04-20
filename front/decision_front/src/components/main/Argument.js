@@ -29,32 +29,32 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-export default function Argument(props) {
+export default function Argument({isReadOnly,type,handleArgumentRemove,handleEdit,arg}) {
 
     const classes = useStyles()
 
     return (
         <div className={classes.container}>
-                    <Alert  icon={<span style={{color:props.type==='con'?red:green,fontSize: '1.5em'}}>*</span>}
-                            onClose={() => props.handleArgumentRemove()}
+                    <Alert  icon={<span style={{color:type==='con'?red:green,fontSize: '1.5em'}}>*<br />sdfd</span>}
+                            onClose={isReadOnly? () => null : () => handleArgumentRemove()}
                             classes={{root:classes.argumentRoot,message:classes.argumentMessage,action:classes.argumentAction}}
-                            action={
+                            action={isReadOnly? null :
                                 <>
-                                <IconButton onClick={() => props.handleArgumentRemove()}>
+                                <IconButton onClick={() => handleArgumentRemove()}>
                                   <Icon path={ICONS['Close']} size={1} />
                                 </IconButton>
-                                <IconButton onClick={() => props.handleEdit()}>
+                                <IconButton onClick={() => handleEdit()}>
                                   <Icon path={ICONS['Edit']} size={1} />
                                 </IconButton>
                                 </>
                               }
-                            style={{color:props.type==='con'?red:green}}>
+                            style={{color:type==='con'?red:green}}>
                                         <AlertTitle style={{fontSize: '1.5em'}}>
-                                            <b  style={{fontFamily:'Permanent Marker'}} >{props.arg.proCon}</b>
+                                            <b  style={{fontFamily:'Permanent Marker'}} >{arg.proCon}</b>
                                         </AlertTitle>
-                                        Impact:{` ${props.arg.impact}`} <br/>  
-                                        Confidence:{` ${props.arg.confidence}`} <br/> 
-                                        Long term effects:{` ${props.arg.effects}`} <br/> 
+                                        Impact:{` ${arg.impact}`} <br/>  
+                                        Confidence:{` ${arg.confidence}`} <br/> 
+                                        Long term effects:{` ${arg.effects}`} <br/> 
                                     
                     </Alert>
         </div>

@@ -9,7 +9,7 @@ import {BASE_URL} from './GlobalVars'
 
 import {useParams} from "react-router-dom"
 
-const theme = (darkMode) => responsiveFontSizes(createMuiTheme({
+export const theme = (darkMode) => responsiveFontSizes(createMuiTheme({
   typography: {
       fontFamily: 'Nunito Sans, Arial',
     },

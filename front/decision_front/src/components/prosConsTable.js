@@ -9,7 +9,7 @@ import AddProCon from './main/AddProCon'
 import AddButton from './main/AddButton'
 import Title from "./main/Title"
 import Header from "./header/Header"
-import ChoicesData from "./main/ChoicesData"
+import ChoicesData from "./decisionCalc/ChoicesData"
 import Argument from "./main/Argument"
 //import {BASE_URL} from './GlobalVars'
 import { useTracked } from '../store'
@@ -73,9 +73,9 @@ const useStyles = makeStyles(theme => ({
     },
     blackBoardTitle:{
         fontFamily:'Permanent Marker',
-        height:'4em',
-        fontSize:'35px',
-        paddingTop:'1em'
+        height:'3.5em',
+        fontSize:'40px',
+        paddingTop:'0.7em'
     },
     boardContainer:{
         padding:'10px'
@@ -91,7 +91,7 @@ const useStyles = makeStyles(theme => ({
 export default function ProsConsTable() {
     //const theme = useTheme();
     const [state,dispatch] = useTracked();
-    const {isDark,cons,pros,loading} = state
+    const {isDark,cons,pros,loading,isReadOnly} = state
     //let styleProps = {DARK_MODE:DARK_MODE}
     const classes = useStyles()
     const smallScreen = useMediaQuery('(max-width:600px)')
@@ -187,11 +187,13 @@ export default function ProsConsTable() {
                         </>
                         :
                         <>
-                            <AddButton type='pro' AddAction={HandleOpenArgumentDialog} />
+                            {!isReadOnly && <AddButton type='pro' AddAction={HandleOpenArgumentDialog} />}
                                 {
                                     pros.map((arg, index) => {
                                         return (
-                                            <Argument   arg={arg}
+                                            <Argument
+                                            arg={arg}
+                                            isReadOnly={isReadOnly}
                                             key={index}
                                             handleArgumentRemove={() => handleArgumentRemove(arg)}
                                             handleEdit={()=> HandleOpenArgumentDialog('','pro',arg)}
@@ -219,12 +221,13 @@ export default function ProsConsTable() {
                             </>
                             :
                             <>
-                                <AddButton type='con' AddAction={HandleOpenArgumentDialog} setArgument/>
+                                {!isReadOnly && <AddButton type='con' AddAction={HandleOpenArgumentDialog} /> }
                                 
                                 {cons.map((arg, index) => {
                                     return (
                                         <Argument   arg={arg}
                                                     key={index}
+                                                    isReadOnly={isReadOnly}
                                                     handleArgumentRemove={() => handleArgumentRemove(arg)}
                                                     handleEdit={()=> HandleOpenArgumentDialog('','con',arg)}
                                                     type="con"
@@ -253,5 +256,5 @@ export default function ProsConsTable() {
                 </Dialog>
         </div>
 
-    )},[isDark,cons,pros,loading,classes,smallScreen,showDialog,type,text])
+    )},[isDark,cons,pros,loading,classes,smallScreen,showDialog,type,text,isReadOnly])
 }
