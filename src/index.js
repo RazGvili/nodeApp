@@ -7,7 +7,7 @@ const cluster = require('cluster')
 if (cluster.isMaster) {
 
     let numCPUs = os.cpus().length
-    log.info("CPUs: ", numCPUs)
+    log.info("CPUs: %s", numCPUs)
 
     // Create a worker for each CPU
     for (var i = 0; i < cpuCount; i += 1) {
@@ -19,7 +19,7 @@ if (cluster.isMaster) {
 
         // Replace the dead worker,
         // we're not sentimental
-        console.log('Worker %d died :(', worker.id);
+        console.log('Worker %s died :(', worker.id);
         cluster.fork();
 
     })
@@ -27,7 +27,7 @@ if (cluster.isMaster) {
 // Code to run if we're in a worker process
 } else {
 
-    log.info('Worker %d running!', cluster.worker.id);
+    log.info('Worker %s running!', cluster.worker.id);
 
     // Assure file runs -> connect db
     require('./dbm/mongoose')
