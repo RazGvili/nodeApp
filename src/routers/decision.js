@@ -131,7 +131,7 @@ router.patch('/decisions/:id', (req, res) => {
 
     // Assure only desired fields are being modified 
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['desc', 'completed', 'cons', 'pros', 'comments']
+    const allowedUpdates = ['desc', 'completed', 'cons', 'pros', 'comments', 'idToDelete']
     const isValid = updates.every((update) => allowedUpdates.includes(update))
     const invalidFields = _.difference(updates, allowedUpdates)
 
@@ -169,7 +169,7 @@ router.patch('/decisions/:id', (req, res) => {
                 if (req.body.comments === 'delete') {
 
                     console.log(decision.comments)
-                    decision.comments = decision.comments.slice(0,decision.comments.length-2)
+                    decision.comments = decision.comments.filter((commentIter) => commentIter._id !== req.body.idToDelete)
                 }
 
             } else {
