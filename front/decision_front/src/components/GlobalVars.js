@@ -14,3 +14,14 @@ export const themeColors = {
         backgroundColor:'white'
     }
 }
+
+// export const texts = {
+//     dark:{
+//         textColor:'white',
+//         backgroundColor:'black'
+//     },
+//     light:{
+//         textColor:'black',
+//         backgroundColor:'white'
+//     }
+// }
