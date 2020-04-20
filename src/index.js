@@ -1,10 +1,12 @@
 
 const express = require('express')
 const compression = require('compression');
-var cors = require('cors')
+let cors = require('cors')
 
 // Assure file runs -> connect db
 require('./dbm/mongoose')
+
+let log = require('./logger')
 
 const userRouter = require('./routers/user')
 const decisionRouter = require('./routers/decision')
@@ -27,5 +29,5 @@ app.use(decisionRouter)
 
 
 app.listen(port, () => {
-    console.log("Server is up :) \nport --> " + port + "\n")
+    log.info("Server is up :) \nport --> " + port + "\n")
 })
