@@ -158,8 +158,6 @@ router.patch('/decisions/:id', (req, res) => {
             })
         }
 
-
-
         updates.forEach((update) => {
 
             if (update === 'newComment') {
@@ -175,8 +173,13 @@ router.patch('/decisions/:id', (req, res) => {
 
             if (update === 'commentIdToDelete') {
 
-                console.log("Deleting comment with id -->" + req.body.commentIdToDelete)
-                decision.comments = decision.comments.filter((commentIter) => commentIter._id !== req.body.idToDelete)
+                console.log("Deleting comment with id --> " + req.body.commentIdToDelete)
+
+                decision.comments = decision.comments.filter((commentIter) => {
+                    console.log(commentIter._id)
+                    console.log(typeof commentIter._id)
+                    commentIter._id !== req.body.idToDelete}
+                )
             } 
 
             if (update !== 'newComment' && update !== 'commentIdToDelete') {
