@@ -7,7 +7,15 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Button, Typography, IconButton } from '@material-ui/core'
 import Icon from '@mdi/react'
 import { ICONS } from '../custom/IconsData'
-
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  RedditShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  FacebookShareCount,
+  RedditShareCount
+} from "react-share";
 const useStyles = makeStyles((theme) => ({
     copyButton:{
     background:'none',
@@ -52,6 +60,14 @@ export default function ShowShare({closeAction}) {
                 <Typography> Get some feedback! <br/> Copy your decision link and share </Typography> 
 
                 <br/>
+                <FacebookShareButton quote="text here" hashtag="hashtag todo" url="" />
+                <FacebookShareCount url={""} />
+
+                <LinkedinShareButton title="" summary="" source="Decidy" url="http://test.com"/>
+                <RedditShareButton title="" url="" />
+                <RedditShareCount url={""} />
+                <TwitterShareButton title="" via="Decidy" hashtags={[]} related={[]} url="" />
+                <WhatsappShareButton title="" url="" />
 
                 <CopyToClipboard text={window.location.origin + "/d/" + id}
                     onCopy={handleCopied}>

@@ -1,22 +1,9 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-
-//import ListItem from '@material-ui/core/ListItem'
-//import ListItemText from '@material-ui/core/ListItemText'
-
-//import FaceIcon from '@material-ui/icons/Face'
-//import ListItemIcon from '@material-ui/core/ListItemIcon'
-//import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import IconButton from '@material-ui/core/IconButton'
-
-//import Typography from '@material-ui/core/Typography'
-
-
-
 import {ICONS} from '../custom/IconsData'
 import Icon from '@mdi/react'
 import Avatar from '../custom/Avatar'
-import { Grid, Typography } from '@material-ui/core'
+import { Grid, Typography,IconButton } from '@material-ui/core'
 
 function timeSince(date) {
 
@@ -57,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'inline',
     },
     container:{
-        display:'flex'
+        display:'flex',
+        position:'relative'
     },
     bubbleContainer:{
         float: 'left',
@@ -102,11 +90,11 @@ const useStyles = makeStyles((theme) => ({
     name:{
         color:theme.palette.type==='light'?'black':'white',
         fontWeight:'700',
-                    position: 'absolute',
-                    left: '0px',
-                    width: '60px',
-                    top: '105px',
-                    fontSize: '11px'
+        position: 'absolute',
+        left: '0px',
+        width: '60px',
+        top: '105px',
+        fontSize: '11px'
     },
     gradeContainer:{
       width: '80px',
@@ -121,6 +109,7 @@ const useStyles = makeStyles((theme) => ({
     gradeButtonUp:{
       background:'aliceblue',
       paddingRight: '10px',
+      marginBottom:'-2px',
       borderRadius: '0px 25px 0px 0px',
       '&:hover':{
         background:'rgba(135, 185, 85, 0.5)'
@@ -128,6 +117,7 @@ const useStyles = makeStyles((theme) => ({
     },
     gradeButtonDown:{
       background:'aliceblue',
+      
       paddingRight: '10px',
       borderRadius: '0px 0px 25px 0px',
       '&:hover':{
@@ -142,7 +132,6 @@ export default function Comments({comment, setRemoveLastOne,canDelete}) {
     const classes = useStyles()
 
     const {_id,text,name,date} = comment
-    //todo change date string to how long ago
 
     return (
 
@@ -174,8 +163,8 @@ export default function Comments({comment, setRemoveLastOne,canDelete}) {
                     
                     <IconButton  onClick={()=>setRemoveLastOne()} style={{
                         position: 'absolute',
-                        right: '10px',
-                        bottom: '70px',
+                        right: '0px',
+                        bottom: '16px',
                         }}>
                         <Icon   
                             path={ICONS['Remove']}
@@ -190,7 +179,7 @@ export default function Comments({comment, setRemoveLastOne,canDelete}) {
                 <Icon path={ICONS['ArrowUp']} size={0.6} color={'grey'}/>
               </div>
                     
-                    <Typography style={{fontSize:'10px',fontWeight:'700',color:'grey', paddingRight: '10px',}}>12</Typography>
+                    <Typography style={{fontSize:'13px',fontWeight:'700',color:'grey', paddingRight: '9px',}}>12</Typography>
                     <div className={classes.gradeButtonDown}>
                     <Icon path={ICONS['ArrowDown']} size={0.6} color={'grey'} />
                     </div>

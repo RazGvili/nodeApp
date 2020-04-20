@@ -27,7 +27,6 @@ return Animals[accum%Animals.length]
 const getRandomColor = (str) => {
     let accum=0;
         for (let i=0;i<str.length;i++){
-        //console.log(str.charCodeAt(i)+str.charCodeAt(i+1))
         accum=accum+str.charCodeAt(i)
         
         }
@@ -35,25 +34,17 @@ const getRandomColor = (str) => {
     }
 
 const Animals =
-['huski','bird','chicken','bulldog','horns','leopard',
+['huski','bird','chicken','bulldog','horns','leopard','baldeagle','jimmy','meerkat','panda','girraff','dog2',
 //'snowleopard',
-'cat1','cat2','cat3','cat4','mouse','dog1']
-const Colors = ['#A4036F','#2DE1FC','#16DB93','#4062BB','#FF4365','#EABE2C','#605A5E']
+'cat1','cat2','cat3','cat4','mouse','dog1','owl']
+const Colors = ['#a6c7ea','#6899aa','#90d0b6','#b9ddad','#f7f48d','#cdab8f','#fbdddd','#f59597','#fbbe7d','#ceb3d4','#b4b3db','#c0c0c0']
 
 export default function Avatar({commentID,name}) {
-    //const classes = useStyles()
     //let randomPic = () => Animals[Math.floor(Math.random() * Animals.length)]
     //let randomColor = Colors[Math.floor(Math.random() * Colors.length)]
-    let randomPic = getRandomAnimal(name)
-    let randomColor = getRandomColor(name)
-    //const randomColor1 = randomColor()
-    // function getRandomPic(){
-    //     return 
-    //   }
-    //   function getRandomColor(){
-    //       return <stop offset="100%" style={{stopColor:Colors[Math.floor(Math.random() * Colors.length)], stopOpacity:1}} />
-    //     //return Colors[Math.floor(Math.random() * Colors.length)]
-    //   }
+    let randomPic = getRandomAnimal(name.toLowerCase())
+    let randomColor = getRandomColor(name.toLowerCase())
+
     return useMemo(() => {
     return (
         <div style={{position:'relative',width:'60px',height:'60px',marginTop:'20px'}}>
