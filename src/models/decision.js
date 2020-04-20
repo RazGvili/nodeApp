@@ -11,6 +11,8 @@ const decisionSchema = new mongoose.Schema({
             // throw new Error('bla')
         }
     },
+    proTitle: { type: String },
+    conTitle: { type: String },
     pros: {
         type: [
             { 
@@ -40,7 +42,8 @@ const decisionSchema = new mongoose.Schema({
             { 
                 text:  { type: String, required: true  },
                 name:  { type: String, required: true  },
-                date:  { type: Date, required: true }
+                date:  { type: Date, required: true },
+                threadID: { type: Date },
                 // likes: { type: Number  }, 
             }
         ]
