@@ -100,10 +100,10 @@ const reducer = (state, action) => {
         case "PRO_CON_EDIT":
 
             let argToEdit = action.payload.arg
+
             if (argToEdit.type === 'pro') {
-                let newArr = state.pros.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
                 
-                    
+                let newArr = state.pros.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
                 return {
                     ...state,
                     pros: newArr

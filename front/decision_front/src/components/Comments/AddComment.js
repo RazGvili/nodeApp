@@ -87,6 +87,7 @@ export default function AddComment({decisionId}) {
             console.log(e.message)
             setError(e.message)
             //setLoading(false)
+            dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong! please try again.`}})
         }
     }
 
@@ -99,12 +100,12 @@ export default function AddComment({decisionId}) {
             sending?
                 <Typography>loading...</Typography>
             :
-            error?
-            <>
-                <h3 style={{color: 'red'}}>{error}</h3>
-                <Button style={{fontFamily:'Permanent Marker'}} onClick={() => {window.location.reload()}}> Try refreshing </Button>
-            </>
-            :   
+            // error?
+            // <>
+            //     <h3 style={{color: 'red'}}>{error}</h3>
+            //     <Button style={{fontFamily:'Permanent Marker'}} onClick={() => {window.location.reload()}}> Try refreshing </Button>
+            // </>
+            // :   
                 <>
                     <br />
                     <TextField

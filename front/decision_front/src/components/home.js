@@ -58,8 +58,14 @@ export default function Home() {
             }
             
         } catch (e) {
+
           console.log(e.message)
-          dispatch({type: "SET_ERROR", payload: {error:e.message}})
+          //dispatch({type: "SET_ERROR", payload: {error:e.message}})
+
+          if (e.response.status === 404) {
+            dispatch({type: "OPEN_SNACK", payload: {type: "info", text: `We didn't find it, Sure you pasted it correctly?`}})
+            dispatch({type: "INIT_DECISION"}) 
+          }
 
         }
     
