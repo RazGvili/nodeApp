@@ -65,9 +65,7 @@ export default function AddComment({decisionId}) {
 
     const handleAddComment = async () => {
         setSending(true)
-        //todo:: lets remove title from front and back?
         let newComment = {
-            title:"titleeeee",
             name,
             text
         }

@@ -151,6 +151,7 @@ export default function Header() {
       }
           
   }, [redirectHome])
+  console.log(process.env.BASE_URL_DEV)
 
 
 return useMemo(() => {

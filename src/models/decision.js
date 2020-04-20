@@ -38,7 +38,6 @@ const decisionSchema = new mongoose.Schema({
     comments: {
         type: [
             { 
-                title: { type: String, required: true  }, 
                 text:  { type: String, required: true  },
                 name:  { type: String, required: true  },
                 date:  { type: Date, required: true }
