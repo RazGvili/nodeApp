@@ -41,7 +41,7 @@ let log = require('../logger')
 
 router.get('/decisions/:id', (req, res) => {
 
-    console.log("task ID from params--> " + req.params.id)
+    log.info("task ID from params--> %s",req.params.id)
     //console.log("user ID from auth--> " + req.user._id)
 
     const _id = req.params.id
@@ -57,13 +57,12 @@ router.get('/decisions/:id', (req, res) => {
             })
         }
 
-        log.info("successful get, returning --->")
+        log.info("successful get, returning ---> \n")
         log.info({dec: decision})
         res.send(decision)
 
     }).catch((err) => {
-        console.log(err)
-        console.log("\n")
+        log.info({err: err})
         res.status(500).send(err)
     })
 
@@ -71,61 +70,61 @@ router.get('/decisions/:id', (req, res) => {
 
 
 
-router.get('/decisions', auth, (req, res) => {
+// router.get('/decisions', auth, (req, res) => {
 
-    let match = {}
-    const user = req.user
+//     let match = {}
+//     const user = req.user
     
-    if (req.query.completed) {
+//     if (req.query.completed) {
 
-        console.log("req.query--->")
-        console.log(req.query)
-        console.log("\n")
+//         console.log("req.query--->")
+//         console.log(req.query)
+//         console.log("\n")
         
-        if (req.query.completed === 'true' || req.query.completed === 'false') {
-            match.completed = req.query.completed === 'true'
+//         if (req.query.completed === 'true' || req.query.completed === 'false') {
+//             match.completed = req.query.completed === 'true'
 
-        } else {
-            console.log("invalid query param: " + req.query.completed)
-        }
+//         } else {
+//             console.log("invalid query param: " + req.query.completed)
+//         }
     
-    } else {
-        console.log("req.query---> Non received ")
-    }   
+//     } else {
+//         console.log("req.query---> Non received ")
+//     }   
 
-    console.log("user ID from auth--> " + user._id)
+//     console.log("user ID from auth--> " + user._id)
 
-    user.populate({
-        path: 'decisions',
-        match,
-        options: {
-            sort: {
-                createdAt: -1
-            }
-        }
+//     user.populate({
+//         path: 'decisions',
+//         match,
+//         options: {
+//             sort: {
+//                 createdAt: -1
+//             }
+//         }
 
-    }).execPopulate().then(() => {
+//     }).execPopulate().then(() => {
 
-        if (!user.decisions) {
-            return res.status(404).send({
-                "err": "decisions not found"
-            })
-        }
+//         if (!user.decisions) {
+//             return res.status(404).send({
+//                 "err": "decisions not found"
+//             })
+//         }
 
-        console.log("decisions --->")
-        console.log(user.decisions)
-        console.log("\n")
+//         console.log("decisions --->")
+//         console.log(user.decisions)
+//         console.log("\n")
 
-        res.send(user.decisions)
+//         res.send(user.decisions)
 
-    }).catch((err) => {
+//     }).catch((err) => {
 
-        console.log(err)
-        res.status(500).send({
-            "err": err
-        })
-    })
-})
+//         console.log(err)
+//         res.status(500).send({
+//             "err": err
+//         })
+//     })
+// })
 
 
 router.patch('/decisions/:id', (req, res) => {
@@ -136,18 +135,18 @@ router.patch('/decisions/:id', (req, res) => {
     const isValid = updates.every((update) => allowedUpdates.includes(update))
     const invalidFields = _.difference(updates, allowedUpdates)
 
-    console.log("req.body ========")
-    console.log(req.body)
-    console.log("================ \n")
+    log.info("================")
+    log.info({req: req.body})
+    log.info("================")
 
     if (!isValid) {
-        console.log("invalidFields")
-        console.log(invalidFields)
+        log.info("invalidFields")
+        log.info(invalidFields)
         return res.status(400).send()
     }
 
     const _id = req.params.id
-    console.log("task ID from params--> " + _id)
+    log.info("task ID from params--> %s", _id)
 
     Decision.findOne({
         _id,
@@ -166,15 +165,15 @@ router.patch('/decisions/:id', (req, res) => {
                 let newComment = req.body.newComment
                 newComment.date = new Date()
 
-                console.log("Adding comment")
-                console.log(newComment)
+                log.info("Adding comment")
+                log.info({newComment: newComment})
 
                 decision.comments = decision.comments.concat(newComment)
             } 
 
             if (update === 'commentIdToDelete') {
 
-                console.log("Deleting comment with id --> " + req.body.commentIdToDelete)
+                log.info("Deleting comment with id --> %s", req.body.commentIdToDelete)
                 decision.comments = decision.comments.filter((commentIter) => {commentIter._id !== req.body.idToDelete})
             } 
 
@@ -188,13 +187,13 @@ router.patch('/decisions/:id', (req, res) => {
 
     }).then((decision) => {
 
-        console.log("saving -->")
-        console.log(decision)
+        log.info("saving -------->")
+        log.info({decision: decision})
         return decision.save()
         
     }).then((decision) => {
 
-        console.log("decision updated & saved, sending.. \n")
+        log.info("decision updated & saved!  \n")
         res.send(decision)
 
     }).catch((err) => {
@@ -251,26 +250,26 @@ router.post('/decisions', (req, res) => {
         })
     }
 
-    console.log("req.body ========")
-    console.log(req.body)
-    console.log("================ \n")
+    log.info("================")
+    log.info({req: req.body})
+    log.info("================")
 
     const decision = new Decision({
         ...req.body,
     })
 
-    console.log("Decision object to save --->")
-    console.log(decision)
+    log.info("Decision object to save --->")
+    log.info({decision: decision})
 
     decision.save().then((decision) => {
 
-        console.log("Decision object saved! \n")
+        log.info("Decision object saved! \n")
         res.status(201).send(decision)
 
     }).catch((err) => {
 
-        console.log("Decision object save failed! \n")
-        console.log(err)
+        log.info("Decision object save failed! \n")
+        log.info({err: err})
         res.status(400).send({ err })
 
     })
@@ -279,39 +278,36 @@ router.post('/decisions', (req, res) => {
 
 
 
-router.delete('/decisions/:id', auth, (req, res) => {
+// router.delete('/decisions/:id', auth, (req, res) => {
 
-    const _id = req.params.id
-    const user = req.user
+//     const _id = req.params.id
+//     const user = req.user
 
-    console.log("user ID from auth--> " + user._id)
-    console.log("task ID from params--> " + _id)
+//     Decision.findOneAndDelete({
+//         _id,
+//         owner: user._id
+//     }).then((decision) => {
 
-    Decision.findOneAndDelete({
-        _id,
-        owner: user._id
-    }).then((decision) => {
+//         if (!decision) {
 
-        if (!decision) {
+//             console.log("decision not found")
 
-            console.log("decision not found")
+//             return res.status(404).send({
+//                 "err": "Delete decision fail"
+//             })
+//         }
 
-            return res.status(404).send({
-                "err": "Delete decision fail"
-            })
-        }
+//         console.log("decision deleted")
+//         res.send(decision)
 
-        console.log("decision deleted")
-        res.send(decision)
+//     }).catch((err) => {
 
-    }).catch((err) => {
-
-        console.log(err)
-        res.status(500).send({
-            "err": "Delete decision fail"
-        })
-    })
-})
+//         console.log(err)
+//         res.status(500).send({
+//             "err": "Delete decision fail"
+//         })
+//     })
+// })
 
 
 module.exports = router
