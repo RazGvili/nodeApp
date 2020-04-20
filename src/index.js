@@ -1,7 +1,7 @@
 
 const os = require('os')
 const cluster = require('cluster')
-
+let log = require('./logger')
 
 // Code to run if we're in the master process
 if (cluster.isMaster) {
@@ -19,14 +19,14 @@ if (cluster.isMaster) {
 
         // Replace the dead worker,
         // we're not sentimental
-        console.log('Worker %s died :(', worker.id);
+        log.info('Worker %s died :(', worker.id);
         cluster.fork();
 
     })
 
 // Code to run if we're in a worker process
 } else {
-
+    
     log.info('Worker %s running!', cluster.worker.id);
 
     // Assure file runs -> connect db
@@ -35,7 +35,6 @@ if (cluster.isMaster) {
     const express = require('express')
     const compression = require('compression')
     let cors = require('cors')
-    let log = require('./logger')
     
     // Routes
     const userRouter = require('./routers/user')
