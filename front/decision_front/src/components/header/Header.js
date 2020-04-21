@@ -136,9 +136,7 @@ export default function Header({aboutVersion = false}) {
       } catch (e) {
           console.error(e)
           setSaving(false)
-          // 400 -> Bad req -> Couldnt connect, internet problem? 
-          // 500 -> Something went wrong 
-          dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong. [${e}]`}})
+          dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong, We couldn't save your progress. [${e}]`}})
           dispatch({type: "SET_ERROR", payload: {error: e.message}})
 
       }

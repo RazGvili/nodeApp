@@ -3,6 +3,7 @@ const os = require('os')
 const cluster = require('cluster')
 let log = require('./logger')
 
+
 // Code to run if we're in the master process
 if (cluster.isMaster) {
 
@@ -39,11 +40,20 @@ if (cluster.isMaster) {
     const userRouter = require('./routers/user')
     const decisionRouter = require('./routers/decision')
     const helmet = require('helmet')
+    const Sentry = require('@sentry/node')
 
     const app = express()
+
     const port = process.env.PORT
+    Sentry.init({ dsn: 'https://f75a800da7974182b07ea5dcce0dba93@o381304.ingest.sentry.io/5208435' })
+
+    // The request handler must be the first middleware on the app
+    app.use(Sentry.Handlers.requestHandler())
 
     app.use(helmet())
+
+    // The error handler must be before any other error middleware
+    app.use(Sentry.Handlers.errorHandler())
 
     // CORS
     app.use(cors())

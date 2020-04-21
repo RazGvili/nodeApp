@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
             '&:hover': {
                 color:theme.palette.type==='light'?theme.palette.background.dark:theme.palette.background.light,
                 background:theme.palette.type==='light'?theme.palette.background.light:theme.palette.background.dark
-              },
+            },
     },
     textInput:{
         borderRadius:'45px'
@@ -49,7 +49,6 @@ export default function AddComment({decisionId,threadID=''}) {
     const [name, setName] = useState("")
     const [text, setText] = useState("")
     const [sending,setSending] = useState(false)
-    const [error,setError] = useState("")
     const [success,setSuccess] = useState(false)
 
     const handleNameChange = (event) => {
@@ -88,10 +87,10 @@ export default function AddComment({decisionId,threadID=''}) {
             setSending(false)
         } catch (e) {
             setSending(false)
-            console.log(e.message)
-            setError(e.message)
+            console.error(e)
             //setLoading(false)
             dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong! please try again.`}})
+            dispatch({type: "SET_ERROR", payload: {error:e.message}})
         }
     }
 
@@ -104,17 +103,11 @@ export default function AddComment({decisionId,threadID=''}) {
             </Typography>
 
             {success?
-                 <Typography>Sent!</Typography>
+                <Typography> Sent!</Typography>
             :
             sending?
                 <Typography>loading...</Typography>
-            :
-            // error?
-            // <>
-            //     <h3 style={{color: 'red'}}>{error}</h3>
-            //     <Button style={{fontFamily:'Permanent Marker'}} onClick={() => {window.location.reload()}}> Try refreshing </Button>
-            // </>
-            // :   
+            :   
                 <>
                     <br />
                     <TextField

@@ -47,7 +47,6 @@ export default function Home() {
         //console.log('getting decision from server')
         try {
             
-            throw new Error("dudi")
             const res = await axios.get(`${BASE_URL}/decisions/${decisionId}`)
             const decisionFromServer = res.data
             
@@ -71,6 +70,7 @@ export default function Home() {
             }
 
           } else {
+              dispatch({type: "INIT_DECISION"}) 
               dispatch({type: "OPEN_SNACK", payload: {type: "info", text: `Something went wrong, please try again. you're invited to leave feedback!`}})  
           }
         }

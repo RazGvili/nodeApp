@@ -5,8 +5,8 @@ import {BASE_URL} from './components/GlobalVars'
 export default function(err) {
     console.log(err)
 
-    axios.post(`${BASE_URL}/decisions/error`, {errorMessage: err})
+    axios.post(`${BASE_URL}/error`, {errorMessage: err})
     .then((d) => {
-        console.log(d)
+        console.log("error logged")
     }).catch(e => console.error(e))
 }
