@@ -6,10 +6,10 @@ const decisionSchema = new mongoose.Schema({
     desc: {
         type: String,
         required: true,
-        validate(val) {
-            // validations 
-            // throw new Error('bla')
-        }
+        // validate(val) {
+        //     validations 
+        //     throw new Error('bla')
+        // }
     },
     proTitle: { type: String },
     conTitle: { type: String },

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 //const validator = require('validator')
 
-const decisionSchema = new mongoose.Schema({
+const errorSchema = new mongoose.Schema({
 
     errorMessage: {
         type: String,
@@ -10,6 +10,6 @@ const decisionSchema = new mongoose.Schema({
 }, {timestamps:true})
 
 
-const Error = mongoose.model('Decision', decisionSchema)
+const ErrorReport = mongoose.model('ErrorReport', errorSchema)
 
-module.exports = Error
+module.exports = ErrorReport

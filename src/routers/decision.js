@@ -2,7 +2,7 @@ const express = require('express')
 const router = new express.Router()
 
 const Decision = require('../models/decision')
-const Error = require('../models/error')
+const ErrorReport = require('../models/error')
 
 let _ = require('lodash')
 let log = require('../logger')
@@ -167,7 +167,7 @@ router.post('/error', (req, res) => {
     log.info({req: req.body})
     log.info("================")
 
-    const error = new Error({
+    const error = new ErrorReport({
         ...req.body,
     })
 
