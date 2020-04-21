@@ -52,9 +52,6 @@ if (cluster.isMaster) {
 
     app.use(helmet())
 
-    // The error handler must be before any other error middleware
-    app.use(Sentry.Handlers.errorHandler())
-
     // CORS
     app.use(cors())
     app.options('*', cors())
@@ -69,6 +66,8 @@ if (cluster.isMaster) {
     app.use(userRouter)
     app.use(decisionRouter)
 
+    // The error handler must be before any other error middleware
+    app.use(Sentry.Handlers.errorHandler())
 
     app.listen(port, () => {
         log.info("Server is up, port --> %s", port)
