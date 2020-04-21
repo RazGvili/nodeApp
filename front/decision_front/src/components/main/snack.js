@@ -1,27 +1,14 @@
 import React, {useMemo} from 'react'
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
-import { makeStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import { useTrackedState,useDispatch } from '../../store'
-
-import IconButton from '@material-ui/core/IconButton'
-
+import {IconButton,Slide,Snackbar} from '@material-ui/core'
 import {ICONS} from '../custom/IconsData'
 import Icon from '@mdi/react'
+import { red,green } from '../GlobalVars'
+import Alert from '@material-ui/lab/Alert'
 
+const SlideTransition = (props) =>  <Slide {...props} direction="down" />
 
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />
-}
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        '& > * + *': {
-        marginTop: theme.spacing(2),
-        },
-    },
-}))
 
 export default function Snack() {
     //const classes = useStyles()
@@ -29,34 +16,38 @@ export default function Snack() {
     const state = useTrackedState();
     let {showSnack,snackType,snackText} = state
 
-
     const handleClose = () => {
         dispatch({type: "CLOSE_SNACK"})
     }
-    
+
     return useMemo(() => {
     return (
-        <> 
-            {console.log('<--render: snack-->')} 
                     <Snackbar 
+                        TransitionComponent={SlideTransition}
                         open={showSnack}
-                        autoHideDuration={20000}
+                        anchorOrigin={{ vertical:'top', horizontal: 'center'}}
+                        autoHideDuration={10000}
                         onClose={handleClose}
+
                     >
-                        
-                        <Alert 
-                            severity={snackType} 
-                            action={
-                                <React.Fragment>
-                                    <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
-                                        <Icon path={ICONS['Close']} title="Close" size={1} />
-                                    </IconButton>
-                                </React.Fragment>
-                            }
-                        >
-                            {snackText}
-                        </Alert>
-                    </Snackbar>    
-        </>                
+                        <div>
+                            <Alert 
+                                severity={snackType} 
+                                color={snackType}
+                                elevation={6}
+                                variant="filled"
+                                style={{background:snackType==='error'?red:green}}
+                                action={
+                                        <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                                            <Icon path={ICONS['Close']} title="Close" size={1} />
+                                            {console.log('<--render: snack-->')} 
+                                        </IconButton>
+                                }
+                                
+                            >
+                                {snackText}
+                            </Alert>
+                        </div>
+                    </Snackbar>              
     )},[showSnack,snackType,snackText])
 }

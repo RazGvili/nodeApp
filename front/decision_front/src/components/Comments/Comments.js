@@ -98,9 +98,6 @@ export default function Comments() {
                 <h5 style={{color: 'red'}}> {error} </h5>
             }
             <br /><br />
-            <Typography style={{fontSize:'17PX',fontWeight:'700'}} className={classes.text}>
-                Add your Comment
-            </Typography>
 
             <AddComment decisionId={id}/>
             </>

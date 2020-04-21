@@ -38,11 +38,9 @@ export default function SaveButton({saving, success,saveAction}) {
                     size={1}
                     color={success?'white':'#9A9A9A'}
                 />
-                {!success &&
                     <Typography className={classes.buttonText}>
-                    Save
+                    Save{success && 'd!'}
                     </Typography>
-                }
                 </>
                 }
 

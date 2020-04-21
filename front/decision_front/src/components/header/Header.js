@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Header() {
+export default function Header({aboutVersion = false}) {
   const classes = useStyles()
   const [state,dispatch] = useTracked()
   const {title,pros,cons,id,loading,isReadOnly,isDark} = state
@@ -69,6 +69,7 @@ export default function Header() {
   const isNewDecision = id ? false : true
 
   const handleLockClick = () => {
+    //todo:: check if it can be locked/unlocked
     dispatch({type: "TOGGLE_READ_ONLY"})
 
     if (isReadOnly) {
@@ -87,55 +88,61 @@ export default function Header() {
   }
   
   async function handleSubmit() {
-    setSaving(true)
-    let decisionToSave = {
-      desc:title,
-      pros,
-      cons
+
+    //check if title is too short or empty
+    if (title.length<3) {
+      dispatch({type: "OPEN_SNACK", payload: {type: "error", text: "Title must be more than 2 characters"}})
     }
+    else {
+      setSaving(true)
+      let decisionToSave = {
+        desc:title,
+        pros,
+        cons
+      }
 
-    try {
+      try {
 
-        let res
+          let res
 
-        // existing decision
-        if (!isNewDecision) {
-            //todo:: handle empty title
-            res = await axios.patch(`${BASE_URL}/decisions/${id}`, decisionToSave)
-            //todo:: handle success and error?
-            setSaving(false)
-            setSavingSuccess(true)
-            setTimeout(() => {
-              setSavingSuccess(false)
-            }, 3000);
-            setRedirect(true)
+          // existing decision
+          if (!isNewDecision) {
+              //todo:: handle empty title
+              res = await axios.patch(`${BASE_URL}/decisions/${id}`, decisionToSave)
+              //todo:: handle success and error?
+              setSaving(false)
+              setSavingSuccess(true)
+              setTimeout(() => {
+                setSavingSuccess(false)
+              }, 3000);
+              setRedirect(true)
 
-        // new decision
-        } else {
-            //todo:: handle empty title
-            decisionToSave.isReadOnly = isReadOnly
-            res = await axios.post(`${BASE_URL}/decisions`, decisionToSave)
-            dispatch({type: "SAVE_DECISION_NEW", payload: {decision: res.data}})
-            setSaving(false)
-            setSavingSuccess(true)
-            setTimeout(() => {
-              setSavingSuccess(false)
-            }, 3000);
-            setRedirect(true)
-        }
+          // new decision
+          } else {
+              //todo:: handle empty title
+              decisionToSave.isReadOnly = isReadOnly
+              res = await axios.post(`${BASE_URL}/decisions`, decisionToSave)
+              dispatch({type: "SAVE_DECISION_NEW", payload: {decision: res.data}})
+              setSaving(false)
+              setSavingSuccess(true)
+              setTimeout(() => {
+                setSavingSuccess(false)
+              }, 3000);
+              setRedirect(true)
+          }
 
-        dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
+          dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
 
-    } catch (e) {
-        console.error(e)
-        setSaving(false)
-        // 400 -> Bad req -> Couldnt connect, internet problem? 
-        // 500 -> Something went wrong 
-        dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong. [${e}]`}})
-        dispatch({type: "SET_ERROR", payload: {error: e.message}})
+      } catch (e) {
+          console.error(e)
+          setSaving(false)
+          // 400 -> Bad req -> Couldnt connect, internet problem? 
+          // 500 -> Something went wrong 
+          dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong. [${e}]`}})
+          dispatch({type: "SET_ERROR", payload: {error: e.message}})
 
+      }
     }
-
   }
 
   useEffect(() => {
@@ -167,7 +174,7 @@ return useMemo(() => {
         </Button>
 
         <div style={{display:'flex'}}>
-          {loading ?
+          {loading &!aboutVersion?
           <>
                       <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
                       <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
@@ -176,7 +183,7 @@ return useMemo(() => {
           :
           <>
               
-              { isNewDecision &&
+              {!aboutVersion && ( isNewDecision?
                 <Button onClick={handleLockClick} className={classes.roundButton}>
                   <Icon
                       path={ICONS[isReadOnly ? 'ClosedLock':'OpenedLock' ]}
@@ -186,12 +193,10 @@ return useMemo(() => {
                       style={{margin:'auto'}}
                   /> 
                    <Typography className={classes.buttonText}>
-                   {isReadOnly ? 'Locked':'Editable'   }
+                   {isReadOnly ? 'Locked':'Open'   }
                   </Typography>
                 </Button> 
-              }
-
-              { !isNewDecision &&
+              :
                 <Button className={classes.roundButton} onClick={handleShare}>
                   <Icon
                       path={ICONS['Share']}
@@ -204,11 +209,11 @@ return useMemo(() => {
                   Share 
                   </Typography>
                 </Button>
+              )}
+              
+              {!aboutVersion && !isReadOnly &&
+                <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} />
               }
-              
-              <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} />
-              
-              
               
               <Button  className={classes.roundButton}  onClick={handleDarkModeClick}>
                 <Icon

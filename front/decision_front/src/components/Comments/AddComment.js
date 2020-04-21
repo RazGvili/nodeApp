@@ -35,11 +35,14 @@ const useStyles = makeStyles((theme) => ({
     },
     textInput:{
         borderRadius:'45px'
+    },
+    text:{
+        color: theme.palette.type==='dark'?'white':'black',
     }
 }));
 
 
-export default function AddComment({decisionId}) {
+export default function AddComment({decisionId,threadID=''}) {
     const classes = useStyles()
     const dispatch = useDispatch();
     //const [newCommentID, setNewComment] = useLocalStorage('newCommentID', '');
@@ -67,21 +70,22 @@ export default function AddComment({decisionId}) {
         setSending(true)
         let newComment = {
             name,
-            text
+            text,
+            threadID
         }
         
         try {
             
             const res = await axios.patch(`${BASE_URL}/decisions/${decisionId}`, {newComment: newComment})
-            
+            //todo::handle error
             if (res.status === 200) {
                 let comment = res.data.comments.pop()
                 localStorage.setItem('newCommentID', comment._id);
                 dispatch({type: "ADD_COMMENT", payload: {comment}})
-                setSending(false)
+                
                 setSuccess(true)  
             }
-            
+            setSending(false)
         } catch (e) {
             setSending(false)
             console.log(e.message)
@@ -94,6 +98,11 @@ export default function AddComment({decisionId}) {
 
     return (
         <div className={classes.root}>
+
+            <Typography style={{fontSize:'17PX',fontWeight:'700'}} className={classes.text}>
+                Add your Comment
+            </Typography>
+
             {success?
                  <Typography>Sent!</Typography>
             :
