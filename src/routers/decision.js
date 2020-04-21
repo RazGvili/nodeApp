@@ -2,6 +2,7 @@ const express = require('express')
 const router = new express.Router()
 
 const Decision = require('../models/decision')
+const Error = require('../models/error')
 
 let _ = require('lodash')
 let log = require('../logger')
@@ -176,11 +177,15 @@ router.post('/error', (req, res) => {
     error.save().then((error) => {
 
         log.info("error object saved! \n")
+        res.status(200)
 
     }).catch((err) => {
 
         log.info("Decision object save failed! \n")
         log.info({err: err})
+        res.status(500).send({
+            "err": "Update decision fail"
+        })
     })
 
 })
