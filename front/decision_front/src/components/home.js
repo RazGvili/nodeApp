@@ -62,9 +62,11 @@ export default function Home() {
           console.log(e.message)
           //dispatch({type: "SET_ERROR", payload: {error:e.message}})
 
-          if (e.response.status === 404) {
+          if (e.response.status && e.response.status === 404) {
             dispatch({type: "OPEN_SNACK", payload: {type: "info", text: `We didn't find it, Sure you pasted it correctly?`}})
             dispatch({type: "INIT_DECISION"}) 
+          } else {
+            dispatch({type: "OPEN_SNACK", payload: {type: "info", text: `Something went wrong, please try again. you're invited to leave feedback!`}})
           }
 
         }

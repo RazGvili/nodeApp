@@ -4,11 +4,10 @@ const router = new express.Router()
 const Decision = require('../models/decision')
 
 let _ = require('lodash')
+let log = require('../logger')
 
 // middleware 
 //const auth = require('../middleware/auth')
-
-let log = require('../logger')
 
 
 router.get('/decisions/:id', (req, res) => {

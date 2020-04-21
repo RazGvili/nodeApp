@@ -29,26 +29,28 @@ if (cluster.isMaster) {
     
     log.info('Worker %s running!', cluster.worker.id);
 
-    // Assure file runs -> connect db
+    // connect DB
     require('./dbm/mongoose')
 
     const express = require('express')
     const compression = require('compression')
-    let cors = require('cors')
+    const cors = require('cors')
     
-    // Routes
     const userRouter = require('./routers/user')
     const decisionRouter = require('./routers/decision')
-        
-    let app = express()
+    const helmet = require('helmet')
+
+    const app = express()
     const port = process.env.PORT
 
+    app.use(helmet())
+
+    // CORS
     app.use(cors())
     app.options('*', cors())
 
     // compress all responses
     app.use(compression())
-
 
     // Parse incoming req 
     app.use(express.json())
