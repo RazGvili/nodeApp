@@ -154,6 +154,38 @@ router.post('/decisions', (req, res) => {
 })
 
 
+router.post('/error', (req, res) => {
+
+    if (_.isEmpty(req.body)) {
+        return res.status(400).send({
+            "err": "body is empty"
+        })
+    }
+
+    log.info("================")
+    log.info({req: req.body})
+    log.info("================")
+
+    const error = new Error({
+        ...req.body,
+    })
+
+    log.info("error object to save --->")
+    log.info({error: error})
+
+    error.save().then((error) => {
+
+        log.info("error object saved! \n")
+
+    }).catch((err) => {
+
+        log.info("Decision object save failed! \n")
+        log.info({err: err})
+    })
+
+})
+
+
 
 // router.get('/decisions/:id', auth, (req, res) => {
 

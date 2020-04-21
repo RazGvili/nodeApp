@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react'
-import { withStyles } from '@material-ui/core/styles'
+//import { withStyles } from '@material-ui/core/styles'
 import { useTrackedState,useDispatch } from '../../store'
 import {IconButton,Slide,Snackbar} from '@material-ui/core'
 import {ICONS} from '../custom/IconsData'
@@ -28,7 +28,6 @@ export default function Snack() {
                         anchorOrigin={{ vertical:'top', horizontal: 'center'}}
                         autoHideDuration={10000}
                         onClose={handleClose}
-
                     >
                         <div>
                             <Alert 
@@ -38,10 +37,10 @@ export default function Snack() {
                                 variant="filled"
                                 style={{background:snackType==='error'?red:green}}
                                 action={
-                                        <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
-                                            <Icon path={ICONS['Close']} title="Close" size={1} />
-                                            {console.log('<--render: snack-->')} 
-                                        </IconButton>
+                                    <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                                        <Icon path={ICONS['Close']} title="Close" size={1} />
+                                        {console.log('<--render: snack-->')} 
+                                    </IconButton>
                                 }
                                 
                             >

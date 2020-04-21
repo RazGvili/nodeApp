@@ -1,6 +1,8 @@
 
-import { useReducer } from 'react';
-import { createContainer } from 'react-tracked';
+import { useReducer } from 'react'
+import { createContainer } from 'react-tracked'
+
+import report from './report'
 
 const initialState = {
 
@@ -19,7 +21,6 @@ const initialState = {
     showSnack: false,
     snackType: "",
     snackText: "",
-
 }
 
 
@@ -33,9 +34,10 @@ const reducer = (state, action) => {
                 isDark: !state.isDark
             }
         case "SET_ERROR":
+            report(action.payload.error)
             return {
                 ...state,
-                error: action.payload.error
+                //error: action.payload.error
             }
 
         // ------------------------------------------------------------------------------------------------
@@ -102,7 +104,7 @@ const reducer = (state, action) => {
             let argToEdit = action.payload.arg
 
             if (argToEdit.type === 'pro') {
-                
+
                 let newArr = state.pros.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
                 return {
                     ...state,

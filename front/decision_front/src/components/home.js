@@ -47,6 +47,7 @@ export default function Home() {
         //console.log('getting decision from server')
         try {
             
+            throw new Error("dudi")
             const res = await axios.get(`${BASE_URL}/decisions/${decisionId}`)
             const decisionFromServer = res.data
             
@@ -60,7 +61,7 @@ export default function Home() {
         } catch (e) {
 
           console.log(e.message)
-          //dispatch({type: "SET_ERROR", payload: {error:e.message}})
+          dispatch({type: "SET_ERROR", payload: {error:e.message}})
 
           if (e.response.status && e.response.status === 404) {
             dispatch({type: "OPEN_SNACK", payload: {type: "info", text: `We didn't find it, Sure you pasted it correctly?`}})
