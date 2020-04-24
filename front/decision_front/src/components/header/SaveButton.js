@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function SaveButton({saving, success,saveAction}) {
+export default function SaveButton({saving, success,saveAction,smallScreen}) {
     const classes = useStyles({saving,success})
     return (
         <Button onClick={ (saving||success) ?null:() => saveAction()}
@@ -35,7 +35,7 @@ export default function SaveButton({saving, success,saveAction}) {
                     style={{margin:'auto'}}
                     path={ICONS[success?'Check':'Save']}
                     title="Save"
-                    size={1}
+                    size={smallScreen?0.7:1}
                     color={success?'white':'#9A9A9A'}
                 />
                     <Typography className={classes.buttonText}>

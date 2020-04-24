@@ -35,8 +35,8 @@ export default function Argument({isReadOnly,type,handleArgumentRemove,handleEdi
 
     return (
         <div className={classes.container}>
-                    <Alert  icon={<span style={{color:type==='con'?red:green,fontSize: '1.5em'}}>*<br />sdfd</span>}
-                            onClose={isReadOnly? () => null : () => handleArgumentRemove()}
+                    <Alert  icon={<span style={{color:type==='con'?red:green,fontSize: '1.5em'}}>*</span>}
+                            //onClose={isReadOnly? () => null : () => handleArgumentRemove()}
                             classes={{root:classes.argumentRoot,message:classes.argumentMessage,action:classes.argumentAction}}
                             action={isReadOnly? null :
                                 <>

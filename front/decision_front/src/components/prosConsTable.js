@@ -91,11 +91,10 @@ const useStyles = makeStyles(theme => ({
 export default function ProsConsTable() {
     //const theme = useTheme();
     const [state,dispatch] = useTracked();
-    const {isDark,cons,pros,loading,isReadOnly} = state
+    const {isDark,cons,pros,loading,isReadOnly,id} = state
     //let styleProps = {DARK_MODE:DARK_MODE}
     const classes = useStyles()
     const smallScreen = useMediaQuery('(max-width:600px)')
-
     const [argumentEdit, setArgumentEdit] = useState(null)
 
     const [showDialog, setShowDialog] = useState(false)
@@ -152,12 +151,11 @@ export default function ProsConsTable() {
 
             <div className={classes.titleContainer}>
             {loading?
-            <Skeleton animation="wave" width='50%' height={50} style={{margin:'auto'}}/>
+            <Skeleton animation="wave" width='50%' height={100} style={{margin:'auto'}}/>
             :
             <Title />
             }
             </div>
-
             <ChoicesData  loading={loading} cons={cons} pros={pros}/>
 
             <div className={classes.boardContainer}>

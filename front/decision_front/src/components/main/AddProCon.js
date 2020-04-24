@@ -7,6 +7,8 @@ import {Slider,Button, Grid,TextField
 } from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import { green,red,darkGrey,sliderTexts } from "../GlobalVars"
+import Icon from "@mdi/react"
+import { ICONS } from "../custom/IconsData"
 
 const sliderTextWidth=['','200','400','600','700','900']
 
@@ -166,7 +168,7 @@ export default function AddProCon(props) {
     let styleProps = {DARK_MODE:DARK_MODE}
     const classes = useStyles(styleProps)
     //const [type, setType] = useState(props.type)
-    const {type,edit, } = props
+    const {type,edit } = props
     const [text, setText] = useState(edit?edit.proCon:props.text)
     
     // Sliders ---------------------------------------
@@ -289,11 +291,11 @@ export default function AddProCon(props) {
 
                 <Button
                     className={type==='pro'?classes.actionButtonPro:classes.actionButtonCon}
-                    startIcon={<AddCircleOutlineIcon style={{color: 'white'}}/>}
+                    startIcon={<Icon size={1} path={edit? ICONS['Edit']: ICONS['PlusOutline']} color="white"/> }
                     onClick={addProCon}
                     disabled={text.length < 2 ? true : false } 
                 >
-                    {`${props.edit?'Edit':'Add'} ${type} `}
+                    {`${edit?'Edit':'Add'} ${type} `}
                 </Button>
                 <Button
                     className={classes.cancelButton}

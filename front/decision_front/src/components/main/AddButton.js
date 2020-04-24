@@ -2,9 +2,11 @@
 import React, { useState } from "react"
 
 import {makeStyles,useTheme} from "@material-ui/core/styles"
-import { IconButton,InputBase} from '@material-ui/core'
+import { IconButton,InputBase, Typography} from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { green,red } from "../GlobalVars"
+import Icon from "@mdi/react";
+import { ICONS } from "../custom/IconsData";
   
 const useStyles = makeStyles(theme => ({
     container: {
@@ -24,7 +26,9 @@ const useStyles = makeStyles(theme => ({
     input:{
         color:props => props.DARK_MODE?'white':'black',
     },
-    
+    svgShadow:{
+        
+    }
 }))
 
 
@@ -46,15 +50,18 @@ export default function AddButton(props) {
             props.AddAction(text,props.type)
             setText('')
         }
-        else
+        else{
         setError(true)
+        setTimeout(() => setError(false), 2000)
+        }
     }
 
     return (<>
         <div  className={classes.container}  onClick={()=> setClicked(true)}>
 
-            <IconButton onClick={handleClickAdd}>
-                <AddCircleOutlineIcon style={{color:typeColor}}/>
+            <IconButton onClick={handleClickAdd} >
+                <Icon path={ICONS['PlusOutline']} size={1} style={{color:text.length>2?DARK_MODE?'black':'white':typeColor, background:text.length>2?typeColor:'none',borderRadius:'45px',
+                }}/>
             </IconButton>
             {clicked?
             <InputBase
@@ -77,7 +84,7 @@ export default function AddButton(props) {
             }
             
         </div>
-        {error && <span style={{letterSpacing: '1.2px',color:'grey',fontSize:'11px',marginTop:'-15px'}}>must be longer than two charecters</span>}
+        {error && <Typography style={{letterSpacing: '1.2px',color:'grey',fontSize:'11px'}}>must be longer than two characters</Typography>}
         </>
     )
 }

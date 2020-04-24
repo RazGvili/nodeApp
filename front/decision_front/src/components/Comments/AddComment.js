@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
             background:theme.palette.type==='light'?theme.palette.background.dark:theme.palette.background.light,
             borderRadius:'30px',
             width:'120px',
+            height:'40px',
             textTransform: 'none',
             fontSize:'14px',
             fontWeight:'700',
@@ -38,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
     },
     text:{
         color: theme.palette.type==='dark'?'white':'black',
+        fontSize:'17PX',
+        fontWeight:'700'
     }
 }));
 
@@ -50,7 +53,9 @@ export default function AddComment({decisionId,threadID=''}) {
     const [text, setText] = useState("")
     const [sending,setSending] = useState(false)
     const [success,setSuccess] = useState(false)
-
+    const nameProblem = name && name.length<3? true : false
+    const textProblem = text && text.length<10? true : false
+    
     const handleNameChange = (event) => {
         
         if (event.target.value.length < 20) {
@@ -66,6 +71,7 @@ export default function AddComment({decisionId,threadID=''}) {
     }
 
     const handleAddComment = async () => {
+        if (!nameProblem && !textProblem){
         setSending(true)
         let newComment = {
             name,
@@ -93,22 +99,22 @@ export default function AddComment({decisionId,threadID=''}) {
             dispatch({type: "SET_ERROR", payload: {error:e.message}})
         }
     }
+    }
 
 
     return (
         <div className={classes.root}>
 
-            <Typography style={{fontSize:'17PX',fontWeight:'700'}} className={classes.text}>
-                Add your Comment
-            </Typography>
-
             {success?
-                <Typography> Sent!</Typography>
+                <Typography className={classes.text}>Added!</Typography>
             :
             sending?
-                <Typography>loading...</Typography>
+                <Typography className={classes.text}>Loading...</Typography>
             :   
                 <>
+                    <Typography className={classes.text}>
+                        Add your Comment
+                    </Typography>
                     <br />
                     <TextField
                                 required
@@ -116,6 +122,8 @@ export default function AddComment({decisionId,threadID=''}) {
                                 multiline
                                 placeholder="Your comment"
                                 rows={4}
+                                error={textProblem}
+                                helperText={textProblem?'Comment must be longer than 10 characters':''}
                                 inputProps={{  style: {padding:'0px 10px'} }}
                                 InputProps={{style:{borderRadius:'30px 30px 0px 0px',padding:'15px 10px'}}}
                                 variant="filled"
@@ -125,13 +133,13 @@ export default function AddComment({decisionId,threadID=''}) {
                                 onChange={handleTextChange}
                     />
 
-                    {/* //todo:: handle empty name clicking add comment */}
-
                     <br/><br/>
                     <div className={classes.nameSubmitContainer}>
                         <TextField
                             required
                             size="small"
+                            error={nameProblem}
+                            helperText={nameProblem?'Name must be longer':''}
                             placeholder="Name"
                             variant="filled"
                             inputProps={{  style: { textAlign: 'center',padding:'10px 0px'} }}

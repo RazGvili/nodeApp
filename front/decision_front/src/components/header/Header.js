@@ -1,6 +1,6 @@
 import React, {useState, useMemo, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import {AppBar,Toolbar,Button,Typography} from '@material-ui/core'
+import {AppBar,Toolbar,Button,Typography,useMediaQuery} from '@material-ui/core'
 
 //import Timer from '../timer'
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -37,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius:'45px',
   },
   toolbar:{
-    display:'flex', justifyContent:'space-between',padding:'15px 15px 0px 15px'
+    display:'flex',
+    justifyContent:'space-between',
+    padding:'15px 15px 0px 15px'
     
   },
   appbar:{
@@ -61,11 +63,12 @@ export default function Header({aboutVersion = false}) {
   const {title,pros,cons,id,loading,isReadOnly,isDark} = state
   const [redirect,setRedirect] = useState(false)
   const [redirectHome,setRedirectHome] = useState(false)
+  const smallScreen = useMediaQuery('(max-width:480px)');
 
   const [saving,setSaving] = useState(false)
   const [showShare,setShowShare] = useState(false)
   const [savingSuccess,setSavingSuccess] = useState(false)
-
+  const readOnlyMode = isReadOnly && id
   const isNewDecision = id ? false : true
 
   const handleLockClick = () => {
@@ -164,11 +167,11 @@ return useMemo(() => {
       }
       
       <AppBar className={classes.appbar} position="static">
-        <Toolbar className={classes.toolbar} style={{}}>
+        <Toolbar className={classes.toolbar} >
 
         <Button onClick={()=>setRedirectHome(true)} className={classes.logoButton}>
           <img src="/images/logo.png" alt="decisions" height="40px" />
-          <Typography style={{fontFamily:'Permanent Marker',fontSize:'28px',paddingRight:'5px'}}>Decidy</Typography>
+          <Typography style={{fontFamily:'Permanent Marker',fontSize:smallScreen?'22px':'28px',paddingRight:'5px'}}>Decidy</Typography>
         </Button>
 
         <div style={{display:'flex'}}>
@@ -186,7 +189,7 @@ return useMemo(() => {
                   <Icon
                       path={ICONS[isReadOnly ? 'ClosedLock':'OpenedLock' ]}
                       title="Lock"
-                      size={1}
+                      size={smallScreen?0.7:1}
                       color='#9A9A9A'
                       style={{margin:'auto'}}
                   /> 
@@ -199,7 +202,7 @@ return useMemo(() => {
                   <Icon
                       path={ICONS['Share']}
                       title="Share"
-                      size={1}
+                      size={smallScreen?0.7:1}
                       color='#9A9A9A'
                       style={{margin:'auto'}}
                   />
@@ -209,15 +212,15 @@ return useMemo(() => {
                 </Button>
               )}
               
-              {!aboutVersion && !isReadOnly &&
-                <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} />
+              {!aboutVersion && !readOnlyMode &&
+                <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} smallScreen={smallScreen}/>
               }
               
               <Button  className={classes.roundButton}  onClick={handleDarkModeClick}>
                 <Icon
                     path={ICONS['Theme']}
                     title="Toogle dark mode"
-                    size={1}
+                    size={smallScreen?0.7:1}
                     color='#9A9A9A'
                     style={{margin:'auto'}}
                 />
@@ -236,5 +239,5 @@ return useMemo(() => {
 
       
     </div>
-  )},[title,pros,cons,id,loading,isReadOnly,classes,redirect,redirectHome, showShare,saving,savingSuccess,isDark,isNewDecision])
+  )},[title,pros,cons,id,loading,isReadOnly,classes,redirect,redirectHome, showShare,saving,savingSuccess,isDark,isNewDecision,smallScreen])
 }
