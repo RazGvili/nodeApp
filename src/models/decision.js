@@ -44,7 +44,7 @@ const decisionSchema = new mongoose.Schema({
                 name:  { type: String, required: true  },
                 date:  { type: Date, required: true },
                 threadID: { type: Date },
-                // likes: { type: Number }, 
+                likes: { type: Number }, 
             }
         ]
     },
