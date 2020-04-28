@@ -40,6 +40,66 @@ router.get('/decisions/:id', (req, res) => {
 })
 
 
+router.patch('/decisions/:did/comment/:cid', (req, res) => {
+
+    log.info("================")
+    log.info({req: req.body})
+    log.info("================")
+
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['add']
+    const isValid = updates.every((update) => allowedUpdates.includes(update))
+    const invalidFields = _.difference(updates, allowedUpdates)
+
+    if (!isValid) {
+        log.info("invalidFields")
+        log.info(invalidFields)
+        return res.status(400).send()
+    }
+
+    const decisionId = req.params.did
+    const commentId = req.params.cid
+    const add = req.body.add
+
+    Decision.findOne({
+        decisionId,
+    }).then((decision) => {
+
+        if (!decision) {
+            return res.status(404).send({
+                "err": "decision not found"
+            })
+        }
+
+        let comment = decision.comments.id(commentId)
+
+        if (!comment) {
+            log.info("comment not found")
+            return res.status(404).send({
+                "err": "comment not found"
+            })
+        }
+
+        comment.likes = add ? comment.likes + 1 : comment.likes - 1
+
+        log.info("saving -------->")
+        log.info({comment: comment})
+        return comment.save()
+        
+    }).then((comment) => {
+
+        log.info("comment updated & saved!  \n")
+        res.send(comment)
+        
+    }).catch((err) => {
+
+        log.info({err: err})
+        res.status(500).send({
+            "err": "Update comment fail"
+        })
+    })
+})
+
 router.patch('/decisions/:id', (req, res) => {
 
     // Assure only desired fields are being modified 
@@ -96,14 +156,10 @@ router.patch('/decisions/:id', (req, res) => {
             }
         })
 
-        return decision
-
-    }).then((decision) => {
-
         log.info("saving -------->")
         log.info({decision: decision})
         return decision.save()
-        
+
     }).then((decision) => {
 
         log.info("decision updated & saved!  \n")

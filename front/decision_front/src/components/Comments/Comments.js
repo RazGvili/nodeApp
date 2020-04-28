@@ -51,14 +51,33 @@ export default function Comments() {
                     console.log(e.message)
                     setError(e.message)
                     //setLoading(false)
+                    
+                    dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong! we couldn't delete your comment please try again.`}})
+                    dispatch({type: "SET_ERROR", payload: {error:e.message}})
                 })
     }
 
-    const handleLikeComment = async(comment) => {
-        
+    // comment.add[bool] | comment._id 
+    const handleLikeComment = async (comment) => {
+        axios.patch(`${BASE_URL}/decisions/${id}/comment/${comment._id}`, {add: comment.add})
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("comment like success")
+
+                    //dispatch({type: "REMOVE_COMMENT", payload: {comment}})
+                    //setLoading(false)
+                }
+
+                }).catch((e) => {
+                    console.log(e.message)
+                    
+                    //setLoading(false)
+                    // dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong! we couldn't delete your comment please try again.`}})
+                    // dispatch({type: "SET_ERROR", payload: {error:e.message}})
+                })
     }
 
-    const handleUnlikeComment = async(comment) => {
+    const handleUnlikeComment = async (comment) => {
         
     }
 
@@ -87,6 +106,7 @@ export default function Comments() {
                                     comment={comment}
                                     canDelete = {newCommentID === comment._id}
                                     setRemoveLastOne={()=> handleRemoveComment(comment)}
+                                    handleLikeComment={handleLikeComment}
                                 />    
                                
                     )

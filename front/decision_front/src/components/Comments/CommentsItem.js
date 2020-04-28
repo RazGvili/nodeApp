@@ -128,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Comments({comment, setRemoveLastOne,canDelete}) {
+export default function Comments({comment, setRemoveLastOne,canDelete, handleLikeComment}) {
     const classes = useStyles()
 
     const {_id,text,name,date} = comment
@@ -174,16 +174,23 @@ export default function Comments({comment, setRemoveLastOne,canDelete}) {
                     </IconButton>
                 
             }
+
             <div className={classes.gradeContainer}>
+
               <div className={classes.gradeButtonUp}>
-                <Icon path={ICONS['ArrowUp']} size={0.6} color={'grey'}/>
+                <IconButton onClick={()=>handleLikeComment({add: true, cid: _id})}>
+                  <Icon path={ICONS['ArrowUp']} size={0.6} color={'grey'}/>
+                </IconButton>
               </div>
                     
-                    <Typography style={{fontSize:'13px',fontWeight:'700',color:'grey', paddingRight: '9px',}}>12</Typography>
-                    <div className={classes.gradeButtonDown}>
-                    <Icon path={ICONS['ArrowDown']} size={0.6} color={'grey'} />
-                    </div>
-                  </div>
+              <Typography style={{fontSize:'13px',fontWeight:'700',color:'grey', paddingRight: '9px',}}>12</Typography>
+
+              <div className={classes.gradeButtonDown}>
+                <Icon path={ICONS['ArrowDown']} size={0.6} color={'grey'} />
+              </div>
+
+            </div>
+
         </div>
     )
 }   

@@ -33,11 +33,17 @@ const reducer = (state, action) => {
                 ...state,
                 isDark: !state.isDark
             }
+
         case "SET_ERROR":
-            report(action.payload.error)
+
+            if (process.env.NODE_ENV === 'production') {
+                report(action.payload.error)
+            } else {
+                console.log(action.payload.error)
+            }
+                
             return {
                 ...state,
-                //error: action.payload.error
             }
 
         // ------------------------------------------------------------------------------------------------
@@ -51,6 +57,7 @@ const reducer = (state, action) => {
                 snackType: action.payload.type,
                 snackText: action.payload.text
             }
+
         case "CLOSE_SNACK":
             return {
                 ...state,
@@ -85,7 +92,6 @@ const reducer = (state, action) => {
             if (argToDelete.type === 'pro') {
                 let newArr = state.pros.filter(argIter => argIter._id !== argToDelete._id)
                 
-                    
                 return {
                     ...state,
                     pros: newArr
