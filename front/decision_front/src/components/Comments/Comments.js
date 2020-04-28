@@ -59,7 +59,7 @@ export default function Comments() {
 
     // comment.add[bool] | comment._id 
     const handleLikeComment = async (comment) => {
-        axios.patch(`${BASE_URL}/decisions/${id}/comment/${comment._id}`, {add: comment.add})
+        axios.patch(`${BASE_URL}/decisions/${id}/comment/${comment.cid}`, {add: comment.add})
             .then((res) => {
                 if (res.status === 200) {
                     console.log("comment like success")

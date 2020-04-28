@@ -53,7 +53,7 @@ router.patch('/decisions/:did/comment/:cid', (req, res) => {
 
     if (!isValid) {
         log.info("invalidFields")
-        log.info(invalidFields)
+        log.info({invalidFields})
         return res.status(400).send()
     }
 
@@ -61,17 +61,27 @@ router.patch('/decisions/:did/comment/:cid', (req, res) => {
     const commentId = req.params.cid
     const add = req.body.add
 
+    log.info({decisionId, commentId, add})
+
     Decision.findOne({
         decisionId,
     }).then((decision) => {
 
         if (!decision) {
+            log.info("decision not found")
             return res.status(404).send({
                 "err": "decision not found"
             })
         }
 
-        let comment = decision.comments.id(commentId)
+        let comment
+
+        try {
+            comment = decision.comments.id(commentId)
+        } catch(e) {
+            log.info({e})
+            throw new Error("id failed")
+        }
 
         if (!comment) {
             log.info("comment not found")
@@ -80,7 +90,12 @@ router.patch('/decisions/:did/comment/:cid', (req, res) => {
             })
         }
 
-        comment.likes = add ? comment.likes + 1 : comment.likes - 1
+        try {
+            comment.likes = add ? comment.likes + 1 : comment.likes - 1
+        } catch(e) {
+            log.info({e})
+            throw new Error("add failed")
+        }
 
         log.info("saving -------->")
         log.info({comment: comment})
@@ -99,6 +114,7 @@ router.patch('/decisions/:did/comment/:cid', (req, res) => {
         })
     })
 })
+
 
 router.patch('/decisions/:id', (req, res) => {
 

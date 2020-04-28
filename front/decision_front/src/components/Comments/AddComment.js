@@ -76,7 +76,8 @@ export default function AddComment({decisionId,threadID=''}) {
         let newComment = {
             name,
             text,
-            threadID
+            threadID,
+            likes: 0
         }
         
         try {
