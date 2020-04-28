@@ -67,6 +67,8 @@ router.patch('/decisions/:did/comment/:cid', (req, res) => {
         decisionId,
     }).then((decision) => {
 
+        log.info({decision})
+
         if (!decision) {
             log.info("decision not found")
             return res.status(404).send({
@@ -97,12 +99,13 @@ router.patch('/decisions/:did/comment/:cid', (req, res) => {
             throw new Error("add failed")
         }
 
-        log.info("saving -------->")
-        log.info({comment: comment})
+        
         return comment.save()
         
     }).then((comment) => {
 
+        log.info("saving -------->")
+        log.info({comment})
         log.info("comment updated & saved!  \n")
         res.send(comment)
         
@@ -172,12 +175,13 @@ router.patch('/decisions/:id', (req, res) => {
             }
         })
 
-        log.info("saving -------->")
-        log.info({decision: decision})
+        
         return decision.save()
 
     }).then((decision) => {
 
+        log.info("saving -------->")
+        log.info({decision: decision})
         log.info("decision updated & saved!  \n")
         res.send(decision)
 
