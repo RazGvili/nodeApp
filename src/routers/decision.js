@@ -7,14 +7,13 @@ const ErrorReport = require('../models/error')
 let _ = require('lodash')
 let log = require('../logger')
 
-let ObjectID = require('mongodb').ObjectID,
+let ObjectID = require('mongodb').ObjectID
 
 
 // middleware 
 //const auth = require('../middleware/auth')
 
 function isValidId(id) {
-
     return new ObjectId(id).toString() === id;
 }
 
