@@ -7,8 +7,16 @@ const ErrorReport = require('../models/error')
 let _ = require('lodash')
 let log = require('../logger')
 
+import { ObjectId } from 'mongodb'
+
+
 // middleware 
 //const auth = require('../middleware/auth')
+
+function isValidId(id) {
+
+    return new ObjectId(id).toString() === id;
+}
 
 
 router.get('/decisions/:id', (req, res) => {
@@ -42,9 +50,9 @@ router.get('/decisions/:id', (req, res) => {
 
 router.patch('/decisions/:did/comment/:cid', (req, res) => {
 
-    log.info("================")
-    log.info({req: req.body})
-    log.info("================")
+    log.info("=============")
+    log.info({body: req.body, params: req.params})
+    log.info("=============")
 
     const updates = Object.keys(req.body)
     const allowedUpdates = ['add']
@@ -61,13 +69,22 @@ router.patch('/decisions/:did/comment/:cid', (req, res) => {
     const commentId = req.params.cid
     const add = req.body.add
 
+    if (typeof(add) !== 'boolean') { 
+        log.info("type of add isn't bool")
+        return res.status(500).send()
+    }
+
+    if (!decisionId || !commentId || !isValidId(decisionId) || !isValidId(commentId)) { 
+        log.info("bad req params")
+        log.info({decisionId, commentId, add})
+        return res.status(500).send()
+    }
+    
     log.info({decisionId, commentId, add})
 
     Decision.findOne({
-        decisionId,
+        _id: decisionId
     }).then((decision) => {
-
-        log.info({decision})
 
         if (!decision) {
             log.info("decision not found")
@@ -76,14 +93,7 @@ router.patch('/decisions/:did/comment/:cid', (req, res) => {
             })
         }
 
-        let comment
-
-        try {
-            comment = decision.comments.id(commentId)
-        } catch(e) {
-            log.info({e})
-            throw new Error("id failed")
-        }
+        let comment = decision.comments.id(commentId)
 
         if (!comment) {
             log.info("comment not found")
@@ -92,14 +102,8 @@ router.patch('/decisions/:did/comment/:cid', (req, res) => {
             })
         }
 
-        try {
-            comment.likes = add ? comment.likes + 1 : comment.likes - 1
-        } catch(e) {
-            log.info({e})
-            throw new Error("add failed")
-        }
+        comment.likes = add ? comment.likes + 1 : comment.likes - 1
 
-        
         return comment.save()
         
     }).then((comment) => {
@@ -113,7 +117,7 @@ router.patch('/decisions/:did/comment/:cid', (req, res) => {
 
         log.info({err: err})
         res.status(500).send({
-            "err": "Update comment fail"
+            "err": "Update comment likes fail"
         })
     })
 })
@@ -175,7 +179,7 @@ router.patch('/decisions/:id', (req, res) => {
             }
         })
 
-        
+
         return decision.save()
 
     }).then((decision) => {

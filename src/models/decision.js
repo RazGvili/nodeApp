@@ -23,7 +23,7 @@ const decisionSchema = new mongoose.Schema({
                 type: { type: String, required: true  },
                 id: { type: Number, required: true  }
             }
-        ]
+        ], required: true
     },
     cons: {
         type: [
@@ -35,7 +35,7 @@ const decisionSchema = new mongoose.Schema({
                 type: { type: String, required: true  },
                 id: { type: Number, required: true  }
             }
-        ]
+        ], required: true
     },
     comments: {
         type: [
@@ -44,9 +44,9 @@ const decisionSchema = new mongoose.Schema({
                 name:  { type: String, required: true  },
                 date:  { type: Date, required: true },
                 threadID: { type: Date },
-                likes: { type: Number }, 
+                likes: { type: Number, required: true }, 
             }
-        ]
+        ], required: true
     },
     isReadOnly: {
         type: Boolean,
