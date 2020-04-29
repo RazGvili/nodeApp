@@ -101,16 +101,16 @@ router.patch('/decisions/:did/comment/:cid', (req, res) => {
             })
         }
 
-        comment.likes = add ? comment.likes + 1 : comment.likes - 1
+        decision.comments.id(commentId).likes = add ? comment.likes + 1 : comment.likes - 1
 
-        return comment.save()
+        return decision.save()
         
-    }).then((comment) => {
+    }).then((decision) => {
 
         log.info("saving -------->")
-        log.info({comment})
+        log.info({decision})
         log.info("comment updated & saved!  \n")
-        res.send(comment)
+        res.send(decision)
         
     }).catch((err) => {
 
