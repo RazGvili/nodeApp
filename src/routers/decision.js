@@ -7,14 +7,14 @@ const ErrorReport = require('../models/error')
 let _ = require('lodash')
 let log = require('../logger')
 
-let ObjectID = require('mongodb').ObjectID
+var mongoose = require('mongoose')
 
 
 // middleware 
 //const auth = require('../middleware/auth')
 
 function isValidId(id) {
-    return new ObjectId(id).toString() === id;
+    return mongoose.Types.ObjectId.isValid(id) && id.length === 24
 }
 
 
