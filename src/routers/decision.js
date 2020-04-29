@@ -7,7 +7,7 @@ const ErrorReport = require('../models/error')
 let _ = require('lodash')
 let log = require('../logger')
 
-import { ObjectId } from 'mongodb'
+let ObjectID = require('mongodb').ObjectID,
 
 
 // middleware 
