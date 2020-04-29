@@ -59,27 +59,26 @@ export default function Comments() {
 
     // comment.add[bool] | comment._id 
     const handleLikeComment = async (comment) => {
+        
         axios.patch(`${BASE_URL}/decisions/${id}/comment/${comment.cid}`, {add: comment.add})
             .then((res) => {
+
                 if (res.status === 200) {
                     console.log("comment like success")
-
-                    //dispatch({type: "REMOVE_COMMENT", payload: {comment}})
-                    //setLoading(false)
+                    dispatch({type: "OPEN_SNACK", payload: {type: "success", text: `Liked!`}})
                 }
 
-                }).catch((e) => {
-                    console.log(e.message)
-                    
-                    //setLoading(false)
-                    // dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong! we couldn't delete your comment please try again.`}})
-                    // dispatch({type: "SET_ERROR", payload: {error:e.message}})
-                })
+            }).catch((e) => {
+
+                console.log(e.message)
+                dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong! we couldn't add your like to this comment.`}})
+                dispatch({type: "SET_ERROR", payload: {error:e.message}})
+            })
     }
 
-    const handleUnlikeComment = async (comment) => {
+    // const handleUnlikeComment = async (comment) => {
         
-    }
+    // }
 
 
     return useMemo(() => {

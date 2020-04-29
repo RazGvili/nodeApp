@@ -186,7 +186,9 @@ export default function Comments({comment, setRemoveLastOne,canDelete, handleLik
               <Typography style={{fontSize:'13px',fontWeight:'700',color:'grey', paddingRight: '9px',}}>12</Typography>
 
               <div className={classes.gradeButtonDown}>
-                <Icon path={ICONS['ArrowDown']} size={0.6} color={'grey'} />
+                <IconButton onClick={()=>handleLikeComment({add: false, cid: _id})}>
+                  <Icon path={ICONS['ArrowDown']} size={0.6} color={'grey'} />
+                </IconButton>
               </div>
 
             </div>
