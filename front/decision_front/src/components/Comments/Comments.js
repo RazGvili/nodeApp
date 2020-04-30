@@ -57,7 +57,7 @@ export default function Comments() {
                 })
     }
 
-    // comment.add[bool] | comment._id 
+    // comment.add[bool] | comment.cid 
     const handleLikeComment = async (comment) => {
         
         axios.patch(`${BASE_URL}/decisions/${id}/comment/${comment.cid}`, {add: comment.add})
@@ -65,7 +65,7 @@ export default function Comments() {
 
                 if (res.status === 200) {
                     console.log("comment like success")
-                    dispatch({type: "OPEN_SNACK", payload: {type: "success", text: `Liked!`}})
+                    dispatch({type: "OPEN_SNACK", payload: {type: "success", text: comment.add ? "Liked!" : "Unliked!"}})
                 }
 
             }).catch((e) => {
