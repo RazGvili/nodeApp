@@ -96,19 +96,19 @@ export default function ProsConsTable() {
     const classes = useStyles()
     const smallScreen = useMediaQuery('(max-width:600px)')
     const [argumentEdit, setArgumentEdit] = useState(null)
-
+    const [argIdCounter,setArgIdCounter] = useState(0)
     const [showDialog, setShowDialog] = useState(false)
     const [type, setType] = useState("")
     const [text, setText] = useState("")
     //const [error, setError] = useState("")
-
     function handleArgumentRemove(arg) {
             dispatch({type: "PRO_CON_REMOVE", payload: {arg}})
 
     }
 
     const addProCon = (arg) => {
-        arg.id = arg.id + 1
+        arg.id = argIdCounter + 1
+        setArgIdCounter(argIdCounter + 1)
         dispatch({type: "PRO_CON_ADD", payload: {arg}})
         setArgumentEdit(null)
         setShowDialog(false)
@@ -118,7 +118,6 @@ export default function ProsConsTable() {
     
 
     const editProCon = (arg) => {
-        console.log(arg)
         setArgumentEdit(null)
         dispatch({type: "PRO_CON_EDIT", payload: {arg}})
 
