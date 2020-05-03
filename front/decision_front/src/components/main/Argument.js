@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 export default function Argument({isReadOnly,type,handleArgumentRemove,handleEdit,arg}) {
 
     const classes = useStyles()
-
+    //console.log(arg)
     return (
         <div className={classes.container}>
                     <Alert  icon={<span style={{color:type==='con'?red:green,fontSize: '1.5em'}}>*</span>}

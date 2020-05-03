@@ -177,18 +177,14 @@ export default function Comments({comment, setRemoveLastOne,canDelete, handleLik
 
             <div className={classes.gradeContainer}>
 
-              <div className={classes.gradeButtonUp}>
-                <IconButton onClick={()=>handleLikeComment({add: true, cid: _id})}>
+              <div className={classes.gradeButtonUp} onClick={()=>handleLikeComment({add: true, cid: _id})}>
                   <Icon path={ICONS['ArrowUp']} size={0.6} color={'grey'}/>
-                </IconButton>
               </div>
                     
-              <Typography style={{fontSize:'13px',fontWeight:'700',color:'grey', paddingRight: '9px',}}>12</Typography>
+              <Typography style={{fontSize:'13px',fontWeight:'700',color:'grey', paddingRight: '9px',}}>{comment.likes}</Typography>
 
-              <div className={classes.gradeButtonDown}>
-                <IconButton onClick={()=>handleLikeComment({add: false, cid: _id})}>
+              <div className={classes.gradeButtonDown} onClick={()=>handleLikeComment({add: false, cid: _id})}>
                   <Icon path={ICONS['ArrowDown']} size={0.6} color={'grey'} />
-                </IconButton>
               </div>
 
             </div>
