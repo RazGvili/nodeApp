@@ -124,36 +124,36 @@ const reducer = (state, action) => {
         case "PRO_CON_EDIT":
 
             let argToEdit = action.payload.arg
-            let newArr
+            let newArrEdit
             
             if (argToEdit.type === 'pro') {
 
                 //_id for objects already saved in DB objects 
                 if (argToEdit.hasOwnProperty("_id")){
-                    newArr = state.pros.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
+                    newArrEdit = state.pros.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
                 } else {
-                    newArr = state.pros.map(argIter => argIter.id === argToEdit.id ? argToEdit : argIter)
+                    newArrEdit = state.pros.map(argIter => argIter.id === argToEdit.id ? argToEdit : argIter)
                 }
                 
-                console.log(newArr)
+                console.log(newArrEdit)
                 return {
                     ...state,
-                    pros: newArr
+                    pros: newArrEdit
                 }
 
             } else {
 
                 //_id for objects already saved in DB objects 
                 if (argToEdit.hasOwnProperty("_id")){
-                    newArr = state.cons.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
+                    newArrEdit = state.cons.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
                 } else {
-                    newArr = state.cons.map(argIter => argIter.id === argToEdit.id ? argToEdit : argIter)
+                    newArrEdit = state.cons.map(argIter => argIter.id === argToEdit.id ? argToEdit : argIter)
                 }
 
-                console.log(newArr)
+                console.log(newArrEdit)
                 return {
                     ...state,
-                    cons: newArr
+                    cons: newArrEdit
                 }
             }
 
@@ -240,7 +240,7 @@ const reducer = (state, action) => {
             let commentIDToDelete = action.payload.comment._id
             return {
                 ...state,
-                comments: state.comments.filter(commentIter => commentIter._id !== commentIDToDelete),
+                comments: state.comments.filter(commentIter => commentIter._id !== commentIDToDelete)
             }
         
         case "ADD_COMMENT":
@@ -251,6 +251,20 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 comments: [...state.comments, commentToAdd]
+            }
+
+        case "LIKE":
+
+            console.log(action.payload.comment)
+            let likeOrNot = action.payload.add
+            let commentId = action.payload.comment.cid
+
+            // find the comment with cid and like/unlike 
+            let newArrLike = state.comments.map(commentsIter => commentsIter._id === commentId ? (commentsIter.like = likeOrNot ? commentsIter.like + 1 : commentsIter.like - 1) : commentsIter)
+
+            return {
+                ...state,
+                comments: newArrLike
             }
         
         // ------------------------------------------------------------------------------------------------
