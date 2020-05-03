@@ -91,7 +91,7 @@ const useStyles = makeStyles(theme => ({
 export default function ProsConsTable() {
     //const theme = useTheme();
     const [state,dispatch] = useTracked();
-    const {isDark,cons,pros,loading,isReadOnly,id} = state
+    const {isDark,cons,pros,loading,isReadOnly} = state
     //let styleProps = {DARK_MODE:DARK_MODE}
     const classes = useStyles()
     const smallScreen = useMediaQuery('(max-width:600px)')

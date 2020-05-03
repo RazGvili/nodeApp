@@ -32,10 +32,43 @@ export default function Comments() {
     const classes = useStyles()
     const [state,dispatch] = useTracked();
     let newCommentID = localStorage.getItem('newCommentID') || '';
+
+    const [likedComments, setLikedComments] = useLocalStorage('likedComments', JSON.stringify([]));
+    const [unlikedComments, setUnlikedComments] = useLocalStorage('unlikedComments', JSON.stringify([]));
+    let parsedLikes = JSON.parse(likedComments)
+    let parsedUnlikes = JSON.parse(unlikedComments)
     //console.log(newCommentID)
     const {comments,id,loading} = state
     const [error, setError] = useState("")
 
+    const addToLikesStorage = (cid) => {
+        let parsedLikes_ = JSON.parse(likedComments)
+        parsedLikes_.push(cid)
+        setLikedComments(JSON.stringify(parsedLikes_))
+    }
+
+    const addToUnlikesStorage = (cid) => {
+        let parsedUnlikes_ = JSON.parse(unlikedComments) 
+        parsedUnlikes_.push(cid)
+        setUnlikedComments(JSON.stringify(parsedUnlikes_))
+    }
+
+    const removeFromLikesStorage = (cid) => {
+        setLikedComments(JSON.stringify(parsedLikes.filter(item => item!==cid)))
+    }
+
+    const removeFromUnikesStorage = (cid) => {
+        setUnlikedComments(JSON.stringify(parsedUnlikes.filter(item => item!==cid)))
+    }
+
+    const commentLikeStatus = (cid) => {
+        if  (parsedLikes.includes(cid))
+            return 1
+        else if (parsedUnlikes.includes(cid))
+            return -1
+        else
+            return 0
+    }
 
     //todo:: make sure removing comment is only possible to the last one and maximum after 1 hour? (so people wont delete all)
     const handleRemoveComment = async(comment) => {
@@ -60,9 +93,9 @@ export default function Comments() {
     // comment.add[bool] | comment.cid 
     const handleLikeComment = async (comment) => {
         
+
         axios.patch(`${BASE_URL}/decisions/${id}/comment/${comment.cid}`, {add: comment.add})
             .then((res) => {
-
                 if (res.status === 200) {
                     console.log("comment like success")
                     dispatch({type: "OPEN_SNACK", payload: {type: "success", text: comment.add ? "Liked!" : "Unliked!"}})
@@ -103,9 +136,14 @@ export default function Comments() {
                                 <CommentItem 
                                     key={'comment'+comment._id} 
                                     comment={comment}
+                                    commentLikeStatus={commentLikeStatus(comment._id)}
                                     canDelete = {newCommentID === comment._id}
                                     setRemoveLastOne={()=> handleRemoveComment(comment)}
                                     handleLikeComment={handleLikeComment}
+                                    addToLikesStorage={addToLikesStorage}
+                                    addToUnlikesStorage={addToUnlikesStorage}
+                                    removeFromLikesStorage={removeFromLikesStorage}
+                                    removeFromUnikesStorage={removeFromUnikesStorage}
                                 />    
                                
                     )

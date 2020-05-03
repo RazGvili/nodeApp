@@ -1,9 +1,10 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {ICONS} from '../custom/IconsData'
 import Icon from '@mdi/react'
 import Avatar from '../custom/Avatar'
 import { Grid, Typography,IconButton } from '@material-ui/core'
+import { green,red } from '../GlobalVars'
 
 function timeSince(date) {
 
@@ -128,10 +129,48 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Comments({comment, setRemoveLastOne,canDelete, handleLikeComment}) {
+export default function Comments({comment, setRemoveLastOne,canDelete, handleLikeComment,
+                                  commentLikeStatus,addToLikesStorage,addToUnlikesStorage,
+                                  removeFromLikesStorage,removeFromUnikesStorage}) {
     const classes = useStyles()
-
     const {_id,text,name,date} = comment
+ 
+    const [likeStatus, setLikeStatus] = useState(commentLikeStatus)
+    const [commentsLikes, setCommentsLikes] = useState(comment.likes)
+
+
+    const likeComment = () => {
+      if (likeStatus<1){
+        if (likeStatus===0){
+          setLikeStatus(1)
+          addToLikesStorage(_id)
+        }
+        else{
+          setLikeStatus(0)
+          removeFromUnikesStorage(_id)
+        }
+  
+        setCommentsLikes(commentsLikes+1)
+        handleLikeComment({add: true, cid: _id})
+      }
+    }
+
+    const unlikeComment = () => {
+      if (likeStatus>-1){
+        if (likeStatus===0){
+          setLikeStatus(-1)
+          addToUnlikesStorage(_id)
+        }
+        else{
+          setLikeStatus(0)
+          removeFromLikesStorage(_id)
+        }
+          
+
+        setCommentsLikes(commentsLikes-1)
+        handleLikeComment({add: false, cid: _id})
+      }
+    }
 
     return (
 
@@ -177,14 +216,17 @@ export default function Comments({comment, setRemoveLastOne,canDelete, handleLik
 
             <div className={classes.gradeContainer}>
 
-              <div className={classes.gradeButtonUp} onClick={()=>handleLikeComment({add: true, cid: _id})}>
-                  <Icon path={ICONS['ArrowUp']} size={0.6} color={'grey'}/>
+              <div className={classes.gradeButtonUp} onClick={likeComment}>
+                  <Icon path={ICONS['ArrowUp']} size={0.6} color={likeStatus>0?green:'grey'}/>
               </div>
                     
-              <Typography style={{fontSize:'13px',fontWeight:'700',color:'grey', paddingRight: '9px',}}>{comment.likes}</Typography>
+              <Typography style={{fontSize:'13px',fontWeight:'700',paddingRight: '9px',
+                                  color:likeStatus>0?green:likeStatus<0?red:'grey'}}>
+                                    {commentsLikes}
+                                </Typography>
 
-              <div className={classes.gradeButtonDown} onClick={()=>handleLikeComment({add: false, cid: _id})}>
-                  <Icon path={ICONS['ArrowDown']} size={0.6} color={'grey'} />
+              <div className={classes.gradeButtonDown} onClick={unlikeComment}>
+                  <Icon path={ICONS['ArrowDown']} size={0.6} color={likeStatus<0?red:'grey'} />
               </div>
 
             </div>
