@@ -76,9 +76,9 @@ export default function Header({aboutVersion = false}) {
     dispatch({type: "TOGGLE_READ_ONLY"})
 
     if (isReadOnly) {
-        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[Editable mode] After the first save, this decision will be editable for all users who have the unique link"}})
+        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[Opened mode] After the first save anyone with a link can edit this decision"}})
     } else {
-        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[Read-only mode] After the first save, this decision will be read-only for all (even you)"}})
+        dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[Locked mode] After the first save no one(even you) can edit this decision "}})
     }
   }
 
