@@ -25,7 +25,9 @@ const initialState = {
 
 
 const reducer = (state, action) => {
-    console.log('dispatch:'+action.type)
+    //console.log('dispatch:'+action.type)
+    //console.log(action)
+
     switch(action.type) {
         
         case "TOGGLE_DARK_MODE":
@@ -89,8 +91,16 @@ const reducer = (state, action) => {
         case "PRO_CON_REMOVE":
 
             let argToDelete = action.payload.arg
+            let newArr
+
             if (argToDelete.type === 'pro') {
-                let newArr = state.pros.filter(argIter => argIter._id !== argToDelete._id)
+
+                //_id for objects already saved in DB objects 
+                if (argToEdit.hasOwnProperty("_id")) {
+                    newArr = state.pros.filter(argIter => argIter._id !== argToDelete._id)
+                } else {
+                    newArr = state.pros.filter(argIter => argIter.id !== argToDelete.id)
+                }
                 
                 return {
                     ...state,
@@ -98,7 +108,13 @@ const reducer = (state, action) => {
                 }
 
             } else {
-                let newArr = state.cons.filter(argIter => argIter._id !== argToDelete._id)
+
+                if (argToEdit.hasOwnProperty("_id")) {
+                    newArr = state.cons.filter(argIter => argIter._id !== argToDelete._id)
+                } else {
+                    newArr = state.cons.filter(argIter => argIter.id !== argToDelete.id)
+                }
+
                 return {
                     ...state,
                     cons: newArr
@@ -108,17 +124,33 @@ const reducer = (state, action) => {
         case "PRO_CON_EDIT":
 
             let argToEdit = action.payload.arg
-
+            let newArr
+            
             if (argToEdit.type === 'pro') {
 
-                let newArr = state.pros.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
+                //_id for objects already saved in DB objects 
+                if (argToEdit.hasOwnProperty("_id")){
+                    newArr = state.pros.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
+                } else {
+                    newArr = state.pros.map(argIter => argIter.id === argToEdit.id ? argToEdit : argIter)
+                }
+                
+                console.log(newArr)
                 return {
                     ...state,
                     pros: newArr
                 }
 
             } else {
-                let newArr = state.cons.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
+
+                //_id for objects already saved in DB objects 
+                if (argToEdit.hasOwnProperty("_id")){
+                    newArr = state.cons.map(argIter => argIter._id === argToEdit._id ? argToEdit : argIter)
+                } else {
+                    newArr = state.cons.map(argIter => argIter.id === argToEdit.id ? argToEdit : argIter)
+                }
+
+                console.log(newArr)
                 return {
                     ...state,
                     cons: newArr
