@@ -5,7 +5,6 @@ import {makeStyles,withStyles,useTheme} from "@material-ui/core/styles"
 import {Slider,Button, Grid,TextField
     //Switch
 } from '@material-ui/core'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import { green,red,darkGrey,sliderTexts } from "../GlobalVars"
 import Icon from "@mdi/react"
 import { ICONS } from "../custom/IconsData"
@@ -32,6 +31,7 @@ const sliderTextWidth=['','200','400','600','700','900']
 
 const CustomTextField = withStyles({
     root: {
+        
       '& label.Mui-focused': {
         color: red,
       },
@@ -43,7 +43,8 @@ const CustomTextField = withStyles({
       },
       '& .MuiInputBase-input':{
         fontSize:'22px',
-        fontWeight:600
+        fontWeight:600,
+        
       },
       '& .MuiFilledInput-root': {
         '& fieldset': {
@@ -56,6 +57,7 @@ const CustomTextField = withStyles({
           borderColor: props => props.lineColor,
         },
       },
+      
     },
   })(TextField);
 
@@ -117,6 +119,7 @@ const useStyles = makeStyles(theme => ({
         fontWeight:'700',
         //textAlign:'center',
         borderRadius:'5px',
+        
         background:props => props.DARK_MODE?'rgba(255, 255, 255, 0.1)':'rgba(0, 0, 0, 0.1)'
     },
     actionButtonPro:{
@@ -170,7 +173,7 @@ export default function AddProCon(props) {
     //const [type, setType] = useState(props.type)
     const {type,edit } = props
     const [text, setText] = useState(edit?edit.proCon:props.text)
-    
+    console.log(text)
     // Sliders ---------------------------------------
     const [impact, setImpact] = useState(edit?edit.impact:3)
     const [confidence, setConfidence] = useState(edit?edit.confidence:3)
@@ -230,6 +233,8 @@ export default function AddProCon(props) {
                                     className={classes.input}
                                     margin="normal"
                                     value={text}
+                                    multiline
+                                    rowsMax={10}
                                     linecolor={typeColor}
                                     onChange={handleTextChange}
                                     inputProps={{  style: { textAlign: 'center'} }}

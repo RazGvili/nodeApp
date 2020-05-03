@@ -118,6 +118,7 @@ export default function ProsConsTable() {
     
 
     const editProCon = (arg) => {
+        console.log(arg)
         setArgumentEdit(null)
         dispatch({type: "PRO_CON_EDIT", payload: {arg}})
 

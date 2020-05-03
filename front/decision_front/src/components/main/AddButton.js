@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
     }, 
     input:{
         color:props => props.DARK_MODE?'white':'black',
+        width:'-webkit-fill-available'
     },
     svgShadow:{
         
@@ -69,6 +70,8 @@ export default function AddButton(props) {
             placeholder={`Add ${props.type}`}
             value={text}
             autoFocus
+            multiline
+            rowsMax={10}
             onChange={handleTextChange}
             inputProps={{ 'aria-label': 'Add New Argument',style:{fontFamily:'Permanent Marker',WebkitFontSmoothing: 'antialiased',
             MozOsxFontMmoothing: 'grayscale'} }}
