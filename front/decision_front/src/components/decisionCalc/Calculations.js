@@ -4,7 +4,7 @@ export function calculateDecision(){
 
 export function sumArgumentsAndAvg(argumentsArr){
     let avg = argumentsArr.reduce((acc,argument) => acc+(argument.confidence+argument.effects+argument.impact),0)
-    avg = avg/ argumentsArr.length
+    avg = avg/ argumentsArr.length || 0
     return avg; // 6.7
     
 }

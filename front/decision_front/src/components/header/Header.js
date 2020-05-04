@@ -169,7 +169,7 @@ return useMemo(() => {
       <AppBar className={classes.appbar} position="static">
         <Toolbar className={classes.toolbar} >
 
-        <Button onClick={()=>setRedirectHome(true)} className={classes.logoButton}>
+        <Button onClick={aboutVersion?null:()=>setRedirectHome(true)} className={classes.logoButton}>
           <img src="/images/logo.png" alt="decisions" height="40px" />
           <Typography style={{fontFamily:'Permanent Marker',fontSize:smallScreen?'22px':'28px',paddingRight:'5px'}}>Decidy</Typography>
         </Button>

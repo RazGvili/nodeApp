@@ -53,11 +53,17 @@ export default function ChoicesData({cons,pros,loading}) {
         <br />
         <span style={{color:green}}>{ratio}</span>
       </>
-      :
+      :ratio<0?
       <>
         <Icon size={1} path={ICONS['Unlike']} color={red} />
         <br />
         <span style={{color:red}}>{ratio}</span>
+      </>
+      :
+      <>
+        <Icon size={1} path={ICONS['MiddleLike']} color={'grey'} />
+        <br />
+        <span style={{color:'grey'}}>{ratio}</span>
       </>
       }
         </div>
