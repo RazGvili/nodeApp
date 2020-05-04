@@ -6,6 +6,7 @@ import { calculateAvg } from './Calculations';
 import Icon from '@mdi/react';
 import { ICONS } from '../custom/IconsData';
 import { red, green } from '../GlobalVars';
+import GaugeChart from 'react-gauge-chart'
 
 const BorderLinearProgress = withStyles({
     root: {
@@ -43,6 +44,18 @@ export default function ChoicesData({cons,pros,loading}) {
         color="secondary"
         value={prosConsRatio}
       />
+
+      {/* <GaugeChart id="gauge-chart3" 
+        nrOfLevels={2} 
+        colors={[green, red]} 
+        arcWidth={0.3}
+        arcsLength={[prosConsRatio/100,1-prosConsRatio/100]}
+        percent={1-prosConsRatio/100} 
+        hideText
+        style={{maxWidth:'300px',margin:'auto'}}
+        arcPadding={0.01}
+        //needleColor={}
+      /> */}
       <br />
       {loading?
       <></>

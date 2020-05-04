@@ -79,31 +79,31 @@ export default function ShowShare({closeAction}) {
                 <br/>
                 <Grid container style={{maxWidth:'500px',margin:'auto'}} spacing={2} justify='center'>
                   <Grid item xs={3} sm={1} >
-                    <FacebookShareButton quote="text here" hashtag="hashtag todo" url={shareAdress}>
+                    <FacebookShareButton quote="Productive and simple decision making with Decidy." hashtag="#DecisionMaking" url={shareAdress}>
                       <FacebookIcon round  size={32}/>
                     </FacebookShareButton>
-                    <br />
+                    {/* <br />
                     <FacebookShareCount url={shareAdress} >
                       {shareCount => <span>{shareCount}</span>}
-                    </FacebookShareCount>
+                    </FacebookShareCount> */}
                   </Grid> 
                   <Grid item xs={3} sm={1} >
                     <FacebookMessengerShareButton
-                      url={"https://www.google.com"}
-                      title={"please click me"}
-                      appId="521270401588372"
+                      url={shareAdress}
+                      title="Productive and simple decision making with Decidy."
+                      appId="232695234491730"
                     >
                       <FacebookMessengerIcon size={32} round />
                     </FacebookMessengerShareButton>
                   </Grid>
                   <Grid item xs={3} sm={1} >
-                    <LinkedinShareButton title="lets try" summary="sfsf" source="Decidy"
+                    <LinkedinShareButton title="Productive and simple decision making with Decidy." summary="See your decision" source="Decidy"
                     url={shareAdress} >
                       <LinkedinIcon size={32} round />
                     </LinkedinShareButton>
                   </Grid>
                   <Grid item xs={3} sm={1} >
-                    <RedditShareButton title="My Decision" url={shareAdress} >
+                    <RedditShareButton title="See your decision" url={shareAdress} >
                       <RedditIcon size={32} round />
                     </RedditShareButton>
                     <RedditShareCount url={shareAdress} >
@@ -111,18 +111,19 @@ export default function ShowShare({closeAction}) {
                     </RedditShareCount>
                   </Grid>
                   <Grid item xs={3} sm={1} >
-                    <EmailShareButton subject="My Decision" body={shareAdress} >
+                    <EmailShareButton subject="Productive and simple decision making with Decidy." body={shareAdress} >
                       <EmailIcon size={32} round/>
                     </EmailShareButton>
                   </Grid>
                   <Grid item xs={3} sm={1} >
-                  <TwitterShareButton title="My Decision" via="Decidy" hashtags={[]}
-                  related={[]} url={shareAdress} >
+                  <TwitterShareButton title="My Decision" via="Decidy" hashtags={['Decision making', 'pros', 'cons','decision visualization', 'decisions']}
+                  //related={[]}
+                  url={shareAdress} >
                     <TwitterIcon round size={32} />
                     </TwitterShareButton>
                   </Grid>
                   <Grid item xs={3} sm={1} >
-                  <WhatsappShareButton title="My Decision" url={shareAdress} >
+                  <WhatsappShareButton title="Productive and simple decision making with Decidy." url={shareAdress} >
                     <WhatsappIcon round size={32} />
                     </WhatsappShareButton>
                   </Grid>
