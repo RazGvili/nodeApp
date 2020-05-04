@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 
 import {makeStyles,useTheme} from "@material-ui/core/styles"
-import { IconButton,InputBase, Typography} from '@material-ui/core'
+import { IconButton,InputBase, Typography, Button} from '@material-ui/core'
 import { green,red } from "../GlobalVars"
 import Icon from "@mdi/react";
 import { ICONS } from "../custom/IconsData";
@@ -26,8 +26,19 @@ const useStyles = makeStyles(theme => ({
         color:props => props.DARK_MODE?'white':'black',
         width:'-webkit-fill-available'
     },
-    svgShadow:{
-        
+
+    button:{
+        color:'white',
+        textTransform:'none',
+        width:'78%',
+        marginTop:'5PX',
+        opacity:'0.7',
+        '&:hover':{
+            opacity:'1',
+        }
+    },
+    multiline:{
+        padding:'14px 0px 12px'
     }
 }))
 
@@ -59,18 +70,19 @@ export default function AddButton(props) {
     return (<>
         <div  className={classes.container}  onClick={()=> setClicked(true)}>
 
-            <IconButton onClick={handleClickAdd} >
+            {/* <IconButton onClick={handleClickAdd} >
                 <Icon path={ICONS['PlusOutline']} size={1} style={{color:text.length>2?DARK_MODE?'black':'white':typeColor, background:text.length>2?typeColor:'none',borderRadius:'45px',
                 }}/>
-            </IconButton>
+            </IconButton> */}
             {clicked?
             <InputBase
             className={classes.input}
-            placeholder={`Add ${props.type}`}
+            placeholder="Write something..."
             value={text}
             autoFocus
             multiline
             rowsMax={10}
+            classes={{multiline:classes.multiline}}
             onChange={handleTextChange}
             inputProps={{ 'aria-label': 'Add New Argument',style:{fontFamily:'Permanent Marker',WebkitFontSmoothing: 'antialiased',
             MozOsxFontMmoothing: 'grayscale'} }}
@@ -81,11 +93,20 @@ export default function AddButton(props) {
               }}
             />
             :
-                <span style={{color:DARK_MODE?'white':'black',fontFamily:'Permanent Marker',WebkitFontSmoothing: 'antialiased',
-                MozOsxFontMmoothing: 'grayscale'}}>{`Add ${props.type}`}</span>
+                <span style={{color:DARK_MODE?'white':'black',
+                fontFamily:'Permanent Marker',
+                //WebkitFontSmoothing: 'antialiased',
+                //MozOsxFontMmoothing: 'grayscale'
+                }}>
+                    Write something...
+                    </span>
             }
-            
+ 
         </div>
+        {text.length>3 && 
+            <Button className={classes.button} style={{background:typeColor}}>
+                Add {props.type}
+            </Button>}
         {error && <Typography style={{letterSpacing: '1.2px',color:'grey',fontSize:'11px'}}>must be longer than two characters</Typography>}
         </>
     )
