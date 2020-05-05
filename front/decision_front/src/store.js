@@ -93,10 +93,14 @@ const reducer = (state, action) => {
             let argToDelete = action.payload.arg
             let newArr
 
+            console.log(state)
+            console.log(argToDelete.id)
+            console.log(argToDelete.hasOwnProperty("_id"))
+
             if (argToDelete.type === 'pro') {
 
                 //_id for objects already saved in DB objects 
-                if (argToEdit.hasOwnProperty("_id")) {
+                if (argToDelete.hasOwnProperty("_id")) {
                     newArr = state.pros.filter(argIter => argIter._id !== argToDelete._id)
                 } else {
                     newArr = state.pros.filter(argIter => argIter.id !== argToDelete.id)
@@ -109,7 +113,7 @@ const reducer = (state, action) => {
 
             } else {
 
-                if (argToEdit.hasOwnProperty("_id")) {
+                if (argToDelete.hasOwnProperty("_id")) {
                     newArr = state.cons.filter(argIter => argIter._id !== argToDelete._id)
                 } else {
                     newArr = state.cons.filter(argIter => argIter.id !== argToDelete.id)

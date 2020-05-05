@@ -209,7 +209,7 @@ export default function AddProCon(props) {
             confidence: confidence, 
             effects: effects,
             type: type,
-            _id: edit && edit._id?edit._id:0,
+            //_id: edit && edit._id?edit._id:0,
             id: edit && edit.id?edit.id :0
         }
         if (edit)

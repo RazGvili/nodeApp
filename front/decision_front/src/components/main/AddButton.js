@@ -77,7 +77,7 @@ export default function AddButton(props) {
             {clicked?
             <InputBase
             className={classes.input}
-            placeholder="Write something..."
+            placeholder={props.type === 'pro'? "Why should you do it?":"Why it's a bad idea?"}
             value={text}
             autoFocus
             multiline
@@ -98,13 +98,13 @@ export default function AddButton(props) {
                 //WebkitFontSmoothing: 'antialiased',
                 //MozOsxFontMmoothing: 'grayscale'
                 }}>
-                    Write something...
+                    {props.type === 'pro'? "Why should you do it?":"Why it's a bad idea?"}
                     </span>
             }
  
         </div>
         {text.length>3 && 
-            <Button onClick={handleClickAdd} className={classes.button} style={{background:typeColor}}>
+            <Button className={classes.button} style={{background:typeColor}}>
                 Add {props.type}
             </Button>}
         {error && <Typography style={{letterSpacing: '1.2px',color:'grey',fontSize:'11px'}}>must be longer than two characters</Typography>}
