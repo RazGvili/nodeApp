@@ -70,7 +70,7 @@ export default function Header({aboutVersion = false}) {
   const [savingSuccess,setSavingSuccess] = useState(false)
   const readOnlyMode = isReadOnly && id
   const isNewDecision = id ? false : true
-
+  console.log(id, isNewDecision)
   const handleLockClick = () => {
     //todo:: check if it can be locked/unlocked
     dispatch({type: "TOGGLE_READ_ONLY"})
@@ -184,20 +184,20 @@ return useMemo(() => {
           :
           <>
               
-              {!aboutVersion && ( isNewDecision?
-                <Button onClick={handleLockClick} className={classes.roundButton}>
-                  <Icon
-                      path={ICONS[isReadOnly ? 'ClosedLock':'OpenedLock' ]}
-                      title="Lock"
-                      size={smallScreen?0.7:1}
-                      color='#9A9A9A'
-                      style={{margin:'auto'}}
-                  /> 
-                   <Typography className={classes.buttonText}>
-                   {isReadOnly ? 'Locked':'Open'   }
-                  </Typography>
-                </Button> 
-              :
+              {!aboutVersion && !isNewDecision && 
+              //   <Button onClick={handleLockClick} className={classes.roundButton}>
+              //     <Icon
+              //         path={ICONS[isReadOnly ? 'ClosedLock':'OpenedLock' ]}
+              //         title="Lock"
+              //         size={smallScreen?0.7:1}
+              //         color='#9A9A9A'
+              //         style={{margin:'auto'}}
+              //     /> 
+              //       <Typography className={classes.buttonText}>
+              //       {isReadOnly ? 'Locked':'Open'   }
+              //     </Typography>
+              //   </Button> 
+              // :
                 <Button className={classes.roundButton} onClick={handleShare}>
                   <Icon
                       path={ICONS['Share']}
@@ -210,7 +210,7 @@ return useMemo(() => {
                   Share 
                   </Typography>
                 </Button>
-              )}
+              }
               
               {!aboutVersion && !readOnlyMode &&
                 <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} smallScreen={smallScreen}/>

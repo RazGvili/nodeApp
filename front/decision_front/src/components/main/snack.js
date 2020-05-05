@@ -17,7 +17,7 @@ export default function Snack() {
     let {showSnack,snackType,snackText} = state
 
     const handleClose = () => {
-        dispatch({type: "CLOSE_SNACK"})
+        if(showSnack) {dispatch({type: "CLOSE_SNACK"})}
     }
 
     return useMemo(() => {

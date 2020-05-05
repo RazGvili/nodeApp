@@ -74,10 +74,11 @@ export default function ShowShare({closeAction}) {
             <Icon path={ICONS['Close']} size={1} />
           </IconButton>
                 
-                <Typography> Get feedback by sharing with others  </Typography> 
+                <Typography> Need extra brain-power? <br/> Copy your decision link and share it with wise friends.   </Typography> 
 
                 <br/>
-                <Grid container style={{maxWidth:'500px',margin:'auto'}} spacing={2} justify='center'>
+
+                {/* <Grid container style={{maxWidth:'500px',margin:'auto'}} spacing={2} justify='center'>
                   <Grid item xs={3} sm={1} >
                     <FacebookShareButton quote="Productive and simple decision making with Decidy." hashtag="#DecisionMaking" url={shareAdress}>
                       <FacebookIcon round  size={32}/>
@@ -85,7 +86,7 @@ export default function ShowShare({closeAction}) {
                     {/* <br />
                     <FacebookShareCount url={shareAdress} >
                       {shareCount => <span>{shareCount}</span>}
-                    </FacebookShareCount> */}
+                    </FacebookShareCount> 
                   </Grid> 
                   <Grid item xs={3} sm={1} >
                     <FacebookMessengerShareButton
@@ -127,7 +128,7 @@ export default function ShowShare({closeAction}) {
                     <WhatsappIcon round size={32} />
                     </WhatsappShareButton>
                   </Grid>
-                </Grid>
+                </Grid> */}
                 
 
                 <br />
@@ -142,6 +143,14 @@ export default function ShowShare({closeAction}) {
         
                       </Button>
                 </CopyToClipboard>
+
+                <br />
+                <br />
+
+
+                <WhatsappShareButton title="Productive and simple decision making with Decidy." url={shareAdress} >
+                  <WhatsappIcon round size={32} />
+                </WhatsappShareButton>
 
                 
             <br/>

@@ -104,7 +104,7 @@ export default function AddButton(props) {
  
         </div>
         {text.length>3 && 
-            <Button className={classes.button} style={{background:typeColor}}>
+            <Button className={classes.button} style={{background:typeColor}} onClick={()=>{handleClickAdd()}}>
                 Add {props.type}
             </Button>}
         {error && <Typography style={{letterSpacing: '1.2px',color:'grey',fontSize:'11px'}}>must be longer than two characters</Typography>}

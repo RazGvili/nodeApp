@@ -4,19 +4,35 @@ export function calculateDecision(){
 
 export function sumArgumentsAndAvg(argumentsArr) {
     let len = argumentsArr.length
-    let avg = argumentsArr.reduce((acc,argument) => acc+(argument.confidence+argument.effects+argument.impact),0)
-    avg = avg / len || 0
+    let sum = argumentsArr.reduce((acc,argument) => acc+(argument.confidence+argument.effects+argument.impact),0)
+    let avg = sum / len || 0
     return avg; // 6.7
-    
 }
 
 export function calculateAvg(pros, cons) {
 
-    let normProConSum = (sumArgumentsAndAvg(pros)-sumArgumentsAndAvg(cons)) / 3
-    //let proLengthMulti = 1 * 
-    // Assure you not larger than 5 
-    // Use the diff to multiply 
-    //return ( ).toFixed(1)
+    let lenDiffSign = pros.length - cons.length > 0 ? 1 : -1
+    let lenDiff = Math.abs(pros.length - cons.length)
+    let normToThree_sumOfAvg = (sumArgumentsAndAvg(pros)-sumArgumentsAndAvg(cons)) / 3
+    let addition = 0
+
+    if (lenDiff >= 1) {        
+
+        let maxGrowth = (5 - Math.abs(normToThree_sumOfAvg))
+
+        for (let step = 0; step < lenDiff; step++) {
+            
+            let additionStep = maxGrowth / (maxGrowth + lenDiff)
+
+            if (additionStep + addition < maxGrowth) { 
+                addition += additionStep
+            } 
+        }
+    }
+
+    normToThree_sumOfAvg = normToThree_sumOfAvg + addition*lenDiffSign 
+    return normToThree_sumOfAvg.toFixed(2)
+
 
 }
 

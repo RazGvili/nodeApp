@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios"
-import { useDispatch  } from '../../store'
+import { useTracked  } from '../../store'
 
 import Button from '@material-ui/core/Button'
 import {BASE_URL} from '../GlobalVars'
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddComment({decisionId,threadID=''}) {
     const classes = useStyles()
-    const dispatch = useDispatch();
+    const [state,dispatch] = useTracked()
     //const [newCommentID, setNewComment] = useLocalStorage('newCommentID', '');
     const [name, setName] = useState("")
     const [text, setText] = useState("")
@@ -53,7 +53,9 @@ export default function AddComment({decisionId,threadID=''}) {
     const [success,setSuccess] = useState(false)
     const nameProblem = name && name.length<3? true : false
     const textProblem = text && text.length<10? true : false
+    let { comments } = state
     
+    console.log(comments.length)
     const handleNameChange = (event) => {
         
         if (event.target.value.length < 20) {
@@ -104,7 +106,7 @@ export default function AddComment({decisionId,threadID=''}) {
     return (
         <div className={classes.root}>
 
-            {success?
+            {success && comments.length !== 0 ?
                 <Typography className={classes.text}>Added!</Typography>
             :
             sending?

@@ -93,10 +93,6 @@ const reducer = (state, action) => {
             let argToDelete = action.payload.arg
             let newArr
 
-            console.log(state)
-            console.log(argToDelete.id)
-            console.log(argToDelete.hasOwnProperty("_id"))
-
             if (argToDelete.type === 'pro') {
 
                 //_id for objects already saved in DB objects 

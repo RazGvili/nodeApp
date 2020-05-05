@@ -37,8 +37,7 @@ export default function ChoicesData({cons,pros,loading}) {
     const ratio = calculateAvg(pros,cons)
     const ratioText = calculateAvgTexts(ratio)
 
-    const prosConsRatio = cons.length+pros.length>0 ? (parseInt(ratio)/5)*100 : 50
-    console.log(prosConsRatio)
+    const prosConsRatio = cons.length+pros.length>0 ? 50 + (10*ratio) : 50
 
     return (
         <div className={classes.root}>
@@ -59,6 +58,7 @@ export default function ChoicesData({cons,pros,loading}) {
         arcPadding={0.01}
         //needleColor={}
       /> */}
+
       <br />
       {loading?
       <></>

@@ -26,8 +26,8 @@ export default function About(props) {
             <Typography style={{fontSize:'20px',fontWeight:'500'}}>
                 Decidy was created because we believe that <span style={{fontFamily:'Permanent Marker',color:isDark?'#DCE8F3':'#35314F'}}>visualizing</span> the decision-making process can improve it.
             <br /><br />
-            We ❤️ tech, enjoy code and creating fun products for real people
-            <br />
+            We ❤️ tech, code & great  products.
+            <br /> <br />
             Let us know what you think about Decidy</Typography>
 
             <br /><br />
@@ -39,9 +39,9 @@ export default function About(props) {
                         Amit Turner
                     </Typography>
                     <div>
-                        <IconButton href="https://amitturner.github.io/portfolio/" ><Icon path={ICONS['Web']} size={1} /></IconButton>
-                        <IconButton href="https://www.linkedin.com/in/amit-turner/"><Icon path={ICONS['LinkedIn']} size={1} /></IconButton>
-                        <IconButton href="https://github.com/AmitTurner"><Icon path={ICONS['GitHub']} size={1} /></IconButton>
+                        <IconButton href="https://amitturner.github.io/portfolio/" target="_blank"><Icon path={ICONS['Web']} size={1} /></IconButton>
+                        <IconButton href="https://www.linkedin.com/in/amit-turner/" target="_blank"><Icon path={ICONS['LinkedIn']} size={1} /></IconButton>
+                        <IconButton href="https://github.com/AmitTurner" target="_blank"><Icon path={ICONS['GitHub']} size={1} /></IconButton>
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -50,9 +50,9 @@ export default function About(props) {
                         Raz Gvili
                     </Typography>
                     <div>
-                        <IconButton href="https://aboutraz.web.app/" ><Icon path={ICONS['Web']} size={1} /></IconButton>
-                        <IconButton href="https://www.linkedin.com/in/raz-gvili/"><Icon path={ICONS['LinkedIn']} size={1} /></IconButton>
-                        <IconButton href="https://github.com/RazGvili"><Icon path={ICONS['GitHub']} size={1} /></IconButton>
+                        <IconButton href="https://aboutraz.web.app/" target="_blank"><Icon path={ICONS['Web']} size={1} /></IconButton>
+                        <IconButton href="https://www.linkedin.com/in/raz-gvili/" target="_blank"><Icon path={ICONS['LinkedIn']} size={1} /></IconButton>
+                        <IconButton href="https://github.com/RazGvili" target="_blank"><Icon path={ICONS['GitHub']} size={1} /></IconButton>
                     </div>
                 </Grid>
             </Grid>
