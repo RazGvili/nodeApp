@@ -26,9 +26,11 @@ export default function About(props) {
             <Typography style={{fontSize:'20px',fontWeight:'500'}}>
                 Decidy was created because we believe that <span style={{fontFamily:'Permanent Marker',color:isDark?'#DCE8F3':'#35314F'}}>visualizing</span> the decision-making process can improve it.
             <br /><br />
-            We ❤️ tech, enjoy code, let us know what you think about Decidy, or just to talk.</Typography>
-
+            We ❤️ tech, enjoy code and creating fun products for real people
             <br />
+            Let us know what you think about Decidy</Typography>
+
+            <br /><br />
 
             <Grid container style={{maxWidth:'600px',margin:'auto'}}>
                 <Grid item xs={12} sm={6}>
