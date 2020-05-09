@@ -5,10 +5,10 @@ import { IconButton, useTheme } from '@material-ui/core'
 import Icon from '@mdi/react'
 import { ICONS } from '../custom/IconsData'
 
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
+import Divider from '@material-ui/core/Divider'
+import Paper from '@material-ui/core/Paper'
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -16,7 +16,9 @@ const useStyles = makeStyles((theme) => ({
         color:theme.palette.type==='dark'?'white':'black',
         background:'rgba(0, 0, 0, 0.1)',
         padding:'15px',
-        position:'relative'
+        position:'relative', 
+        maxWidth: '700px'
+        
     },
     copyButton:{
         background:'none',
@@ -44,45 +46,72 @@ export default function ShowHowItWorks({closeAction}) {
     
     return (
 
-        <div className={classes.root}>
+        <>
 
-            <IconButton onClick={closeAction} className={classes.closeIcon}>
-                <Icon path={ICONS['Close']} size={1} />
-            </IconButton>
+            <div className={classes.root}>
 
-            <List component="nav">
-                <ListItem >
-                    <ListItemIcon>
-                        <Icon path={ICONS['QuestionHead']} size={1} />
-                    </ListItemIcon>
-                    <ListItemText primary={`Write down your yes/no question, like "Should i get a dog?"`} />
-                </ListItem>
+                <Paper elevation={5}>
 
-                <ListItem >
-                    <ListItemIcon>
-                        <Icon path={ICONS['PlusOutline']} size={1} />
-                    </ListItemIcon>
-                    <ListItemText primary="Add & rate your pros/cons." />
-                </ListItem>
+                    <IconButton onClick={closeAction} className={classes.closeIcon}>
+                        <Icon path={ICONS['Close']} size={1} />
+                    </IconButton>
 
-                <ListItem >
-                    <ListItemIcon>
-                        <Icon path={ICONS['Save']} size={1} />
-                    </ListItemIcon>
-                    <ListItemText primary="Save your progress and get a link for easy access." />
-                </ListItem>
+                    <h3 style={{textAlign: 'left', marginLeft: '20px'}}>How it works?</h3>
 
-                <ListItem >
-                    <ListItemIcon>
-                        <Icon path={ICONS['Share']} size={1} />
-                    </ListItemIcon>
-                    <ListItemText primary="Get feedback by sharing with your wise friends." />
-                </ListItem>
+                    <List component="nav">
 
-            </List>
-            
-            <br/>
+                        <ListItem >
+                            <ListItemIcon>
+                                <Icon path={ICONS['QuestionHead']} size={1} />
+                            </ListItemIcon>
+                            <ListItemText 
+                                primary={`Write down your yes/no decision.`} 
+                                secondary={`"Should i get a dog?"`}
+                            />
+                        </ListItem>
 
-        </div>
+                        <ListItem >
+                            <ListItemIcon>
+                                <Icon path={ICONS['PlusOutline']} size={1} />
+                            </ListItemIcon>
+                            <ListItemText 
+                                primary="Add & rate your pros/cons." 
+                                secondary={`The rating will help the thinking process`}
+                            />
+                        </ListItem>
+                    
+                        <ListItem >
+                            <ListItemIcon>
+                                <Icon path={ICONS['Save']} size={1} />
+                            </ListItemIcon>
+                            <ListItemText 
+                                primary="Save your progress."
+                                secondary="You'll get a link for easy access"
+                            />
+                        </ListItem>
+                        
+                        <ListItem >
+                            <ListItemIcon>
+                                <Icon path={ICONS['Share']} size={1} />
+                            </ListItemIcon>
+                            <ListItemText 
+                                primary="Get feedback." 
+                                secondary=" You can share your link with others"
+                            />
+                        </ListItem>
+
+                    </List>
+                    
+                </Paper>
+
+                <br/>
+
+
+            </div>
+                
+        <br/>
+        
+    </>
+
     )
 }
