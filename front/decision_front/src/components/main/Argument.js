@@ -13,11 +13,11 @@ const useStyles = makeStyles(theme => ({
     container: {
         width: '90%',
         padding: '10px',
-        fontFamily:'Permanent Marker',
+        fontFamily:'Permanent Marker,Varela Round',
         margin: 'auto',
     },
     argumentMessage:{
-        fontFamily:'Permanent Marker',
+        fontFamily:'Permanent Marker,Varela Round',
     },
     argumentRoot:{
         background: 'none',
@@ -50,7 +50,7 @@ export default function Argument({isReadOnly,type,handleArgumentRemove,handleEdi
                               }
                             style={{color:type==='con'?red:green}}>
                                         <AlertTitle style={{fontSize: '1.5em'}}>
-                                            <b  style={{fontFamily:'Permanent Marker'}} >{arg.proCon}</b>
+                                            <b  style={{fontFamily:'Permanent Marker,Varela Round'}} >{arg.proCon}</b>
                                         </AlertTitle>
                                         Impact:{` ${arg.impact}`} <br/>  
                                         Confidence:{` ${arg.confidence}`} <br/> 

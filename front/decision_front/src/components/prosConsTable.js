@@ -4,6 +4,9 @@ import React, { useState, useMemo } from "react"
 import {makeStyles} from "@material-ui/core/styles"
 import { Skeleton } from "@material-ui/lab"
 import {useMediaQuery,Slide,Grid,Dialog,DialogContent} from '@material-ui/core'
+import SpeedDial from '@material-ui/lab/SpeedDial';
+import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
+import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 
 import AddProCon from './main/AddProCon'
 import AddButton from './main/AddButton'
@@ -13,6 +16,9 @@ import ChoicesData from "./decisionCalc/ChoicesData"
 import Argument from "./main/Argument"
 //import {BASE_URL} from './GlobalVars'
 import { useTracked } from '../store'
+import Icon from "@mdi/react";
+import { ICONS } from "./custom/IconsData";
+import { green, red } from "../helpers/GlobalVars";
 
 //slide animation
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -26,6 +32,16 @@ const useStyles = makeStyles(theme => ({
         //background:props=> props.DARK_MODE?theme.palette.background.dark:theme.palette.background.light,
         textAlign: 'center',
     }, 
+    speedDial: {
+        position: 'fixed',
+        bottom:'10%',
+        right: '0',
+    left: '0',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    minHeight: '10em',
+    width: '90%',
+      },
     blackBoard:
     props=> theme.palette.type==='dark'?
     {
@@ -35,7 +51,7 @@ const useStyles = makeStyles(theme => ({
         position:'relative',
         minHeight:'540px',
         margin:'10px auto',
-        fontFamily:'Permanent Marker',
+        fontFamily:'Permanent Marker,Varela Round',
         border: 'tan solid 12px',
 		borderTop: '#bda27e solid 12px',
 		borderLeft: '#b19876 solid 12px',
@@ -51,7 +67,7 @@ const useStyles = makeStyles(theme => ({
         position:'relative',
         minHeight:'540px',
         margin:'10px auto',
-        fontFamily:'Permanent Marker',
+        fontFamily:'Permanent Marker,Varela Round',
         border: '#C3BEBE solid 12px',
 		borderTop: '#ADA6A6 solid 12px',
 		borderLeft: '#989292 solid 12px',
@@ -71,8 +87,13 @@ const useStyles = makeStyles(theme => ({
         maxHeight:'90%',
         top:'15px',
     },
+    mobileHorizontalLine:{
+        marginTop:'30px',
+        maxWidth:'90%',
+        maxHeight:'100%',
+    },
     blackBoardTitle:{
-        fontFamily:'Permanent Marker',
+        fontFamily:'Permanent Marker,Varela Round',
         height:'3.5em',
         fontSize:'40px',
         paddingTop:'0.7em'
@@ -85,6 +106,23 @@ const useStyles = makeStyles(theme => ({
     },
     dialogPaper:{
         background:theme.palette.type==='dark'?theme.palette.background.dark:theme.palette.background.light,
+    },
+    greenToolTip:{
+        background:green,
+        width:'70px'
+    },
+    redToolTip:{
+        background:red,
+        width:'70px'
+    },
+    addFab:{
+        background:theme.palette.type==='dark'?theme.palette.background.light:theme.palette.background.dark,
+        '&:active':{
+            background:theme.palette.type==='dark'?theme.palette.background.light:theme.palette.background.dark,
+        },
+        '&:hover':{
+            background:theme.palette.type==='dark'?theme.palette.background.light:theme.palette.background.dark,
+        }
     }
 }))
 
@@ -98,6 +136,7 @@ export default function ProsConsTable() {
     const [argumentEdit, setArgumentEdit] = useState(null)
     const [argIdCounter,setArgIdCounter] = useState(0)
     const [showDialog, setShowDialog] = useState(false)
+    const [speedDial, setSpeedDial] = useState(false)
     const [type, setType] = useState("")
     const [text, setText] = useState("")
     //const [error, setError] = useState("")
@@ -204,10 +243,16 @@ export default function ProsConsTable() {
                     }
                     </Grid>
 
+
                     {smallScreen &&
-                        <Grid item xs={12} className={classes.blackBoardTitle} style={{color:'#BA3737'}}>
-                            cons
-                        </Grid> 
+                        <>
+                            <Grid item xs={12}>
+                                <img className={classes.mobileHorizontalLine} alt="chalk line" src={`/images/chalk_sides${isDark?'':'_black'}.png`} />
+                            </Grid> 
+                            <Grid item xs={12} className={classes.blackBoardTitle} style={{color:'#BA3737'}}>
+                                cons
+                            </Grid> 
+                        </>
                     }
 
                     <Grid item xs={12} sm={6} >
@@ -252,7 +297,40 @@ export default function ProsConsTable() {
                                 </DialogContent>
                             </div>
                 </Dialog>
+
+                {smallScreen &&
+                <SpeedDial
+        ariaLabel="SpeedDial tooltip example"
+        className={classes.speedDial}
+        classes={{fab:classes.addFab}}
+        icon={<SpeedDialIcon style={{color:isDark?'black':'white'}}/>}
+        onClose={() => setSpeedDial(false)}
+        onOpen={() => setSpeedDial(true)}
+        //FabProps={{disableRipple:true}}
+        open={speedDial}
+      >
+          <SpeedDialAction
+            //key={'Addcon2'}
+            FabProps={{style:{background:red}}}
+            classes={{staticTooltipLabel:classes.redToolTip}}
+            icon={<Icon path={ICONS['Unlike']} size={1} />}
+            tooltipTitle={'Add con'}
+            tooltipOpen
+            onClick={()=> HandleOpenArgumentDialog('', 'con')}
+          />
+          <SpeedDialAction
+            FabProps={{style:{background:green}}}
+            classes={{staticTooltipLabel:classes.greenToolTip}}
+            //key={'Addcon'}
+            icon={<Icon path={ICONS['Like']} size={1} />}
+            tooltipTitle={'Add pro'}
+            tooltipOpen
+            onClick={()=> HandleOpenArgumentDialog('', 'pro')}
+          />
+          
+      </SpeedDial>}
+
         </div>
 
-    )},[isDark,cons,pros,loading,classes,smallScreen,showDialog,type,text,isReadOnly])
+    )},[isDark,cons,pros,loading,classes,smallScreen,showDialog,type,text,isReadOnly,speedDial])
 }

@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 
 import {makeStyles,withStyles,useTheme} from "@material-ui/core/styles"
-import {Slider,Button, Grid,TextField
+import {Slider,Button, Grid,TextField,Tooltip
     //Switch
 } from '@material-ui/core'
 import { green,red,darkGrey,sliderTexts } from "../../helpers/GlobalVars"
@@ -106,13 +106,13 @@ const useStyles = makeStyles(theme => ({
     }, 
     sliders: {
         width: '100%',
-        maxWidth:'300px',
+        maxWidth:'400px',
         textAlign: 'center',
         margin: 'auto'
     },
     input:{
         color:props => props.DARK_MODE?'white':'black',
-        //fontFamily:'Permanent Marker',
+        //fontFamily:'Permanent Marker,Varela Round',
         margin:'auto',
         padding:'0px',
         width:'95%',
@@ -161,6 +161,11 @@ const useStyles = makeStyles(theme => ({
             background:'#838383',
             color:'white'
           },
+    },
+    toolTipIcon:{
+        verticalAlign: 'middle',
+         paddingRight: '5px',
+         opacity:'0.7'
     }
 }))
 
@@ -244,8 +249,11 @@ export default function AddProCon(props) {
                 <div className={classes.sliders}>  
 
                 <Grid container spacing={1} style={{margin:'15px auto',width:'100%'}}>
-                    <Grid item xs={6}>
-                        <span style={{}}>Impact</span>
+                    <Grid item xs={6} style={{textAlign:'left'}}>
+                    <Tooltip title={`How much this ${type} is affecting me`} >
+                        <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
+                    </Tooltip>
+                        Impact
                     </Grid>
                     <Grid item xs={6}>
                         <span style={{fontWeight:sliderTextWidth[impact]}}>
@@ -260,7 +268,10 @@ export default function AddProCon(props) {
                         />
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={6} style={{textAlign:'left'}}>
+                    <Tooltip title={`Level of confidence about my ${type}`} >
+                        <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
+                    </Tooltip>
                     Confidence
                     </Grid>
                     <Grid item xs={6}>
@@ -276,8 +287,12 @@ export default function AddProCon(props) {
                         />
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={6} style={{textAlign:'left'}}>
+                    <Tooltip title={`For how long this ${type} will affect me`} >
+                        <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
+                    </Tooltip>
                     Long term effects
+                    
                     </Grid>
                     <Grid item xs={6}>
                         <span style={{fontWeight:sliderTextWidth[effects]}}>

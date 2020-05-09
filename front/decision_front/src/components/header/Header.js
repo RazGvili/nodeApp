@@ -184,7 +184,7 @@ return useMemo(() => {
 
         <Button onClick={aboutVersion?null:()=>setRedirectHome(true)} className={classes.logoButton}>
           <img src="/images/logo.png" alt="decisions" height="40px" />
-          <Typography style={{fontFamily:'Permanent Marker',fontSize:smallScreen?'22px':'28px',paddingRight:'5px'}}>Decidy</Typography>
+          <Typography style={{fontFamily:'Permanent Marker,Varela Round',fontSize:smallScreen?'22px':'28px',paddingRight:'5px'}}>Decidy</Typography>
         </Button>
 
         <div style={{display:'flex'}}>

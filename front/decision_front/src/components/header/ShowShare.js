@@ -32,12 +32,13 @@ const useStyles = makeStyles((theme) => ({
       color:theme.palette.type==='dark'?'white':'black',
       background:'rgba(0, 0, 0, 0.1)',
       padding:'15px',
-      position:'relative'
+      position:'relative',
     },
     copyButton:{
     background:'none',
     textTransform:'none',
     paddingRight:'20px',
+    margin:'10px',
     borderRadius: '45px',
     width:'200px',
     border: '1px grey solid',
@@ -134,8 +135,9 @@ export default function ShowShare({isNewDecision, closeAction}) {
                 </Grid> */}
 
               <br />
+                <div style={{display:'flex',justifyContent:'center'}}>
 
-              <CopyToClipboard text={shareAdress}
+                <CopyToClipboard text={shareAdress}
                   onCopy={handleCopied}>
                   <Button className={classes.copyButton} endIcon={<Icon path={ICONS['Copy']} size={0.7} color={theme.palette.type==='dark'?'white':'black'}/>}>
                     <Typography style={{width:'100%'}}>
@@ -145,15 +147,14 @@ export default function ShowShare({isNewDecision, closeAction}) {
       
                     </Button>
               </CopyToClipboard>
-
-              <br />
-              <br />
-
+               
               <WhatsappShareButton title="Productive and simple decision making with Decidy." url={shareAdress} >
-                <WhatsappIcon round size={32} />
+                <WhatsappIcon round size={40} />
               </WhatsappShareButton>
-            
-              <br/>
+              
+                </div>
+             
+              
 
             </> 
             :

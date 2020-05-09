@@ -24,7 +24,7 @@ export default function About(props) {
             <Button style={{position:'absolute',top:'80px',left:'15px',textTransform:'none'}} onClick={() => history.goBack()}><Icon path={ICONS['ArrowLeft']} size={1} /> Back</Button>
 
             <Typography style={{fontSize:'20px',fontWeight:'500'}}>
-                Decidy was created because we believe that <span style={{fontFamily:'Permanent Marker',color:isDark?'#DCE8F3':'#35314F'}}>visualizing</span> the decision-making process can improve it.
+                Decidy was created because we believe that <span style={{fontFamily:'Permanent Marker,Varela Round',color:isDark?'#DCE8F3':'#35314F'}}>visualizing</span> the decision-making process can improve it.
             <br /><br />
             We ❤️ tech, code & great  products.
             <br /> <br />

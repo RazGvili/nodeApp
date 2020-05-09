@@ -4,7 +4,7 @@ import {green} from '../../helpers/GlobalVars'
 import { IconButton, useTheme } from '@material-ui/core'
 import Icon from '@mdi/react'
 import { ICONS } from '../custom/IconsData'
-
+import Dialog from '@material-ui/core/Dialog';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import Divider from '@material-ui/core/Divider'
 import Paper from '@material-ui/core/Paper'
@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
         background:'rgba(0, 0, 0, 0.1)',
         padding:'15px',
         position:'relative', 
-        maxWidth: '700px'
+        maxWidth: '700px',
+        margin:'auto'
         
     },
     copyButton:{
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     closeIcon:{
-        //position:'absolute',
+        position:'absolute',
         right:'15px',
         top:'10px'
     }
@@ -47,11 +48,8 @@ export default function ShowHowItWorks({closeAction}) {
     return (
 
         <>
-
+            <Dialog open>
             <div className={classes.root}>
-
-                <Paper elevation={5}>
-
                     <IconButton onClick={closeAction} className={classes.closeIcon}>
                         <Icon path={ICONS['Close']} size={1} />
                     </IconButton>
@@ -101,17 +99,11 @@ export default function ShowHowItWorks({closeAction}) {
                         </ListItem>
 
                     </List>
-                    
-                </Paper>
-
-                <br/>
-
 
             </div>
-                
-        <br/>
+ 
+    </Dialog>
         
     </>
-
     )
 }

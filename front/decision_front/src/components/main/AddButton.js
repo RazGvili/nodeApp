@@ -84,7 +84,7 @@ export default function AddButton(props) {
             rowsMax={10}
             classes={{multiline:classes.multiline}}
             onChange={handleTextChange}
-            inputProps={{ 'aria-label': 'Add New Argument',style:{fontFamily:'Permanent Marker',WebkitFontSmoothing: 'antialiased',
+            inputProps={{ 'aria-label': 'Add New Argument',style:{fontFamily:'Permanent Marker,Varela Round',WebkitFontSmoothing: 'antialiased',
             MozOsxFontMmoothing: 'grayscale'} }}
             onKeyPress={(ev) => {
                 if (ev.key === 'Enter') {
@@ -94,7 +94,7 @@ export default function AddButton(props) {
             />
             :
                 <span style={{color:DARK_MODE?'white':'black',
-                fontFamily:'Permanent Marker',
+                fontFamily:'Permanent Marker,Varela Round',
                 //WebkitFontSmoothing: 'antialiased',
                 //MozOsxFontMmoothing: 'grayscale'
                 }}>
