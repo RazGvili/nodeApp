@@ -1,6 +1,6 @@
 
 import axios from "axios"
-import {BASE_URL} from './components/GlobalVars'
+import {BASE_URL} from './GlobalVars'
 
 export default function(err) {
     console.log(err)

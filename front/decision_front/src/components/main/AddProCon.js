@@ -5,7 +5,7 @@ import {makeStyles,withStyles,useTheme} from "@material-ui/core/styles"
 import {Slider,Button, Grid,TextField
     //Switch
 } from '@material-ui/core'
-import { green,red,darkGrey,sliderTexts } from "../GlobalVars"
+import { green,red,darkGrey,sliderTexts } from "../../helpers/GlobalVars"
 import Icon from "@mdi/react"
 import { ICONS } from "../custom/IconsData"
 

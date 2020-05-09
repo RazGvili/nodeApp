@@ -2,7 +2,7 @@
 import { useReducer } from 'react'
 import { createContainer } from 'react-tracked'
 
-import report from './report'
+import report from './helpers/report'
 
 const initialState = {
 

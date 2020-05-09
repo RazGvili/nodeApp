@@ -4,7 +4,7 @@ import {ICONS} from '../custom/IconsData'
 import Icon from '@mdi/react'
 import Avatar from '../custom/Avatar'
 import { Grid, Typography,IconButton } from '@material-ui/core'
-import { green,red } from '../GlobalVars'
+import { green,red } from '../../helpers/GlobalVars'
 
 function timeSince(date) {
 

@@ -4,7 +4,7 @@ import { useTrackedState,useDispatch } from '../../store'
 import {IconButton,Slide,Snackbar} from '@material-ui/core'
 import {ICONS} from '../custom/IconsData'
 import Icon from '@mdi/react'
-import { red,green } from '../GlobalVars'
+import { red,green } from '../../helpers/GlobalVars'
 import Alert from '@material-ui/lab/Alert'
 
 const SlideTransition = (props) =>  <Slide {...props} direction="down" />

@@ -5,7 +5,7 @@ import axios from "axios"
 import { useTracked  } from '../../store'
 
 import Button from '@material-ui/core/Button'
-import {BASE_URL} from '../GlobalVars'
+import {BASE_URL} from '../../helpers/GlobalVars'
 import { Typography } from '@material-ui/core';
 
 
@@ -96,6 +96,8 @@ export default function AddComment({decisionId,threadID=''}) {
             setSending(false)
             console.error(e)
             //setLoading(false)
+
+            // lang code - SNACKS_GENERAL_ERR
             dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong! please try again.`}})
             dispatch({type: "SET_ERROR", payload: {error:e.message}})
         }

@@ -5,9 +5,11 @@ import Comments from './Comments/Comments'
 import { useTracked  } from '../store'
 import { createMuiTheme, ThemeProvider,responsiveFontSizes  } from '@material-ui/core/styles';
 
-import {BASE_URL} from './GlobalVars'
+import {BASE_URL} from './../helpers/GlobalVars'
 
 import {useParams} from "react-router-dom"
+
+import lang from './../helpers/texts'
 
 export const theme = (darkMode) => responsiveFontSizes(createMuiTheme({
   typography: {
@@ -43,6 +45,8 @@ export default function Home() {
     const params = useParams()
     const idFromURL= params.id
 
+    console.log(lang)
+
     async function getDecision(decisionId) {
         //console.log('getting decision from server')
         try {
@@ -70,6 +74,7 @@ export default function Home() {
             }
 
           } else {
+            // lang code - SNACKS_GENERAL_ERR
               dispatch({type: "INIT_DECISION"}) 
               dispatch({type: "OPEN_SNACK", payload: {type: "info", text: `Something went wrong, please try again. you're invited to leave feedback!`}})  
           }

@@ -3,7 +3,7 @@ import React, { useState } from "react"
 
 import {makeStyles,useTheme} from "@material-ui/core/styles"
 import { IconButton,InputBase, Typography, Button} from '@material-ui/core'
-import { green,red } from "../GlobalVars"
+import { green,red } from "../../helpers/GlobalVars"
 import Icon from "@mdi/react";
 import { ICONS } from "../custom/IconsData";
   

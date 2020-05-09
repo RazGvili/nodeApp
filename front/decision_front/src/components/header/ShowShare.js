@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useTrackedState  } from '../../store'
-import {green} from '../GlobalVars'
+import {green} from '../../helpers/GlobalVars'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Button, Typography, IconButton, Grid, useTheme } from '@material-ui/core'
 import Icon from '@mdi/react'
@@ -54,8 +54,8 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-export default function ShowShare({closeAction}) {
-    const classes = useStyles();
+export default function ShowShare({isNewDecision, closeAction}) {
+    const classes = useStyles()
     const theme = useTheme()
     const state = useTrackedState()
     const [ copied, setCopied ] = useState(false)
@@ -67,15 +67,18 @@ export default function ShowShare({closeAction}) {
       setTimeout( () => setCopied(false), 3000 )
     }
 
-    
+    console.log(isNewDecision)
     return (
         <div className={classes.root}>
+
           <IconButton onClick={closeAction} className={classes.closeIcon}>
             <Icon path={ICONS['Close']} size={1} />
           </IconButton>
                 
+            { !isNewDecision ?
+            
+              <> 
                 <Typography> Need extra brain-power? <br/> Copy your decision link and share it with wise friends.   </Typography> 
-
                 <br/>
 
                 {/* <Grid container style={{maxWidth:'500px',margin:'auto'}} spacing={2} justify='center'>
@@ -129,31 +132,35 @@ export default function ShowShare({closeAction}) {
                     </WhatsappShareButton>
                   </Grid>
                 </Grid> */}
-                
 
-                <br />
+              <br />
 
-                <CopyToClipboard text={shareAdress}
-                    onCopy={handleCopied}>
-                    <Button className={classes.copyButton} endIcon={<Icon path={ICONS['Copy']} size={0.7} color={theme.palette.type==='dark'?'white':'black'}/>}>
-                      <Typography style={{width:'100%'}}>
-                      {copied? 'Copied!' : 'Copy to clipboard'}
-                        
-                      </Typography>
-        
-                      </Button>
-                </CopyToClipboard>
+              <CopyToClipboard text={shareAdress}
+                  onCopy={handleCopied}>
+                  <Button className={classes.copyButton} endIcon={<Icon path={ICONS['Copy']} size={0.7} color={theme.palette.type==='dark'?'white':'black'}/>}>
+                    <Typography style={{width:'100%'}}>
+                    {copied? 'Copied!' : 'Copy to clipboard'}
+                      
+                    </Typography>
+      
+                    </Button>
+              </CopyToClipboard>
 
-                <br />
-                <br />
+              <br />
+              <br />
 
+              <WhatsappShareButton title="Productive and simple decision making with Decidy." url={shareAdress} >
+                <WhatsappIcon round size={32} />
+              </WhatsappShareButton>
+            
+              <br/>
 
-                <WhatsappShareButton title="Productive and simple decision making with Decidy." url={shareAdress} >
-                  <WhatsappIcon round size={32} />
-                </WhatsappShareButton>
-
-                
-            <br/>
+            </> 
+            :
+            <>
+              <Typography> Save first, then you can share your progress with others </Typography> 
+            </>
+            }
         </div>
     )
 }

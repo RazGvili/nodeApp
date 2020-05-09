@@ -5,7 +5,7 @@ import {LinearProgress} from '@material-ui/core';
 import { calculateAvg, calculateAvgTexts } from './Calculations';
 import Icon from '@mdi/react';
 import { ICONS } from '../custom/IconsData';
-import { red, green } from '../GlobalVars';
+import { red, green } from '../../helpers/GlobalVars';
 import GaugeChart from 'react-gauge-chart'
 
 const BorderLinearProgress = withStyles({

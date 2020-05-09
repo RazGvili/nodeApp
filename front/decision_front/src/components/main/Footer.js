@@ -2,7 +2,7 @@ import React,{useMemo} from 'react';
 import { Container,makeStyles} from '@material-ui/core';
 
 import { Link } from 'react-router-dom';
-import { useTrackedState } from '../store'
+import { useTrackedState } from '../../store'
 
 const useStyles = makeStyles(theme => ({
   footer: {

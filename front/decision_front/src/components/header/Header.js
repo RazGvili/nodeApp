@@ -10,11 +10,13 @@ import {ICONS} from '../custom/IconsData'
 import Icon from '@mdi/react'
 
 import axios from "axios"
-import {BASE_URL} from '../GlobalVars'
+import {BASE_URL} from '../../helpers/GlobalVars'
 import { useTracked  } from '../../store'
 
 import SaveButton from './SaveButton'
 import ShowShare from './ShowShare'
+import ShowHowItWorks from './ShowHowItWorks'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -67,10 +69,12 @@ export default function Header({aboutVersion = false}) {
 
   const [saving,setSaving] = useState(false)
   const [showShare,setShowShare] = useState(false)
+  const [showHowItWorks,setShowHowItWorks] = useState(false)
   const [savingSuccess,setSavingSuccess] = useState(false)
   const readOnlyMode = isReadOnly && id
   const isNewDecision = id ? false : true
-  console.log(id, isNewDecision)
+  //console.log(id, isNewDecision)
+
   const handleLockClick = () => {
     //todo:: check if it can be locked/unlocked
     dispatch({type: "TOGGLE_READ_ONLY"})
@@ -80,6 +84,7 @@ export default function Header({aboutVersion = false}) {
     } else {
         dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "[Locked mode] After the first save no one(even you) can edit this decision "}})
     }
+
   }
 
   const handleDarkModeClick = () => {
@@ -89,10 +94,15 @@ export default function Header({aboutVersion = false}) {
   const handleShare = () => {
     setShowShare(!showShare)
   }
+
+  const handleHowItWorks = () => {
+    setShowHowItWorks(!showHowItWorks)
+  }
   
   async function handleSubmit() {
 
     //check if title is too short or empty
+    //lang code = SNACKS_HEADER_TITLE_TEXT_VALIDATION
     if (title.length<3) {
       dispatch({type: "OPEN_SNACK", payload: {type: "error", text: "Title must be more than 2 characters"}})
     }
@@ -134,11 +144,14 @@ export default function Header({aboutVersion = false}) {
               setRedirect(true)
           }
 
+          // lang code SNACKS_HEADER_DECISION_SAVED
           dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
 
       } catch (e) {
           console.error(e)
           setSaving(false)
+
+          //lang code SNACKS_HEADER_DECISION_SAVE_ERR
           dispatch({type: "OPEN_SNACK", payload: {type: "error", text: `Something went wrong, We couldn't save your progress. [${e}]`}})
           dispatch({type: "SET_ERROR", payload: {error: e.message}})
 
@@ -175,16 +188,31 @@ return useMemo(() => {
         </Button>
 
         <div style={{display:'flex'}}>
+
           {loading &!aboutVersion?
           <>
-                      <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
-                      <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
-                      <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
+            <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
+            <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
+            <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
+            <Skeleton animation="wave" variant="circle" className={classes.roundButton}/>
           </>
           :
-          <>
-              
-              {!aboutVersion && !isNewDecision && 
+          <>  
+            <Button className={classes.roundButton} onClick={handleHowItWorks}>
+              <Icon
+                  path={ICONS['Question']}
+                  title="How it works?"
+                  size={smallScreen?0.7:1}
+                  color='#9A9A9A'
+                  style={{margin:'auto'}}
+              />
+              <Typography className={classes.buttonText}>
+                How to 
+              </Typography>
+            </Button>
+
+            {!aboutVersion && 
+
               //   <Button onClick={handleLockClick} className={classes.roundButton}>
               //     <Icon
               //         path={ICONS[isReadOnly ? 'ClosedLock':'OpenedLock' ]}
@@ -198,36 +226,36 @@ return useMemo(() => {
               //     </Typography>
               //   </Button> 
               // :
-                <Button className={classes.roundButton} onClick={handleShare}>
-                  <Icon
-                      path={ICONS['Share']}
-                      title="Share"
-                      size={smallScreen?0.7:1}
-                      color='#9A9A9A'
-                      style={{margin:'auto'}}
-                  />
-                  <Typography className={classes.buttonText}>
-                  Share 
-                  </Typography>
-                </Button>
-              }
-              
-              {!aboutVersion && !readOnlyMode &&
-                <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} smallScreen={smallScreen}/>
-              }
-              
-              <Button  className={classes.roundButton}  onClick={handleDarkModeClick}>
+              <Button className={classes.roundButton} onClick={handleShare}>
                 <Icon
-                    path={ICONS['Theme']}
-                    title="Toogle dark mode"
+                    path={ICONS['Share']}
+                    title="Share"
                     size={smallScreen?0.7:1}
                     color='#9A9A9A'
                     style={{margin:'auto'}}
                 />
                 <Typography className={classes.buttonText}>
-                {isDark?'Dark':'Light'}
-                </Typography>    
+                Share 
+                </Typography>
               </Button>
+            }
+              
+            {!aboutVersion && !readOnlyMode &&
+              <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} smallScreen={smallScreen}/>
+            }
+              
+            <Button  className={classes.roundButton}  onClick={handleDarkModeClick}>
+              <Icon
+                  path={ICONS['Theme']}
+                  title="Toogle dark mode"
+                  size={smallScreen?0.7:1}
+                  color='#9A9A9A'
+                  style={{margin:'auto'}}
+              />
+              <Typography className={classes.buttonText}>
+              {isDark?'Dark':'Light'}
+              </Typography>    
+            </Button>
           </>
           }
           {/* <Timer seconds="15"/> */}
@@ -235,9 +263,30 @@ return useMemo(() => {
         </Toolbar>
       </AppBar>
 
-      {showShare && <ShowShare closeAction={()=> setShowShare(false)}/>}
+      {showShare && <ShowShare isNewDecision={isNewDecision} closeAction={()=> setShowShare(false)}/>}
 
+      {showHowItWorks && <ShowHowItWorks closeAction={()=> setShowHowItWorks(false)}/>}
+      
       
     </div>
-  )},[title,pros,cons,id,loading,isReadOnly,classes,redirect,redirectHome, showShare,saving,savingSuccess,isDark,isNewDecision,smallScreen])
-}
+  )},
+  [
+    title,
+    pros,
+    cons,
+    id,
+    loading,
+    isReadOnly,
+    classes,
+    redirect,
+    redirectHome,
+    showShare,
+    saving,
+    savingSuccess,
+    isDark,
+    isNewDecision,
+    smallScreen,
+    showHowItWorks
+  ]
+
+)}

@@ -7,7 +7,7 @@ import AddComment from './AddComment'
 import { useTracked,   } from '../../store'
 import { getUntrackedObject } from 'react-tracked';
 import axios from "axios"
-import {BASE_URL} from '../GlobalVars'
+import {BASE_URL} from '../../helpers/GlobalVars'
 import { Typography } from '@material-ui/core'
 import useLocalStorage from '../custom/UseLocalStorage'
 
