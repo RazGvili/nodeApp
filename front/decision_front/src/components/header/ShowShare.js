@@ -148,7 +148,7 @@ export default function ShowShare({isNewDecision, closeAction}) {
                     </Button>
               </CopyToClipboard>
                
-              <WhatsappShareButton title="Productive and simple decision making with Decidy." url={shareAdress} >
+              <WhatsappShareButton title="Pros & Cons about my decision:" url={shareAdress} >
                 <WhatsappIcon round size={40} />
               </WhatsappShareButton>
               

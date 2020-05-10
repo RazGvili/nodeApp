@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
         top:'15px',
     },
     mobileHorizontalLine:{
-        marginTop:'30px',
+        marginTop:'80px',
         maxWidth:'90%',
         maxHeight:'100%',
     },
@@ -224,7 +224,7 @@ export default function ProsConsTable() {
                         </>
                         :
                         <>
-                            {!isReadOnly && <AddButton type='pro' AddAction={HandleOpenArgumentDialog} />}
+                            {!isReadOnly && !smallScreen && <AddButton type='pro' AddAction={HandleOpenArgumentDialog} />}
                                 {
                                     pros.map((arg, index) => {
                                         return (
@@ -264,7 +264,7 @@ export default function ProsConsTable() {
                             </>
                             :
                             <>
-                                {!isReadOnly && <AddButton type='con' AddAction={HandleOpenArgumentDialog} /> }
+                                {!isReadOnly && !smallScreen && <AddButton type='con' AddAction={HandleOpenArgumentDialog} /> }
                                 
                                 {cons.map((arg, index) => {
                                     return (
@@ -300,15 +300,15 @@ export default function ProsConsTable() {
 
                 {smallScreen &&
                 <SpeedDial
-        ariaLabel="SpeedDial tooltip example"
-        className={classes.speedDial}
-        classes={{fab:classes.addFab}}
-        icon={<SpeedDialIcon style={{color:isDark?'black':'white'}}/>}
-        onClose={() => setSpeedDial(false)}
-        onOpen={() => setSpeedDial(true)}
-        //FabProps={{disableRipple:true}}
-        open={speedDial}
-      >
+                    ariaLabel="SpeedDial tooltip example"
+                    className={classes.speedDial}
+                    classes={{fab:classes.addFab}}
+                    icon={<SpeedDialIcon style={{color:isDark?'black':'white'}}/>}
+                    onClose={() => setSpeedDial(false)}
+                    onOpen={() => setSpeedDial(true)}
+                    //FabProps={{disableRipple:true}}
+                    open={speedDial}
+                >
           <SpeedDialAction
             //key={'Addcon2'}
             FabProps={{style:{background:red}}}
