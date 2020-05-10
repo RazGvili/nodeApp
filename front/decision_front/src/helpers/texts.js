@@ -20,6 +20,7 @@ lang.eng.SHARE_POPUP_COPY_BUTTON = 'Copy to clipboard'
 // Share popup -------------------------------------------
 
 // Title -------------------------------------------
+lang.eng.TITLE_LABEL = `My yes/no question`
 lang.eng.TITLE_PLACEHOLDER = `What you're trying to figure out?`
 // Title -------------------------------------------
 

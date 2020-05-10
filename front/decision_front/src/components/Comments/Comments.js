@@ -12,6 +12,12 @@ import { Typography } from '@material-ui/core'
 import useLocalStorage from '../custom/UseLocalStorage'
 
 const useStyles = makeStyles((theme) => ({
+    container:{
+        width: '100%',
+        marginTop:'20px',
+        background:'rgba(0, 0, 0, 0.1)',
+        padding:'15px'
+    },
     root: {
         width: '100%',
         maxWidth: '360px',
@@ -117,6 +123,7 @@ export default function Comments() {
     return useMemo(() => {
     return (
         id.length>23?
+        <div className={classes.container}>
         <div className={classes.root}>
             {loading?
             'loading...'
@@ -159,6 +166,7 @@ export default function Comments() {
             <AddComment decisionId={id}/>
             </>
             }
+        </div>
         </div>
         :null
 

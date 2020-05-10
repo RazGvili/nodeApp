@@ -166,6 +166,9 @@ const useStyles = makeStyles(theme => ({
         verticalAlign: 'middle',
          paddingRight: '5px',
          opacity:'0.7'
+    },
+    toolTipText:{
+        fontSize:'30'
     }
 }))
 
@@ -239,11 +242,12 @@ export default function AddProCon(props) {
                                     className={classes.input}
                                     margin="normal"
                                     value={text}
+                                    placeholder={type === 'pro'? "Why should you do it?":"Why it's a bad idea?"}
                                     multiline
                                     rowsMax={10}
                                     linecolor={typeColor}
                                     onChange={handleTextChange}
-                                    inputProps={{  style: { textAlign: 'center'} }}
+                                    inputProps={{  style: {fontFamily:'Permanent Marker,Varela Round', textAlign: 'center',fontWeight:'500'} }}
                                     />
 
                 <div className={classes.sliders}>  
@@ -251,7 +255,7 @@ export default function AddProCon(props) {
                 <Grid container spacing={1} style={{margin:'15px auto',width:'100%'}}>
                     <Grid item xs={6} style={{textAlign:'left'}}>
                         {"Impact "} 
-                        <Tooltip title={`How much this ${type} is affecting me`} >
+            <Tooltip title={<span style={{fontSize:'18px'}}>{`How much this ${type} is affecting me`}</span>} >
                             <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
                         </Tooltip>
                     </Grid>
@@ -270,7 +274,7 @@ export default function AddProCon(props) {
 
                     <Grid item xs={6} style={{textAlign:'left'}}>
                         {"Confidence "}  
-                        <Tooltip title={`Level of confidence about my ${type}`} >
+                        <Tooltip title={<span style={{fontSize:'18px'}}>{`Level of confidence about my ${type}`}</span>} >
                             <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
                         </Tooltip>
                     </Grid>
@@ -289,7 +293,7 @@ export default function AddProCon(props) {
 
                     <Grid item xs={6} style={{textAlign:'left'}}>
                     {"Long term effects "}
-                    <Tooltip title={`For how long this ${type} will affect me`} >
+                    <Tooltip title={<span style={{fontSize:'18px'}}>{`For how long this ${type} will affect me`}</span>} >
                         <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
                     </Tooltip>
                     </Grid>

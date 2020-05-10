@@ -115,9 +115,9 @@ export default function AddComment({decisionId,threadID=''}) {
                 <Typography className={classes.text}>Loading...</Typography>
             :   
                 <>
-                    <Typography className={classes.text}>
+                    {/* <Typography className={classes.text}>
                         Add your Comment
-                    </Typography>
+                    </Typography> */}
                     <br />
                     <TextField
                                 required
