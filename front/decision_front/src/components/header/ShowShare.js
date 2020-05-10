@@ -116,7 +116,7 @@ export default function ShowShare({isNewDecision, closeAction}) {
                     </RedditShareCount>
                   </Grid>
                   <Grid item xs={3} sm={1} >
-                    <EmailShareButton subject="Productive and simple decision making with Decidy." body={shareAdress} >
+                    <EmailShareButton subject="What do you think of my decision?" body={Link to my decision ${shareAdress}} >
                       <EmailIcon size={32} round/>
                     </EmailShareButton>
                   </Grid>

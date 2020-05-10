@@ -250,10 +250,10 @@ export default function AddProCon(props) {
 
                 <Grid container spacing={1} style={{margin:'15px auto',width:'100%'}}>
                     <Grid item xs={6} style={{textAlign:'left'}}>
-                    <Tooltip title={`How much this ${type} is affecting me`} >
-                        <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
-                    </Tooltip>
-                        Impact
+                        {"Impact "} 
+                        <Tooltip title={`How much this ${type} is affecting me`} >
+                            <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
+                        </Tooltip>
                     </Grid>
                     <Grid item xs={6}>
                         <span style={{fontWeight:sliderTextWidth[impact]}}>
@@ -269,10 +269,10 @@ export default function AddProCon(props) {
                     </Grid>
 
                     <Grid item xs={6} style={{textAlign:'left'}}>
-                    <Tooltip title={`Level of confidence about my ${type}`} >
-                        <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
-                    </Tooltip>
-                    Confidence
+                        {"Confidence "}  
+                        <Tooltip title={`Level of confidence about my ${type}`} >
+                            <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
+                        </Tooltip>
                     </Grid>
                     <Grid item xs={6}>
                         <span style={{fontWeight:sliderTextWidth[confidence]}}>
@@ -288,11 +288,10 @@ export default function AddProCon(props) {
                     </Grid>
 
                     <Grid item xs={6} style={{textAlign:'left'}}>
+                    {"Long term effects "}
                     <Tooltip title={`For how long this ${type} will affect me`} >
                         <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
                     </Tooltip>
-                    Long term effects
-                    
                     </Grid>
                     <Grid item xs={6}>
                         <span style={{fontWeight:sliderTextWidth[effects]}}>
@@ -312,7 +311,7 @@ export default function AddProCon(props) {
 
                 <Button
                     className={type==='pro'?classes.actionButtonPro:classes.actionButtonCon}
-                    startIcon={<Icon size={1} path={edit? ICONS['Edit']: ICONS['PlusOutline']} color="white"/> }
+                    startIcon={<Icon size={1} path={edit? ICONS['Edit']: ICONS['PlusOutline']} color={text.length < 2 ? "#ffffff4d" : "white"}/> }
                     onClick={addProCon}
                     disabled={text.length < 2 ? true : false } 
                 >
@@ -321,7 +320,7 @@ export default function AddProCon(props) {
                 <Button
                     className={classes.cancelButton}
                     onClick={props.closeAction}
-                    disabled={text.length < 2 ? true : false } 
+                    //disabled={text.length < 2 ? true : false } 
                 >
                     Cancel
                 </Button>
