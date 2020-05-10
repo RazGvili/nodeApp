@@ -77,7 +77,7 @@ export default function AddButton(props) {
             {clicked?
             <InputBase
             className={classes.input}
-            placeholder={props.type === 'pro'? "Why should you do it?":"Why it's a bad idea?"}
+            placeholder={props.type === 'pro'? "Why should I do it?":"Why it's a bad idea?"}
             value={text}
             autoFocus
             multiline
@@ -98,7 +98,7 @@ export default function AddButton(props) {
                 //WebkitFontSmoothing: 'antialiased',
                 //MozOsxFontMmoothing: 'grayscale'
                 }}>
-                    {props.type === 'pro'? "Why should you do it?":"Why it's a bad idea?"}
+                    {props.type === 'pro'? "Why should I do it?":"Why it's a bad idea?"}
                     </span>
             }
  

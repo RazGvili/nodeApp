@@ -13,7 +13,9 @@ import { green } from "../../helpers/GlobalVars"
 
 const useStyles = makeStyles(theme => ({
     TitleContainer:{
-        position:'relative'
+        position:'relative',
+        maxWidth: '1000px',
+        margin: 'auto'
     },
     inputRoot:{
         color:theme.palette.type==='dark'?'white':'black',
@@ -85,6 +87,19 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
+function returnTitlePlaceholder() {
+
+    let placeHolders = [
+        'Should I get a dog?',
+        'Should I quit my job?', 
+        'Should I do an MSc in data science?',
+        'Should I stay or Should I go?',
+        'Should I move out?'
+    ]
+    
+    return placeHolders[Math.floor(Math.random() * placeHolders.length)]
+}
+
 
 export default function Title(){
     const [state, dispatch] = useTracked();
@@ -96,20 +111,7 @@ export default function Title(){
         <div className={classes.TitleContainer}>
             {console.log(`<--render: title | ${title} -->`)}
 
-                    <h4 className={classes.label}> My yes/no question </h4>
-                    <InputBase
-                        required
-                        id="title"
-                        disabled={isReadOnly}
-                        multiline
-                        rowsMax={6}
-                        placeholder={'Example: "should i get a dog?"'}
-                        autoComplete="off" 
-                        classes={{root:classes.inputRoot,input:classes.input}}
-                        value={title}
-                        inputProps={{ 'aria-label': 'name of Decision', style: {fontSize:'40px',textAlign: 'center'}}}
-                        onChange={(event)=> dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})}
-                    />
+                    <h3 className={classes.label}> My yes/no decision </h3> 
                     <div className={classes.tickContainer}>
                     <svg version="1.1" id="tick" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                         viewBox="0 0 37 37" style={{enableBackground:'new 0 0 37 37'}} >
@@ -120,6 +122,20 @@ export default function Title(){
                         11.6,20 15.9,24.2 26.4,13.8 "/>
                     </svg>
                     </div>
+                    <InputBase
+                        required
+                        id="title"
+                        disabled={isReadOnly}
+                        multiline
+                        rowsMax={6}
+                        placeholder={`Example: "${returnTitlePlaceholder()}"`}
+                        autoComplete="off" 
+                        classes={{root:classes.inputRoot,input:classes.input}}
+                        value={title}
+                        inputProps={{ 'aria-label': 'name of Decision', style: {fontSize:'40px',textAlign: 'center'}}}
+                        onChange={(event)=> dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})}
+                    />
+                    
 
 
         </div>
