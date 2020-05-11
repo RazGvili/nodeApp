@@ -135,9 +135,6 @@ export default function Title(){
                         inputProps={{ 'aria-label': 'name of Decision', style: {fontSize:'40px',textAlign: 'center'}}}
                         onChange={(event)=> dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})}
                     />
-                    
-
-
         </div>
     )},[title,classes,isReadOnly])
 }

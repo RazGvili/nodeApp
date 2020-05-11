@@ -9,7 +9,7 @@ import {BASE_URL} from './../helpers/GlobalVars'
 
 import {useParams} from "react-router-dom"
 
-import lang from './../helpers/texts'
+//import lang from './../helpers/texts'
 
 export const theme = (darkMode) => responsiveFontSizes(createMuiTheme({
   typography: {
@@ -44,8 +44,6 @@ export default function Home() {
 
     const params = useParams()
     const idFromURL= params.id
-
-    console.log(lang)
 
     async function getDecision(decisionId) {
         //console.log('getting decision from server')

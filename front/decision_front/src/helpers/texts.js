@@ -20,8 +20,12 @@ lang.eng.SHARE_POPUP_COPY_BUTTON = 'Copy to clipboard'
 // Share popup -------------------------------------------
 
 // Title -------------------------------------------
-lang.eng.TITLE_LABEL = `My yes/no question`
-lang.eng.TITLE_PLACEHOLDER = `What you're trying to figure out?`
+lang.eng.TITLE_LABEL = `My yes/no decision`
+lang.eng.TITLE_PLACEHOLDER_1 = `Should I get a dog?`
+lang.eng.TITLE_PLACEHOLDER_2 = `Should I quit my job?`
+lang.eng.TITLE_PLACEHOLDER_3 = `Should I do an MSc in data science?`
+lang.eng.TITLE_PLACEHOLDER_4 = `Should I stay or Should I go?`
+lang.eng.TITLE_PLACEHOLDER_5 = `Should I move out?`
 // Title -------------------------------------------
 
 // Table -------------------------------------------
@@ -78,6 +82,26 @@ lang.eng.SCORES_TWO_FOUR_NEG = "Overall, it Looks like a bad idea."
 lang.eng.SCORES_FOUR_FIVE_NEG = "Just don't it!"
 // Calc scores -------------------------------------------
 
+// How it works -------------------------------------------
+lang.eng.HOW_IT_WORKS_ONE_PRIMARY = "Write down your yes/no decision."
+lang.eng.HOW_IT_WORKS_ONE_SECONDARY = `"Should i get a dog?"`
+lang.eng.HOW_IT_WORKS_TWO_PRIMARY = "Add & rate your pros/cons."
+lang.eng.HOW_IT_WORKS_TWO_SECONDARY = `The rating will help the thinking process`
+lang.eng.HOW_IT_WORKS_THREE_PRIMARY = "Save your progress."
+lang.eng.HOW_IT_WORKS_THREE_SECONDARY = "You'll get a link for easy access"
+lang.eng.HOW_IT_WORKS_FOUR_PRIMARY = "Get feedback."
+lang.eng.HOW_IT_WORKS_FOUR_SECONDARY = "You can share your link with others"
+// How it works -------------------------------------------
+
+// Calc explanation -------------------------------------------
+// lang.eng.SCORES_TIE = "It's a tie!"
+// lang.eng.SCORES_ZERO_TWO = "It's a tough one. We suggest getting some feedback. Or perhaps reconsider your arguments ranking."
+// lang.eng.SCORES_TWO_FOUR = "Overall, it Looks like a good idea."
+// lang.eng.SCORES_FOUR_FIVE = "Just do it!"
+// lang.eng.SCORES_TWO_FOUR_NEG = "Overall, it Looks like a bad idea."
+// lang.eng.SCORES_FOUR_FIVE_NEG = "Just don't it!"
+// Calc explanation -------------------------------------------
+
 //  ---------------------------------------------------------------------------------------------------------------------------------
 
 // Header -------------------------------------------
@@ -95,7 +119,12 @@ lang.heb.SHARE_POPUP_COPY_BUTTON = 'העתק'
 // Share popup -------------------------------------------
 
 // Title -------------------------------------------
-lang.heb.TITLE_PLACEHOLDER = `שאלת כן/לא שאנחנו מנסים לפתור`
+lang.heb.TITLE_PLACEHOLDER = `שאלת כן/לא שלך`
+lang.eng.TITLE_PLACEHOLDER_1 = `כדאי לי לקחת כלב?`
+lang.eng.TITLE_PLACEHOLDER_2 = `שווה לי לעזוב את העבודה?`
+lang.eng.TITLE_PLACEHOLDER_3 = `כדאי לעשות תואר שני?`
+lang.eng.TITLE_PLACEHOLDER_4 = `למכור את הרכב?`
+lang.eng.TITLE_PLACEHOLDER_5 = `כדאי לעבור לדירה גדולה יותר?`
 // Title -------------------------------------------
 
 // Table -------------------------------------------
@@ -108,48 +137,59 @@ lang.heb.TABLE_CON_ADD_BUTTON = `הוסף חסרון`
 // Table -------------------------------------------
 
 // Add arg popup -------------------------------------------
-lang.heb.ARG_POPUP_FIRST_ROW_PARAM = `Impact`
-lang.heb.ARG_POPUP_SECOND_ROW_PARAM = `Confidence`
-lang.heb.ARG_POPUP_THIRD_ROW_PARAM = `Long term effects`
-lang.heb.ARG_POPUP_IMPACT_TOOLTIP = 'How much this is affecting me?'
-lang.heb.ARG_POPUP_CONFIDENCE_TOOLTIP = 'Am I confident in this argument?'
-lang.heb.ARG_POPUP_LONG_TERM_EFFECTS_TOOLTIP = 'For how long this will affect me?'
-lang.heb.ARG_POPUP_ADD_PRO_BUTTON = `Add pro`
-lang.heb.ARG_POPUP_ADD_CON_BUTTON = `Add con`
+lang.heb.ARG_POPUP_FIRST_ROW_PARAM = `השפעה`
+lang.heb.ARG_POPUP_SECOND_ROW_PARAM = `ודאות`
+lang.heb.ARG_POPUP_THIRD_ROW_PARAM = `טווח ההשפעה`
+lang.heb.ARG_POPUP_IMPACT_TOOLTIP = 'כמה זה משפיע עליי?'
+lang.heb.ARG_POPUP_CONFIDENCE_TOOLTIP = 'כמה אני בטוח שזה ישפיע עליי?'
+lang.heb.ARG_POPUP_LONG_TERM_EFFECTS_TOOLTIP = '?האם זה ישפיע עליי לטווח ארוך'
+lang.heb.ARG_POPUP_ADD_PRO_BUTTON = `הוסף יתרון`
+lang.heb.ARG_POPUP_ADD_CON_BUTTON = `הוסף חסרון`
 // Add arg popup -------------------------------------------
 
 // About -------------------------------------------
-lang.heb.ABOUT_FIRST_ROW = `Decidy was created because we believe that visualizing the decision-making process can improve it.`
-lang.heb.ABOUT_SECOND_ROW = `We ❤️ tech, code & great products.`
-lang.heb.ABOUT_THIRD_ROW = `Let us know what you think about Decidy`
+lang.heb.ABOUT_FIRST_ROW = `יצרנו את דיסיידי כי אנחנו מאמינים שויזואליזציה של תהליך ההחלטה יכולה לשפר את איכות ההחלטה.`
+lang.heb.ABOUT_SECOND_ROW = `אנחנו אוהבים טכנולוגיה, קוד ומוצרים טובים`
+lang.heb.ABOUT_THIRD_ROW = `נשמח לפידבק!`
 // About -------------------------------------------
 
 // Comments  -------------------------------------------
-lang.heb.COMMENTS_TITLE  = `Comments`
-lang.heb.COMMENTS_NO_COMMENTS = `No comments yet.. Be the first!`
-lang.heb.COMMENTS_FORM_TITLE = 'Add your Comment'
-lang.heb.COMMENTS_COMMENT_PLACEHOLDER = 'Your comment'
-lang.heb.COMMENTS_NAME_PLACEHOLDER = "Name"
-lang.heb.COMMENTS_ADD_BUTTON = "Add comment"
+lang.heb.COMMENTS_TITLE  = `תגובות`
+lang.heb.COMMENTS_NO_COMMENTS = `אין כרגע תגובות`
+lang.heb.COMMENTS_FORM_TITLE = 'הוסף תגובה'
+lang.heb.COMMENTS_COMMENT_PLACEHOLDER = 'התגובה שלך'
+lang.heb.COMMENTS_NAME_PLACEHOLDER = "שם"
+lang.heb.COMMENTS_ADD_BUTTON = "הוסף תגובה"
 // Comments  -------------------------------------------
 
 // Snacks -------------------------------------------
-lang.heb.SNACKS_HOME_CANT_FIND_ID = "We didn't find it, Sure you pasted it correctly?"
-lang.heb.SNACKS_GENERAL_ERR = "Something went wrong!, please try again."
-lang.heb.SNACKS_COMMENTS_DELETE_ERR = "We couldn't delete your comment, please try again."
-lang.heb.SNACKS_COMMENTS_LIKE_ERR = "We couldn't add your like, please try again."
-lang.heb.SNACKS_HEADER_TITLE_TEXT_VALIDATION = "Title must be more than 2 characters"
-lang.heb.SNACKS_HEADER_DECISION_SAVED = "Decision saved!"
-lang.heb.SNACKS_HEADER_DECISION_SAVE_ERR = "Something went wrong, We couldn't save your progress."
+lang.heb.SNACKS_HOME_CANT_FIND_ID = "לא מצאנו את ההחלטה, אולי הלינק לא נכון?"
+lang.heb.SNACKS_GENERAL_ERR = "משהו לא תקין, אנא נסה שוב"
+lang.heb.SNACKS_COMMENTS_DELETE_ERR = "לא הצלחנו למחוק את התגובה"
+lang.heb.SNACKS_COMMENTS_LIKE_ERR = "לא הצלחנו להוסיף לייק."
+lang.heb.SNACKS_HEADER_TITLE_TEXT_VALIDATION = "הכותרת חייבת להיות"
+lang.heb.SNACKS_HEADER_DECISION_SAVED = "ההחלטה נשמרה!"
+lang.heb.SNACKS_HEADER_DECISION_SAVE_ERR = "לא הצלחנו לשמור את ההתקדמות שלך."
 // Snacks -------------------------------------------
 
 // Calc scores -------------------------------------------
-lang.heb.SCORES_TIE = "It's a tie!"
-lang.heb.SCORES_ZERO_TWO = "It's a tough one. We suggest getting some feedback. Or perhaps reconsider your arguments ranking."
-lang.heb.SCORES_TWO_FOUR = "Overall, it Looks like a good idea."
-lang.heb.SCORES_FOUR_FIVE = "Just do it!"
-lang.heb.SCORES_TWO_FOUR_NEG = "Overall, it Looks like a bad idea."
-lang.heb.SCORES_FOUR_FIVE_NEG = "Just don't it!"
+lang.heb.SCORES_TIE = "תיקו!"
+lang.heb.SCORES_ZERO_TWO = "החלטה קשה, כדאי להוסיף עוד טיעונים או לעדכן את הדירוג"
+lang.heb.SCORES_TWO_FOUR = `בסה"כ נראה טוב`
+lang.heb.SCORES_FOUR_FIVE = "מאוד כדאי!"
+lang.heb.SCORES_TWO_FOUR_NEG = `בסה"כ נראה לא משהו`
+lang.heb.SCORES_FOUR_FIVE_NEG = "לא כדאי!"
 // Calc scores -------------------------------------------
+
+// How it works -------------------------------------------
+lang.heb.HOW_IT_WORKS_ONE_PRIMARY = "כתוב שאלת כן/לא"
+lang.heb.HOW_IT_WORKS_ONE_SECONDARY = `"כדאי לאמץ כלב?"`
+lang.heb.HOW_IT_WORKS_TWO_PRIMARY = "הוסף ודרג את הטיעונים שלך"
+lang.heb.HOW_IT_WORKS_TWO_SECONDARY = `הדירוג יעזור לקבלת ההחלטה`
+lang.heb.HOW_IT_WORKS_THREE_PRIMARY = "שמור את ההתקדמות שלך"
+lang.heb.HOW_IT_WORKS_THREE_SECONDARY = "תקבל לינק ייחודי "
+lang.heb.HOW_IT_WORKS_FOUR_PRIMARY = "קבל פידבק"
+lang.heb.HOW_IT_WORKS_FOUR_SECONDARY = "ניתן לשתף את הלינק ולקבל פידבק"
+// How it works -------------------------------------------
 
 export default lang
