@@ -21,6 +21,16 @@ const initialState = {
     showSnack: false,
     snackType: "",
     snackText: "",
+    snackAdditionalInfo: "",
+
+    deletedArg: []
+}
+
+
+function compareArgs(a, b) {
+    let aId = a.id
+    let bId = b.id
+    return aId < bId ? -1 : 1
 }
 
 
@@ -57,7 +67,8 @@ const reducer = (state, action) => {
                 ...state,
                 showSnack: !state.showSnack,
                 snackType: action.payload.type,
-                snackText: action.payload.text
+                snackText: action.payload.text,
+                snackAdditionalInfo: action.payload.snackAdditionalInfo
             }
 
         case "CLOSE_SNACK":
@@ -92,6 +103,7 @@ const reducer = (state, action) => {
 
             let argToDelete = action.payload.arg
             let newArr
+            let deletedArgArr = [argToDelete]
 
             if (argToDelete.type === 'pro') {
 
@@ -104,7 +116,8 @@ const reducer = (state, action) => {
                 
                 return {
                     ...state,
-                    pros: newArr
+                    pros: newArr,
+                    deletedArg: deletedArgArr
                 }
 
             } else {
@@ -117,9 +130,47 @@ const reducer = (state, action) => {
 
                 return {
                     ...state,
-                    cons: newArr
+                    cons: newArr,
+                    deletedArg: deletedArgArr
                 }
             }
+        
+        case "UNDO_ARG_REMOVE":
+
+            let argToRetrieve = state.deletedArg[0]
+            
+            if (argToRetrieve.type === 'pro') {
+
+                let newArrAfterArgDelete = state.pros
+                newArrAfterArgDelete.push(argToRetrieve)
+
+                if (state.pros.length > 1) {
+                    newArrAfterArgDelete.sort(compareArgs)
+                }
+                
+                return {
+                    ...state,
+                    pros: newArrAfterArgDelete,
+                    deletedArg: []
+                }
+
+            } else {
+
+                let newArrAfterArgDelete = state.cons
+                newArrAfterArgDelete.push(argToRetrieve)
+
+                if (state.cons.length > 1) {
+                    newArrAfterArgDelete.sort(compareArgs)
+                }
+                
+                return {
+                    ...state,
+                    cons: newArrAfterArgDelete,
+                    deletedArg: []
+                }
+
+            }
+
 
         case "PRO_CON_EDIT":
 

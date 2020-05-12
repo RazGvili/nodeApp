@@ -174,6 +174,7 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function AddProCon(props) {
+    
     const theme = useTheme();
     const DARK_MODE = theme.palette.type==='dark';
     let styleProps = {DARK_MODE:DARK_MODE}
@@ -181,7 +182,6 @@ export default function AddProCon(props) {
     //const [type, setType] = useState(props.type)
     const {type,edit } = props
     const [text, setText] = useState(edit?edit.proCon:props.text)
-    console.log(text)
     // Sliders ---------------------------------------
     const [impact, setImpact] = useState(edit?edit.impact:3)
     const [confidence, setConfidence] = useState(edit?edit.confidence:3)

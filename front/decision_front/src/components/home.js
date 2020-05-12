@@ -88,8 +88,11 @@ export default function Home() {
             let decisionId =  idFromURL || ''
             if (decisionId.length > 23)
                 getDecision(decisionId)
-            else
+            else {
+              //dispatch({type: "OPEN_SNACK", payload: {type: "success", text: `We didn't find it, Sure you pasted the link correctly?`}})  
               dispatch({type: "INIT_DECISION"})
+            }
+              
         }
         else{
           console.log("decisionFromContextAfterRedirect")
