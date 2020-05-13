@@ -68,7 +68,6 @@ export default function ShowShare({isNewDecision, closeAction}) {
       setTimeout( () => setCopied(false), 3000 )
     }
 
-    console.log(isNewDecision)
     return (
         <div className={classes.root}>
 
@@ -121,7 +120,7 @@ export default function ShowShare({isNewDecision, closeAction}) {
                   </Grid> */}
 
                   <Grid item xs={3} sm={1} >
-                    <EmailShareButton subject="What do you think of my decision?" body={`Link to my decision ${shareAdress}`} >
+                    <EmailShareButton subject="Pros & Cons of my decision" body={"Link to my decision " + shareAdress} separator=" | ">
                       <EmailIcon size={32} round/>
                     </EmailShareButton>
                   </Grid>
@@ -139,7 +138,7 @@ export default function ShowShare({isNewDecision, closeAction}) {
                     <WhatsappIcon round size={32} />
                     </WhatsappShareButton>
                   </Grid>
-                </Grid> */}
+                </Grid> 
 
               <br />
 
