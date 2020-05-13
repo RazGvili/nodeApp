@@ -22,6 +22,7 @@ const initialState = {
     snackType: "",
     snackText: "",
     snackAdditionalInfo: "",
+    lang: "eng",
 
     deletedArg: []
 }
@@ -59,6 +60,12 @@ const reducer = (state, action) => {
             }
 
         // ------------------------------------------------------------------------------------------------
+
+        case "CHANGE_LANG":
+            return {
+                ...state,
+                lang: action.payload.newLang
+            }
 
         // Snacks  ---------------------------------------------------------------------------------------
 

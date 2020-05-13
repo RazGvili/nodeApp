@@ -2,10 +2,11 @@
 import React, { useState } from "react"
 
 import {makeStyles,useTheme} from "@material-ui/core/styles"
-import { IconButton,InputBase, Typography, Button} from '@material-ui/core'
+import { InputBase, Typography, Button} from '@material-ui/core'
 import { green,red } from "../../helpers/GlobalVars"
-import Icon from "@mdi/react";
-import { ICONS } from "../custom/IconsData";
+//import Icon from "@mdi/react";
+//import { ICONS } from "../custom/IconsData";
+import {lang as texts} from '../../helpers/texts'
   
 const useStyles = makeStyles(theme => ({
     container: {
@@ -43,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-export default function AddButton(props) {
+export default function AddButton({type,lang,AddAction}) {
     const theme = useTheme();
     const DARK_MODE = theme.palette.type==='dark';
     let styleProps = {DARK_MODE:DARK_MODE}
@@ -51,14 +52,14 @@ export default function AddButton(props) {
     const [text, setText] = useState("")
     const [clicked, setClicked] = useState(false)
     const [error, setError] = useState(false)
-    const typeColor = props.type === 'pro'? green:red
+    const typeColor = type === 'pro'? green:red
     const handleTextChange = (event) => {
         setText(event.target.value)
     }
 
     const handleClickAdd = () => {
         if (text.length>2){
-            props.AddAction(text,props.type)
+            AddAction(text,type)
             setText('')
         }
         else{
@@ -77,7 +78,7 @@ export default function AddButton(props) {
             {clicked?
             <InputBase
             className={classes.input}
-            placeholder={props.type === 'pro'? "Why should I do it?":"Why it's a bad idea?"}
+            placeholder={type === 'pro'? texts[lang]['TABLE_PRO_PLACEHOLDER']:texts[lang]['TABLE_CON_PLACEHOLDER']}
             value={text}
             autoFocus
             multiline
@@ -98,14 +99,14 @@ export default function AddButton(props) {
                 //WebkitFontSmoothing: 'antialiased',
                 //MozOsxFontMmoothing: 'grayscale'
                 }}>
-                    {props.type === 'pro'? "Why should I do it?":"Why it's a bad idea?"}
+                    {type === 'pro'? texts[lang]['TABLE_PRO_PLACEHOLDER']:texts[lang]['TABLE_CON_PLACEHOLDER']}
                     </span>
             }
  
         </div>
         {text.length>3 && 
             <Button className={classes.button} style={{background:typeColor}} onClick={()=>{handleClickAdd()}}>
-                Add {props.type}
+                {type==='pro'?texts[lang]['TABLE_PRO_ADD_BUTTON']:texts[lang]['TABLE_CON_ADD_BUTTON']} 
             </Button>}
         {error && <Typography style={{letterSpacing: '1.2px',color:'grey',fontSize:'11px'}}>must be longer than two characters</Typography>}
         </>

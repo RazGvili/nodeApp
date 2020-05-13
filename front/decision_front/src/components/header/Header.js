@@ -17,7 +17,7 @@ import SaveButton from './SaveButton'
 import ShowShare from './ShowShare'
 import ShowHowItWorks from './ShowHowItWorks'
 
-
+import {lang as texts} from '../../helpers/texts' 
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Header({aboutVersion = false}) {
   const classes = useStyles()
   const [state,dispatch] = useTracked()
-  const {title,pros,cons,id,loading,isReadOnly,isDark} = state
+  const {title,pros,cons,id,loading,isReadOnly,isDark,lang} = state
   const [redirect,setRedirect] = useState(false)
   const [redirectHome,setRedirectHome] = useState(false)
   const smallScreen = useMediaQuery('(max-width:480px)');
@@ -99,7 +99,15 @@ export default function Header({aboutVersion = false}) {
   }
 
   const handleDarkModeClick = () => {
+    setAnchorEl(null);
     dispatch({type: "TOGGLE_DARK_MODE"})
+  }
+
+  const handleLanguageChange = (newLang) => {
+    if (lang!==newLang){
+      setAnchorEl(null);
+      dispatch({type: "CHANGE_LANG", payload:{newLang:newLang}})
+    }
   }
 
   const handleShare = () => {
@@ -240,19 +248,20 @@ return useMemo(() => {
               <Button className={classes.roundButton} onClick={handleShare}>
                 <Icon
                     path={ICONS['Share']}
-                    title="Share"
+                    title={texts[lang]['HEADER_SHARE_BUTTON']}
                     size={smallScreen?0.7:1}
                     color='#9A9A9A'
                     style={{margin:'auto'}}
                 />
                 <Typography className={classes.buttonText}>
-                Share 
+                {texts[lang]['HEADER_SHARE_BUTTON']}
+                 
                 </Typography>
               </Button>
             }
               
             {!aboutVersion && !readOnlyMode &&
-              <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} smallScreen={smallScreen}/>
+              <SaveButton saving={saving} lang={lang} success={savingSuccess} saveAction={handleSubmit} smallScreen={smallScreen}/>
             }
               
             {/* <Button  className={classes.roundButton}  onClick={handleDarkModeClick}>
@@ -304,24 +313,24 @@ return useMemo(() => {
               <MenuItem onClick={handleSubmit} key="savemenu">         
                 <Icon
                       path={ICONS['Save']}
-                      title="Save"
+                      title={texts[lang]['HEADER_SAVE_BUTTON']}
                       size={1}
                   />
                 
                 <span style={{paddingLeft:'5px'}}>
-                  Save
+                {texts[lang]['HEADER_SAVE_BUTTON']}
                 </span>
               </MenuItem>
             ,
               <MenuItem onClick={handleShare} key="sharemenu">         
               <Icon
                     path={ICONS['Share']}
-                    title="Share"
+                    title={texts[lang]['HEADER_SHARE_BUTTON']}
                     size={1}
                 />
               
               <span style={{paddingLeft:'5px'}}>
-              Share
+              {texts[lang]['HEADER_SHARE_BUTTON']}
               </span>
             </MenuItem>
               
@@ -331,18 +340,18 @@ return useMemo(() => {
               <Icon path={ICONS['Theme']} size={1} />
               
               <span style={{paddingLeft:'5px'}}>
-                {isDark?'Dark':'Light'}
+                {isDark?texts[lang]['HEADER_DARK_MODE_BUTTON_DARK']:texts[lang]['HEADER_DARK_MODE_BUTTON_LIGHT']}
               </span>
             </MenuItem>
 
-            <MenuItem onClick={handleDarkModeClick} >
-            <img src='/images/lang/il.png' alt="il" style={{width:'22px'}}/>
+            <MenuItem onClick={()=> handleLanguageChange('heb')} >
+            <img src='/images/lang/il.png' alt="heb" style={{width:'22px'}}/>
               <span style={{paddingLeft:'5px'}}>
               Hebrew
               </span>
             </MenuItem>
-            <MenuItem onClick={handleDarkModeClick} >
-            <img src='/images/lang/en.png' alt="en" style={{width:'22px'}}/>
+            <MenuItem onClick={()=> handleLanguageChange('eng')} >
+            <img src='/images/lang/en.png' alt="eng" style={{width:'22px'}}/>
               <span style={{paddingLeft:'5px'}}>
               English
               </span>

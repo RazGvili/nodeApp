@@ -3,7 +3,7 @@ import React,{useMemo} from "react"
 
 import {makeStyles} from "@material-ui/core/styles"
 import { InputBase} from '@material-ui/core'
-
+import {lang as texts} from '../../helpers/texts' 
 import { useTracked } from '../../store'
 
 //import Icon from '@mdi/react'
@@ -87,31 +87,18 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-function returnTitlePlaceholder() {
-
-    let placeHolders = [
-        'Should I get a dog?',
-        'Should I quit my job?', 
-        'Should I do an MSc in data science?',
-        'Should I stay or Should I go?',
-        'Should I move out?'
-    ]
-    
-    return placeHolders[Math.floor(Math.random() * placeHolders.length)]
-}
-
-
 export default function Title(){
     const [state, dispatch] = useTracked();
-    const {title,isReadOnly} = state
+    const {title,isReadOnly,lang} = state
     const classes = useStyles()
     const ticks = title.length > 2
+    const placeholder = texts[lang][`TITLE_PLACEHOLDER_${+Math.floor(Math.random() * 4)+ 1}`]
     return useMemo(() => {
     return (
         <div className={classes.TitleContainer}>
             {console.log(`<--render: title | ${title} -->`)}
 
-                    <h3 className={classes.label}> My yes/no decision </h3> 
+                    <h3 className={classes.label}>{texts[lang]['TITLE_LABEL']}</h3> 
                     <div className={classes.tickContainer}>
                     <svg version="1.1" id="tick" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                         viewBox="0 0 37 37" style={{enableBackground:'new 0 0 37 37'}} >
@@ -128,7 +115,7 @@ export default function Title(){
                         disabled={isReadOnly}
                         multiline
                         rowsMax={6}
-                        placeholder={`Example: "${returnTitlePlaceholder()}"`}
+                        placeholder={placeholder}
                         autoComplete="off" 
                         classes={{root:classes.inputRoot,input:classes.input}}
                         value={title}
@@ -136,6 +123,6 @@ export default function Title(){
                         onChange={(event)=> dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})}
                     />
         </div>
-    )},[title,classes,isReadOnly])
+    )},[title,classes,isReadOnly,lang])
 }
 

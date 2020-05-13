@@ -19,6 +19,7 @@ import { useTracked } from '../store'
 import Icon from "@mdi/react";
 import { ICONS } from "./custom/IconsData";
 import { green, red } from "../helpers/GlobalVars";
+import {lang as texts} from '../helpers/texts' 
 
 //slide animation
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -129,7 +130,7 @@ const useStyles = makeStyles(theme => ({
 export default function ProsConsTable() {
     //const theme = useTheme();
     const [state,dispatch] = useTracked();
-    const {isDark,cons,pros,loading,isReadOnly, deletedArg} = state
+    const {isDark,cons,pros,loading,isReadOnly, deletedArg,lang} = state
     //let styleProps = {DARK_MODE:DARK_MODE}
     const classes = useStyles()
     const smallScreen = useMediaQuery('(max-width:600px)')
@@ -217,12 +218,12 @@ export default function ProsConsTable() {
                 <Grid container >
                     
                     <Grid item xs={12} sm={6} className={classes.blackBoardTitle} style={{color:'#87BA55'}}>
-                        pros
+                        {texts[lang]['TABLE_PRO_TITLE']}
                     </Grid>
 
                     {!smallScreen &&
                     <Grid item xs={6} className={classes.blackBoardTitle} style={{color:'#BA3737'}}>
-                        cons
+                        {texts[lang]['TABLE_CON_TITLE']}
                     </Grid> }
                     
                     <Grid item xs={12} sm={6}>
@@ -234,7 +235,7 @@ export default function ProsConsTable() {
                         </>
                         :
                         <>
-                            {!isReadOnly && !smallScreen && <AddButton type='pro' AddAction={HandleOpenArgumentDialog} />}
+                            {!isReadOnly && !smallScreen && <AddButton type='pro' AddAction={HandleOpenArgumentDialog} lang={lang} />}
                                 {
                                     pros.map((arg, index) => {
                                         return (
@@ -260,7 +261,7 @@ export default function ProsConsTable() {
                                 <img className={classes.mobileHorizontalLine} alt="chalk line" src={`/images/chalk_sides${isDark?'':'_black'}.png`} />
                             </Grid> 
                             <Grid item xs={12} className={classes.blackBoardTitle} style={{color:'#BA3737'}}>
-                                cons
+                                {texts[lang]['TABLE_CON_TITLE']}
                             </Grid> 
                         </>
                     }
@@ -274,7 +275,7 @@ export default function ProsConsTable() {
                             </>
                             :
                             <>
-                                {!isReadOnly && !smallScreen && <AddButton type='con' AddAction={HandleOpenArgumentDialog} /> }
+                                {!isReadOnly && !smallScreen && <AddButton type='con' AddAction={HandleOpenArgumentDialog} lang={lang} /> }
                                 
                                 {cons.map((arg, index) => {
                                     return (
@@ -303,7 +304,7 @@ export default function ProsConsTable() {
                         >
                             <div style={{position:'relative'}}>
                                 <DialogContent >
-                                    <AddProCon type={type} setArgument={addProCon} text={text} edit={argumentEdit} editAction={editProCon} closeAction={HandleCloseArgumentDialog}/>
+                                    <AddProCon type={type} lang={lang} setArgument={addProCon} text={text} edit={argumentEdit} editAction={editProCon} closeAction={HandleCloseArgumentDialog}/>
                                 </DialogContent>
                             </div>
                 </Dialog>
@@ -342,5 +343,5 @@ export default function ProsConsTable() {
 
         </div>
 
-    )},[isDark,cons,pros,loading,classes,smallScreen,showDialog,type,text,isReadOnly,speedDial,deletedArg])
+    )},[isDark,cons,pros,lang,loading,classes,smallScreen,showDialog,type,text,isReadOnly,speedDial,deletedArg])
 }

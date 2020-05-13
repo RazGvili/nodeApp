@@ -7,6 +7,7 @@ lang.heb = {}
 
 // Header -------------------------------------------
 lang.eng.HEADER_SAVE_BUTTON = 'Save'
+lang.eng.HEADER_SAVED_BUTTON = 'Saved!'
 lang.eng.HEADER_DARK_MODE_BUTTON_DARK = 'Dark'
 lang.eng.HEADER_DARK_MODE_BUTTON_LIGHT = 'Light'
 lang.eng.HEADER_SHARE_BUTTON = 'Share'
@@ -21,11 +22,11 @@ lang.eng.SHARE_POPUP_COPY_BUTTON = 'Copy to clipboard'
 
 // Title -------------------------------------------
 lang.eng.TITLE_LABEL = `My yes/no decision`
-lang.eng.TITLE_PLACEHOLDER_1 = `Should I get a dog?`
-lang.eng.TITLE_PLACEHOLDER_2 = `Should I quit my job?`
-lang.eng.TITLE_PLACEHOLDER_3 = `Should I do an MSc in data science?`
-lang.eng.TITLE_PLACEHOLDER_4 = `Should I stay or Should I go?`
-lang.eng.TITLE_PLACEHOLDER_5 = `Should I move out?`
+lang.eng.TITLE_PLACEHOLDER_1 = `Example: Should I get a dog?`
+lang.eng.TITLE_PLACEHOLDER_2 = `Example: Should I quit my job?`
+lang.eng.TITLE_PLACEHOLDER_3 = `Example: Should I do an MSc in data science?`
+lang.eng.TITLE_PLACEHOLDER_4 = `Example: Should I stay or Should I go?`
+lang.eng.TITLE_PLACEHOLDER_5 = `Example: Should I move out?`
 // Title -------------------------------------------
 
 // Table -------------------------------------------
@@ -111,6 +112,7 @@ lang.eng.SHARE_WHATSAPP = "Write down your yes/no decision."
 
 // Header -------------------------------------------
 lang.heb.HEADER_SAVE_BUTTON = 'שמור'
+lang.heb.HEADER_SAVED_BUTTON = 'נשמר!'
 lang.heb.HEADER_DARK_MODE_BUTTON_DARK = 'חשוך'
 lang.heb.HEADER_DARK_MODE_BUTTON_LIGHT = 'מואר'
 lang.heb.HEADER_SHARE_BUTTON = 'שתף'
@@ -124,12 +126,12 @@ lang.heb.SHARE_POPUP_COPY_BUTTON = 'העתק'
 // Share popup -------------------------------------------
 
 // Title -------------------------------------------
-lang.heb.TITLE_PLACEHOLDER = `שאלת כן/לא שלך`
-lang.eng.TITLE_PLACEHOLDER_1 = `כדאי לי לקחת כלב?`
-lang.eng.TITLE_PLACEHOLDER_2 = `שווה לי לעזוב את העבודה?`
-lang.eng.TITLE_PLACEHOLDER_3 = `כדאי לעשות תואר שני?`
-lang.eng.TITLE_PLACEHOLDER_4 = `למכור את הרכב?`
-lang.eng.TITLE_PLACEHOLDER_5 = `כדאי לעבור לדירה גדולה יותר?`
+lang.heb.TITLE_LABEL = `שאלת כן/לא שלך`
+lang.heb.TITLE_PLACEHOLDER_1 = `?דוגמא: כדאי לי לקחת כלב`
+lang.heb.TITLE_PLACEHOLDER_2 = `?דוגמא: שווה לי לעזוב את העבודה`
+lang.heb.TITLE_PLACEHOLDER_3 = `?דוגמא: כדאי לעשות תואר שני`
+lang.heb.TITLE_PLACEHOLDER_4 = `?דוגמא: למכור את הרכב`
+lang.heb.TITLE_PLACEHOLDER_5 = `?דוגמא: כדאי לעבור לדירה גדולה יותר`
 // Title -------------------------------------------
 
 // Table -------------------------------------------
@@ -197,4 +199,4 @@ lang.heb.HOW_IT_WORKS_FOUR_PRIMARY = "קבל פידבק"
 lang.heb.HOW_IT_WORKS_FOUR_SECONDARY = "ניתן לשתף את הלינק ולקבל פידבק"
 // How it works -------------------------------------------
 
-export default lang
+export {lang}
