@@ -174,6 +174,7 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function AddProCon(props) {
+    
     const theme = useTheme();
     const DARK_MODE = theme.palette.type==='dark';
     let styleProps = {DARK_MODE:DARK_MODE}
@@ -181,7 +182,6 @@ export default function AddProCon(props) {
     //const [type, setType] = useState(props.type)
     const {type,edit } = props
     const [text, setText] = useState(edit?edit.proCon:props.text)
-    console.log(text)
     // Sliders ---------------------------------------
     const [impact, setImpact] = useState(edit?edit.impact:3)
     const [confidence, setConfidence] = useState(edit?edit.confidence:3)
@@ -242,7 +242,7 @@ export default function AddProCon(props) {
                                     className={classes.input}
                                     margin="normal"
                                     value={text}
-                                    placeholder={type === 'pro'? "Why should you do it?":"Why it's a bad idea?"}
+                                    placeholder={type === 'pro'? "Why should I do it?":"Why it's a bad idea?"}
                                     multiline
                                     rowsMax={10}
                                     linecolor={typeColor}
@@ -274,7 +274,7 @@ export default function AddProCon(props) {
 
                     <Grid item xs={6} style={{textAlign:'left'}}>
                         {"Confidence "}  
-                        <Tooltip title={<span style={{fontSize:'18px'}}>{`Level of confidence about my ${type}`}</span>} >
+                        <Tooltip title={<span style={{fontSize:'18px'}}>{`How certain I am in this ${type} effects`}</span>} >
                             <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
                         </Tooltip>
                     </Grid>

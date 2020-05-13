@@ -129,32 +129,36 @@ const useStyles = makeStyles(theme => ({
 export default function ProsConsTable() {
     //const theme = useTheme();
     const [state,dispatch] = useTracked();
-    const {isDark,cons,pros,loading,isReadOnly} = state
+    const {isDark,cons,pros,loading,isReadOnly, deletedArg} = state
     //let styleProps = {DARK_MODE:DARK_MODE}
     const classes = useStyles()
     const smallScreen = useMediaQuery('(max-width:600px)')
     const [argumentEdit, setArgumentEdit] = useState(null)
-    const [argIdCounter,setArgIdCounter] = useState(0)
+    //const [argIdCounter,setArgIdCounter] = useState(0)
     const [showDialog, setShowDialog] = useState(false)
     const [speedDial, setSpeedDial] = useState(false)
     const [type, setType] = useState("")
     const [text, setText] = useState("")
     //const [error, setError] = useState("")
+
     function handleArgumentRemove(arg) {
-            dispatch({type: "PRO_CON_REMOVE", payload: {arg}})
-
+        dispatch({type: "PRO_CON_REMOVE", payload: {arg}})
+        setTimeout( () => {
+            dispatch({type: "OPEN_SNACK", payload: {type: "info", text: "Argument deleted successfully", snackAdditionalInfo: "remove"}})
+        }
+        , 600)
     }
-
+    
+    
     const addProCon = (arg) => {
-        arg.id = argIdCounter + 1
-        setArgIdCounter(argIdCounter + 1)
+        arg.id = state.pros.length + state.cons.length + 1
+        //setArgIdCounter(argIdCounter + 1)
         dispatch({type: "PRO_CON_ADD", payload: {arg}})
         setArgumentEdit(null)
         setShowDialog(false)
         setText('')
     }
 
-    
 
     const editProCon = (arg) => {
         setArgumentEdit(null)
@@ -174,6 +178,7 @@ export default function ProsConsTable() {
         setShowDialog(true)
     }
 
+
     const HandleCloseArgumentDialog = () => {
         setArgumentEdit(null)
         setShowDialog(false)
@@ -192,10 +197,15 @@ export default function ProsConsTable() {
             {loading?
             <Skeleton animation="wave" width='50%' height={100} style={{margin:'auto'}}/>
             :
-            <Title />
+            <>  
+                <Title />
+                <br/>
+            </>
             }
             </div>
+
             <ChoicesData  loading={loading} cons={cons} pros={pros}/>
+            <br/>
 
             <div className={classes.boardContainer}>
             <div className={classes.blackBoard}>
@@ -332,5 +342,5 @@ export default function ProsConsTable() {
 
         </div>
 
-    )},[isDark,cons,pros,loading,classes,smallScreen,showDialog,type,text,isReadOnly,speedDial])
+    )},[isDark,cons,pros,loading,classes,smallScreen,showDialog,type,text,isReadOnly,speedDial,deletedArg])
 }

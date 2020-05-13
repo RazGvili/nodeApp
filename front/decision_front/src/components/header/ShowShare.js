@@ -68,7 +68,6 @@ export default function ShowShare({isNewDecision, closeAction}) {
       setTimeout( () => setCopied(false), 3000 )
     }
 
-    console.log(isNewDecision)
     return (
         <div className={classes.root}>
 
@@ -82,17 +81,19 @@ export default function ShowShare({isNewDecision, closeAction}) {
                 <Typography> Need extra brain-power? <br/> Copy your decision link and share it with wise friends.   </Typography> 
                 <br/>
 
-                {/* <Grid container style={{maxWidth:'500px',margin:'auto'}} spacing={2} justify='center'>
+                <Grid container style={{maxWidth:'500px',margin:'auto'}} spacing={2} justify='center'>
+
                   <Grid item xs={3} sm={1} >
                     <FacebookShareButton quote="Productive and simple decision making with Decidy." hashtag="#DecisionMaking" url={shareAdress}>
                       <FacebookIcon round  size={32}/>
                     </FacebookShareButton>
-                    {/* <br />
+                    <br />
                     <FacebookShareCount url={shareAdress} >
                       {shareCount => <span>{shareCount}</span>}
                     </FacebookShareCount> 
                   </Grid> 
-                  <Grid item xs={3} sm={1} >
+
+                  {/* <Grid item xs={3} sm={1} >
                     <FacebookMessengerShareButton
                       url={shareAdress}
                       title="Productive and simple decision making with Decidy."
@@ -100,61 +101,60 @@ export default function ShowShare({isNewDecision, closeAction}) {
                     >
                       <FacebookMessengerIcon size={32} round />
                     </FacebookMessengerShareButton>
-                  </Grid>
+                  </Grid> */}
+
                   <Grid item xs={3} sm={1} >
                     <LinkedinShareButton title="Productive and simple decision making with Decidy." summary="See your decision" source="Decidy"
                     url={shareAdress} >
                       <LinkedinIcon size={32} round />
                     </LinkedinShareButton>
                   </Grid>
-                  <Grid item xs={3} sm={1} >
+
+                  {/* <Grid item xs={3} sm={1} >
                     <RedditShareButton title="See your decision" url={shareAdress} >
                       <RedditIcon size={32} round />
                     </RedditShareButton>
                     <RedditShareCount url={shareAdress} >
                     {shareCount => <span>{shareCount}</span>}
                     </RedditShareCount>
-                  </Grid>
+                  </Grid> */}
+
                   <Grid item xs={3} sm={1} >
-                    <EmailShareButton subject="What do you think of my decision?" body={Link to my decision ${shareAdress}} >
+                    <EmailShareButton subject="Pros & Cons of my decision" body={"Link to my decision " + shareAdress} separator=" | ">
                       <EmailIcon size={32} round/>
                     </EmailShareButton>
                   </Grid>
-                  <Grid item xs={3} sm={1} >
+
+                  {/* <Grid item xs={3} sm={1} >
                   <TwitterShareButton title="My Decision" via="Decidy" hashtags={['Decision making', 'pros', 'cons','decision visualization', 'decisions']}
                   //related={[]}
                   url={shareAdress} >
                     <TwitterIcon round size={32} />
                     </TwitterShareButton>
-                  </Grid>
+                  </Grid> */}
+
                   <Grid item xs={3} sm={1} >
-                  <WhatsappShareButton title="Productive and simple decision making with Decidy." url={shareAdress} >
+                  <WhatsappShareButton title="Pros & Cons of my decision:" url={shareAdress} >
                     <WhatsappIcon round size={32} />
                     </WhatsappShareButton>
                   </Grid>
-                </Grid> */}
+                </Grid> 
 
               <br />
-                <div style={{display:'flex',justifyContent:'center'}}>
 
+              <div style={{display:'flex',justifyContent:'center'}}>
                 <CopyToClipboard text={shareAdress}
                   onCopy={handleCopied}>
                   <Button className={classes.copyButton} endIcon={<Icon path={ICONS['Copy']} size={0.7} color={theme.palette.type==='dark'?'white':'black'}/>}>
                     <Typography style={{width:'100%'}}>
-                    {copied? 'Copied!' : 'Copy to clipboard'}
-                      
+                      {copied? 'Copied!' : 'Copy to clipboard'}
                     </Typography>
-      
-                    </Button>
-              </CopyToClipboard>
-               
-              <WhatsappShareButton title="Pros & Cons about my decision:" url={shareAdress} >
-                <WhatsappIcon round size={40} />
-              </WhatsappShareButton>
-              
-                </div>
-             
-              
+                  </Button>
+                </CopyToClipboard>
+                {/* <WhatsappShareButton title="Pros & Cons of my decision:" url={shareAdress} >
+                  <WhatsappIcon round size={40} />
+                </WhatsappShareButton> */}
+              </div>
 
             </> 
             :

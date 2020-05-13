@@ -55,7 +55,7 @@ export default function AddComment({decisionId,threadID=''}) {
     const textProblem = text && text.length<10? true : false
     let { comments } = state
     
-    console.log(comments.length)
+    
     const handleNameChange = (event) => {
         
         if (event.target.value.length < 20) {

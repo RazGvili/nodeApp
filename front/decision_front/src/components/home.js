@@ -9,7 +9,7 @@ import {BASE_URL} from './../helpers/GlobalVars'
 
 import {useParams} from "react-router-dom"
 
-import lang from './../helpers/texts'
+//import lang from './../helpers/texts'
 
 export const theme = (darkMode) => responsiveFontSizes(createMuiTheme({
   typography: {
@@ -44,8 +44,6 @@ export default function Home() {
 
     const params = useParams()
     const idFromURL= params.id
-
-    console.log(lang)
 
     async function getDecision(decisionId) {
         //console.log('getting decision from server')
@@ -90,8 +88,11 @@ export default function Home() {
             let decisionId =  idFromURL || ''
             if (decisionId.length > 23)
                 getDecision(decisionId)
-            else
+            else {
+              //dispatch({type: "OPEN_SNACK", payload: {type: "success", text: `We didn't find it, Sure you pasted the link correctly?`}})  
               dispatch({type: "INIT_DECISION"})
+            }
+              
         }
         else{
           console.log("decisionFromContextAfterRedirect")

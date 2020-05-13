@@ -156,7 +156,7 @@ export default function Header({aboutVersion = false}) {
           }
 
           // lang code SNACKS_HEADER_DECISION_SAVED
-          dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved!"}})
+          dispatch({type: "OPEN_SNACK", payload: {type: "success", text: "decision saved on our servers!"}})
 
       } catch (e) {
           console.error(e)
