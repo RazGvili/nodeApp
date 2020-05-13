@@ -6,14 +6,16 @@ import { InputBase} from '@material-ui/core'
 
 import { useTracked } from '../../store'
 
-import Icon from '@mdi/react'
-import { ICONS } from '../custom/IconsData'
+//import Icon from '@mdi/react'
+//import { ICONS } from '../custom/IconsData'
 import { green } from "../../helpers/GlobalVars"
 
 
 const useStyles = makeStyles(theme => ({
     TitleContainer:{
-        position:'relative'
+        position:'relative',
+        maxWidth:'1000px',
+        margin:'auto'
     },
     inputRoot:{
         color:theme.palette.type==='dark'?'white':'black',

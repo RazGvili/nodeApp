@@ -1,6 +1,6 @@
 import React, {useState, useMemo, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import {AppBar,Toolbar,Button,Typography,useMediaQuery} from '@material-ui/core'
+import {AppBar,Toolbar,Button,Typography,useMediaQuery, Menu, MenuItem,ListItemIcon,ListItemText} from '@material-ui/core'
 
 //import Timer from '../timer'
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -66,6 +66,9 @@ export default function Header({aboutVersion = false}) {
   const [redirect,setRedirect] = useState(false)
   const [redirectHome,setRedirectHome] = useState(false)
   const smallScreen = useMediaQuery('(max-width:480px)');
+  const smallERScreen = useMediaQuery('(max-width:420px)');
+  //settings menu anchor
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [saving,setSaving] = useState(false)
   const [showShare,setShowShare] = useState(false)
@@ -74,6 +77,14 @@ export default function Header({aboutVersion = false}) {
   const readOnlyMode = isReadOnly && id
   const isNewDecision = id ? false : true
   //console.log(id, isNewDecision)
+
+  const handleClickMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
   const handleLockClick = () => {
     //todo:: check if it can be locked/unlocked
@@ -211,7 +222,7 @@ return useMemo(() => {
               </Typography>
             </Button>
 
-            {!aboutVersion && 
+            {!aboutVersion &&  !smallERScreen &&
 
               //   <Button onClick={handleLockClick} className={classes.roundButton}>
               //     <Icon
@@ -244,7 +255,7 @@ return useMemo(() => {
               <SaveButton saving={saving} success={savingSuccess} saveAction={handleSubmit} smallScreen={smallScreen}/>
             }
               
-            <Button  className={classes.roundButton}  onClick={handleDarkModeClick}>
+            {/* <Button  className={classes.roundButton}  onClick={handleDarkModeClick}>
               <Icon
                   path={ICONS['Theme']}
                   title="Toogle dark mode"
@@ -255,7 +266,89 @@ return useMemo(() => {
               <Typography className={classes.buttonText}>
               {isDark?'Dark':'Light'}
               </Typography>    
+            </Button> */}
+
+            <Button className={classes.roundButton} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClickMenu}>
+            <Icon
+                  path={ICONS['Settings']}
+                  title="Settings"
+                  size={smallScreen?0.7:1}
+                  color='#9A9A9A'
+                  style={{margin:'auto'}}
+              />
+              <Typography className={classes.buttonText}>
+              Settings
+              </Typography>
             </Button>
+
+                <Menu
+              id="simple-menu"
+              disableScrollLock
+              anchorEl={anchorEl}
+              keepMounted
+              // anchorOrigin={{
+              //   vertical: 'bottom',
+              //   horizontal: 'left',
+              // }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleCloseMenu}
+            >
+
+              {smallERScreen && !aboutVersion &&
+              [
+              !readOnlyMode &&
+              <MenuItem onClick={handleSubmit} key="savemenu">         
+                <Icon
+                      path={ICONS['Save']}
+                      title="Save"
+                      size={1}
+                  />
+                
+                <span style={{paddingLeft:'5px'}}>
+                  Save
+                </span>
+              </MenuItem>
+            ,
+              <MenuItem onClick={handleShare} key="sharemenu">         
+              <Icon
+                    path={ICONS['Share']}
+                    title="Share"
+                    size={1}
+                />
+              
+              <span style={{paddingLeft:'5px'}}>
+              Share
+              </span>
+            </MenuItem>
+              
+          ]
+              }
+            <MenuItem onClick={handleDarkModeClick} >         
+              <Icon path={ICONS['Theme']} size={1} />
+              
+              <span style={{paddingLeft:'5px'}}>
+                {isDark?'Dark':'Light'}
+              </span>
+            </MenuItem>
+
+            <MenuItem onClick={handleDarkModeClick} >
+            <img src='/images/lang/il.png' alt="il" style={{width:'22px'}}/>
+              <span style={{paddingLeft:'5px'}}>
+              Hebrew
+              </span>
+            </MenuItem>
+            <MenuItem onClick={handleDarkModeClick} >
+            <img src='/images/lang/en.png' alt="en" style={{width:'22px'}}/>
+              <span style={{paddingLeft:'5px'}}>
+              English
+              </span>
+            </MenuItem>
+          </Menu>
+          
           </>
           }
           {/* <Timer seconds="15"/> */}
@@ -286,7 +379,8 @@ return useMemo(() => {
     isDark,
     isNewDecision,
     smallScreen,
-    showHowItWorks
+    showHowItWorks,
+    anchorEl
   ]
 
 )}
