@@ -102,6 +102,11 @@ lang.eng.HOW_IT_WORKS_FOUR_SECONDARY = "You can share your link with others"
 // lang.eng.SCORES_FOUR_FIVE_NEG = "Just don't it!"
 // Calc explanation -------------------------------------------
 
+// Share options -------------------------------------------
+lang.eng.SHARE_WHATSAPP = "Write down your yes/no decision."
+
+// Share options -------------------------------------------
+
 //  ---------------------------------------------------------------------------------------------------------------------------------
 
 // Header -------------------------------------------
