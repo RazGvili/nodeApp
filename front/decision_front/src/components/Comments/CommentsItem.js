@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
     },
     gradeContainer:{
       width: '80px',
-      textAlign: 'right',
+      textAlign: 'start',
       height: 'fit-content',
       padding: '0px 0px 0px 30px',
       background: 'aliceblue',

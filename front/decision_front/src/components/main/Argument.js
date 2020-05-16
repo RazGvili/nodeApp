@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     },
     argumentRoot:{
         background: 'none',
-        textAlign:'left',
+        textAlign:'end',
     },
     argumentAction:{
         display:'grid'

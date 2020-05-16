@@ -12,6 +12,8 @@ lang.eng.HEADER_DARK_MODE_BUTTON_DARK = 'Dark'
 lang.eng.HEADER_DARK_MODE_BUTTON_LIGHT = 'Light'
 lang.eng.HEADER_SHARE_BUTTON = 'Share'
 lang.eng.HEADER_BACK_BUTTON = 'Back'
+lang.eng.HEADER_SETTINGS = "Settings"
+
 // Header -------------------------------------------
 
 // Share popup -------------------------------------------
@@ -47,9 +49,15 @@ lang.eng.ARG_POPUP_CONFIDENCE_TOOLTIP = 'Am I confident in this argument?'
 lang.eng.ARG_POPUP_LONG_TERM_EFFECTS_TOOLTIP = 'For how long this will affect me?'
 lang.eng.ARG_POPUP_ADD_PRO_BUTTON = `Add pro`
 lang.eng.ARG_POPUP_ADD_CON_BUTTON = `Add con`
+lang.eng.SLIDER_TEXTS = ['','None','Little bit','Some','Quite a lot','Alot']
+lang.eng.ADD = 'Add'
+lang.eng.EDIT = 'Edit'
+lang.eng.CANCEL = 'Cancel'
+
 // Add arg popup -------------------------------------------
 
 // About -------------------------------------------
+lang.eng.ABOUT = 'About us'
 lang.eng.ABOUT_FIRST_ROW = `Decidy was created because we believe that visualizing the decision-making process can improve it.`
 lang.eng.ABOUT_SECOND_ROW = `We ❤️ tech, code & great products.`
 lang.eng.ABOUT_THIRD_ROW = `Let us know what you think about Decidy`
@@ -84,6 +92,8 @@ lang.eng.SCORES_FOUR_FIVE_NEG = "Just don't it!"
 // Calc scores -------------------------------------------
 
 // How it works -------------------------------------------
+lang.eng.HOW_TO = 'How to'
+lang.eng.HOW_IT_WORKS = 'How it works?'
 lang.eng.HOW_IT_WORKS_ONE_PRIMARY = "Write down your yes/no decision."
 lang.eng.HOW_IT_WORKS_ONE_SECONDARY = `"Should i get a dog?"`
 lang.eng.HOW_IT_WORKS_TWO_PRIMARY = "Add & rate your pros/cons."
@@ -117,6 +127,7 @@ lang.heb.HEADER_DARK_MODE_BUTTON_DARK = 'חשוך'
 lang.heb.HEADER_DARK_MODE_BUTTON_LIGHT = 'מואר'
 lang.heb.HEADER_SHARE_BUTTON = 'שתף'
 lang.heb.HEADER_BACK_BUTTON = 'חזור'
+lang.heb.HEADER_SETTINGS = "הגדרות"
 // Header -------------------------------------------
 
 // Share popup -------------------------------------------
@@ -152,9 +163,14 @@ lang.heb.ARG_POPUP_CONFIDENCE_TOOLTIP = 'כמה אני בטוח שזה ישפי�
 lang.heb.ARG_POPUP_LONG_TERM_EFFECTS_TOOLTIP = '?האם זה ישפיע עליי לטווח ארוך'
 lang.heb.ARG_POPUP_ADD_PRO_BUTTON = `הוסף יתרון`
 lang.heb.ARG_POPUP_ADD_CON_BUTTON = `הוסף חסרון`
+lang.heb.SLIDER_TEXTS = ['','כלום','טיפה','קצת','די הרבה','הרבה']
+lang.heb.ADD = 'הוספת'
+lang.heb.EDIT = 'שמירת'
+lang.heb.CANCEL = 'ביטול'
 // Add arg popup -------------------------------------------
 
 // About -------------------------------------------
+lang.heb.ABOUT = 'אודות'
 lang.heb.ABOUT_FIRST_ROW = `יצרנו את דיסיידי כי אנחנו מאמינים שויזואליזציה של תהליך ההחלטה יכולה לשפר את איכות ההחלטה.`
 lang.heb.ABOUT_SECOND_ROW = `אנחנו אוהבים טכנולוגיה, קוד ומוצרים טובים`
 lang.heb.ABOUT_THIRD_ROW = `נשמח לפידבק!`
@@ -189,6 +205,8 @@ lang.heb.SCORES_FOUR_FIVE_NEG = "לא כדאי!"
 // Calc scores -------------------------------------------
 
 // How it works -------------------------------------------
+lang.heb.HOW_TO = 'איך'
+lang.heb.HOW_IT_WORKS = 'איך זה פועל?'
 lang.heb.HOW_IT_WORKS_ONE_PRIMARY = "כתוב שאלת כן/לא"
 lang.heb.HOW_IT_WORKS_ONE_SECONDARY = `"כדאי לאמץ כלב?"`
 lang.heb.HOW_IT_WORKS_TWO_PRIMARY = "הוסף ודרג את הטיעונים שלך"

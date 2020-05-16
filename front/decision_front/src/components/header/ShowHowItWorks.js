@@ -6,9 +6,8 @@ import Icon from '@mdi/react'
 import { ICONS } from '../custom/IconsData'
 import Dialog from '@material-ui/core/Dialog';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
-import Divider from '@material-ui/core/Divider'
-import Paper from '@material-ui/core/Paper'
 
+import {lang as texts} from '../../helpers/texts' 
 
 const useStyles = makeStyles((theme) => ({
 
@@ -35,26 +34,25 @@ const useStyles = makeStyles((theme) => ({
     },
     closeIcon:{
         position:'absolute',
-        right:'15px',
         top:'10px'
     }
 }));
 
 
-export default function ShowHowItWorks({closeAction}) {
+export default function ShowHowItWorks({closeAction,lang}) {
     const classes = useStyles()
-    const theme = useTheme()
+    //const theme = useTheme()
     
     return (
 
         <>
             <Dialog open>
-            <div className={classes.root}>
-                    <IconButton onClick={closeAction} className={classes.closeIcon}>
+            <div className={classes.root} style={{direction:lang==='heb'?'rtl':'ltr'}}>
+                    <IconButton onClick={closeAction} className={classes.closeIcon} style={{left:lang==='heb'?'15px':'inherit',right:lang==='heb'?'inherit':'15px'}}>
                         <Icon path={ICONS['Close']} size={1} />
                     </IconButton>
 
-                    <h3 style={{textAlign: 'left', marginLeft: '20px'}}>How it works?</h3>
+                    <h3 style={{margin: '20px'}}>{texts[lang]['HOW_IT_WORKS']}</h3>
 
                     <List component="nav">
 
@@ -63,8 +61,8 @@ export default function ShowHowItWorks({closeAction}) {
                                 <Icon path={ICONS['QuestionHead']} size={1} />
                             </ListItemIcon>
                             <ListItemText 
-                                primary={`Write down your yes/no decision.`} 
-                                secondary={`"Should i get a dog?"`}
+                                primary={texts[lang]['HOW_IT_WORKS_ONE_PRIMARY'] }
+                                secondary={texts[lang]['HOW_IT_WORKS_ONE_SECONDARY'] }
                             />
                         </ListItem>
 
@@ -73,8 +71,8 @@ export default function ShowHowItWorks({closeAction}) {
                                 <Icon path={ICONS['PlusOutline']} size={1} />
                             </ListItemIcon>
                             <ListItemText 
-                                primary="Add & rate your pros/cons." 
-                                secondary={`The rating will help the thinking process`}
+                                primary={texts[lang]['HOW_IT_WORKS_TWO_PRIMARY'] }
+                                secondary={texts[lang]['HOW_IT_WORKS_TWO_SECONDARY'] }
                             />
                         </ListItem>
                     
@@ -83,8 +81,8 @@ export default function ShowHowItWorks({closeAction}) {
                                 <Icon path={ICONS['Save']} size={1} />
                             </ListItemIcon>
                             <ListItemText 
-                                primary="Save your progress."
-                                secondary="You'll get a link for easy access"
+                                primary={texts[lang]['HOW_IT_WORKS_THREE_PRIMARY'] }
+                                secondary={texts[lang]['HOW_IT_WORKS_THREE_SECONDARY'] }
                             />
                         </ListItem>
                         
@@ -93,8 +91,8 @@ export default function ShowHowItWorks({closeAction}) {
                                 <Icon path={ICONS['Share']} size={1} />
                             </ListItemIcon>
                             <ListItemText 
-                                primary="Get feedback." 
-                                secondary=" You can share your link with others"
+                                primary={texts[lang]['HOW_IT_WORKS_FOUR_PRIMARY'] }
+                                secondary={texts[lang]['HOW_IT_WORKS_FOUR_SECONDARY'] }
                             />
                         </ListItem>
 

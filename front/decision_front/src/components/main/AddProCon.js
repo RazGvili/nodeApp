@@ -5,9 +5,12 @@ import {makeStyles,withStyles,useTheme} from "@material-ui/core/styles"
 import {Slider,Button, Grid,TextField,Tooltip
     //Switch
 } from '@material-ui/core'
-import { green,red,darkGrey,sliderTexts } from "../../helpers/GlobalVars"
+import { green,red,darkGrey } from "../../helpers/GlobalVars"
 import Icon from "@mdi/react"
 import { ICONS } from "../custom/IconsData"
+
+import {lang as texts} from '../../helpers/texts'
+
 
 const sliderTextWidth=['','200','400','600','700','900']
 
@@ -180,7 +183,7 @@ export default function AddProCon(props) {
     let styleProps = {DARK_MODE:DARK_MODE}
     const classes = useStyles(styleProps)
     //const [type, setType] = useState(props.type)
-    const {type,edit } = props
+    const {type,edit,lang } = props
     const [text, setText] = useState(edit?edit.proCon:props.text)
     // Sliders ---------------------------------------
     const [impact, setImpact] = useState(edit?edit.impact:3)
@@ -242,7 +245,7 @@ export default function AddProCon(props) {
                                     className={classes.input}
                                     margin="normal"
                                     value={text}
-                                    placeholder={type === 'pro'? "Why should I do it?":"Why it's a bad idea?"}
+                                    placeholder={type === 'pro'? texts[lang]['TABLE_PRO_PLACEHOLDER']:texts[lang]['TABLE_CON_PLACEHOLDER']}
                                     multiline
                                     rowsMax={10}
                                     linecolor={typeColor}
@@ -254,14 +257,14 @@ export default function AddProCon(props) {
 
                 <Grid container spacing={1} style={{margin:'15px auto',width:'100%'}}>
                     <Grid item xs={6} style={{textAlign:'left'}}>
-                        {"Impact "} 
-            <Tooltip title={<span style={{fontSize:'18px'}}>{`How much this ${type} is affecting me`}</span>} >
+                    {texts[lang]['ARG_POPUP_FIRST_ROW_PARAM']} 
+            <Tooltip title={<span style={{fontSize:'18px'}}>{texts[lang]['ARG_POPUP_IMPACT_TOOLTIP']}</span>} >
                             <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
                         </Tooltip>
                     </Grid>
                     <Grid item xs={6}>
                         <span style={{fontWeight:sliderTextWidth[impact]}}>
-                            {sliderTexts[impact]}
+                        {texts[lang]['SLIDER_TEXTS'][impact]}
                         </span>
                     </Grid>
                     <Grid item xs={12}>
@@ -273,14 +276,14 @@ export default function AddProCon(props) {
                     </Grid>
 
                     <Grid item xs={6} style={{textAlign:'left'}}>
-                        {"Confidence "}  
-                        <Tooltip title={<span style={{fontSize:'18px'}}>{`How certain I am in this ${type} effects`}</span>} >
+                        {texts[lang]['ARG_POPUP_SECOND_ROW_PARAM']}
+                        <Tooltip title={<span style={{fontSize:'18px'}}>{texts[lang]['ARG_POPUP_CONFIDENCE_TOOLTIP']}</span>} >
                             <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
                         </Tooltip>
                     </Grid>
                     <Grid item xs={6}>
                         <span style={{fontWeight:sliderTextWidth[confidence]}}>
-                            {sliderTexts[confidence]}
+                        {texts[lang]['SLIDER_TEXTS'][confidence]}
                         </span>
                     </Grid>
                     <Grid item xs={12}>
@@ -292,14 +295,14 @@ export default function AddProCon(props) {
                     </Grid>
 
                     <Grid item xs={6} style={{textAlign:'left'}}>
-                    {"Long term effects "}
-                    <Tooltip title={<span style={{fontSize:'18px'}}>{`For how long this ${type} will affect me`}</span>} >
+                    {texts[lang]['ARG_POPUP_THIRD_ROW_PARAM']}
+                    <Tooltip title={<span style={{fontSize:'18px'}}>{texts[lang]['ARG_POPUP_LONG_TERM_EFFECTS_TOOLTIP']}</span>} >
                         <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
                     </Tooltip>
                     </Grid>
                     <Grid item xs={6}>
                         <span style={{fontWeight:sliderTextWidth[effects]}}>
-                            {sliderTexts[effects]}
+                            {texts[lang]['SLIDER_TEXTS'][effects]}
                         </span>
                     </Grid>
                     <Grid item xs={12}>
@@ -319,14 +322,14 @@ export default function AddProCon(props) {
                     onClick={addProCon}
                     disabled={text.length < 2 ? true : false } 
                 >
-                    {`${edit?'Edit':'Add'} ${type} `}
+                    {`${edit?texts[lang]['EDIT']:texts[lang]['ADD']} ${type} `}
                 </Button>
                 <Button
                     className={classes.cancelButton}
                     onClick={props.closeAction}
                     //disabled={text.length < 2 ? true : false } 
                 >
-                    Cancel
+                   {texts[lang]['CANCEL']}
                 </Button>
        
         </div>

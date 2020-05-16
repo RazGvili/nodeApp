@@ -27,8 +27,7 @@ const useStyles = makeStyles(theme => ({
         color:props => props.DARK_MODE?'white':'black',
         width:'-webkit-fill-available'
     },
-
-    button:{
+    button1:{
         color:'white',
         textTransform:'none',
         width:'78%',
@@ -37,6 +36,9 @@ const useStyles = makeStyles(theme => ({
         '&:hover':{
             opacity:'1',
         }
+    },
+    buttonLabel:{
+        fontFamily:'Nunito Sans, Varela Round, sans-serif'
     },
     multiline:{
         padding:'14px 0px 12px'
@@ -105,7 +107,7 @@ export default function AddButton({type,lang,AddAction}) {
  
         </div>
         {text.length>3 && 
-            <Button className={classes.button} style={{background:typeColor}} onClick={()=>{handleClickAdd()}}>
+            <Button className={classes.button1} style={{background:typeColor}} onClick={()=>{handleClickAdd()}} classes={{label:classes.buttonLabel}}>
                 {type==='pro'?texts[lang]['TABLE_PRO_ADD_BUTTON']:texts[lang]['TABLE_CON_ADD_BUTTON']} 
             </Button>}
         {error && <Typography style={{letterSpacing: '1.2px',color:'grey',fontSize:'11px'}}>must be longer than two characters</Typography>}

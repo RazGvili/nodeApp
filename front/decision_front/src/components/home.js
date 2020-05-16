@@ -2,8 +2,12 @@ import React, {useEffect,useMemo} from 'react'
 import ProsConsTable from './prosConsTable'
 import axios from "axios"
 import Comments from './Comments/Comments'
+import rtl from 'jss-rtl';
+import { create } from 'jss';
+
+
 import { useTracked  } from '../store'
-import { createMuiTheme, ThemeProvider,responsiveFontSizes  } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider,responsiveFontSizes,jssPreset,StylesProvider    } from '@material-ui/core/styles';
 
 import {BASE_URL} from './../helpers/GlobalVars'
 
@@ -11,7 +15,8 @@ import {useParams} from "react-router-dom"
 
 //import lang from './../helpers/texts'
 
-export const theme = (darkMode) => responsiveFontSizes(createMuiTheme({
+export const theme = (darkMode,UIrtl) => responsiveFontSizes(createMuiTheme({
+  direction: UIrtl,
   typography: {
       fontFamily: 'Nunito Sans, Arial',
     },
@@ -40,8 +45,10 @@ export const theme = (darkMode) => responsiveFontSizes(createMuiTheme({
 
 export default function Home() {
     const [state,dispatch] = useTracked()
-    const {isDark,id} = state
+    const {isDark,id,lang} = state
+    const jss = create({ plugins: [...jssPreset().plugins, rtl({ enabled: lang === 'heb' })] });
 
+    const UIrtl = lang === 'eng'? 'ltr': 'rtl'
     const params = useParams()
     const idFromURL= params.id
 
@@ -102,16 +109,18 @@ export default function Home() {
 
     return useMemo(() => {
     return (
-        <ThemeProvider theme={theme(isDark)}>
-            <div style={{background:isDark?'#35314f':'#dce8f3',minHeight:'95vh'}}>
+        <ThemeProvider theme={theme(isDark,UIrtl)} >
+          <StylesProvider jss={jss}>
+            <div style={{background:isDark?'#35314f':'#dce8f3',minHeight:'95vh'}} dir={UIrtl}>
             {console.log('<--render: home-->')}
 
             <ProsConsTable />
             <Comments />
 
             </div>
+            </StylesProvider>
         </ThemeProvider>
 
-    )},[isDark,idFromURL])
+    )},[isDark,idFromURL,lang,jss])
 
 }

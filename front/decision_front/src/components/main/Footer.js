@@ -3,6 +3,7 @@ import { Container,makeStyles} from '@material-ui/core';
 
 import { Link } from 'react-router-dom';
 import { useTrackedState } from '../../store'
+import {lang as texts} from '../../helpers/texts'
 
 const useStyles = makeStyles(theme => ({
   footer: {
@@ -24,9 +25,9 @@ const useStyles = makeStyles(theme => ({
   //const context = useContext(store)
   //const { state } = context
   const state = useTrackedState();
-  let darkMode = state.isDark
+  const {isDark,lang} = state
   //console.log('footer render')
-  const classes = useStyles({darkMode:darkMode})
+  const classes = useStyles({darkMode:isDark})
 
   return useMemo(() => {
       return <footer className={classes.footer}>
@@ -34,9 +35,9 @@ const useStyles = makeStyles(theme => ({
         <Container maxWidth="md" style={{textAlign:'center',padding: '0px'}}>
         <span style={{verticalAlign:'middle',paddingRight:'15px'}}><span style={{fontFamily:'Arial'}}>©</span> decisions 2020</span>
         <Link to="/about" className={classes.button}>
-          About us
+        {texts[lang]['ABOUT']}
         </Link>
         </Container>
       </footer>
-  },[darkMode]);
+  },[isDark,lang]);
 }

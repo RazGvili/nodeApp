@@ -226,7 +226,7 @@ return useMemo(() => {
                   style={{margin:'auto'}}
               />
               <Typography className={classes.buttonText}>
-                How to 
+              {texts[lang]['HOW_TO']}
               </Typography>
             </Button>
 
@@ -286,7 +286,7 @@ return useMemo(() => {
                   style={{margin:'auto'}}
               />
               <Typography className={classes.buttonText}>
-              Settings
+              {texts[lang]['HEADER_SETTINGS']}
               </Typography>
             </Button>
 
@@ -367,7 +367,7 @@ return useMemo(() => {
 
       {showShare && <ShowShare isNewDecision={isNewDecision} closeAction={()=> setShowShare(false)}/>}
 
-      {showHowItWorks && <ShowHowItWorks closeAction={()=> setShowHowItWorks(false)}/>}
+      {showHowItWorks && <ShowHowItWorks closeAction={()=> setShowHowItWorks(false)} lang={lang}/>}
       
       
     </div>
@@ -377,6 +377,7 @@ return useMemo(() => {
     pros,
     cons,
     id,
+    lang,
     loading,
     isReadOnly,
     classes,
