@@ -365,7 +365,7 @@ return useMemo(() => {
         </Toolbar>
       </AppBar>
 
-      {showShare && <ShowShare isNewDecision={isNewDecision} closeAction={()=> setShowShare(false)}/>}
+      {showShare && <ShowShare isNewDecision={isNewDecision} lang={lang} closeAction={()=> setShowShare(false)}/>}
 
       {showHowItWorks && <ShowHowItWorks closeAction={()=> setShowHowItWorks(false)} lang={lang}/>}
       

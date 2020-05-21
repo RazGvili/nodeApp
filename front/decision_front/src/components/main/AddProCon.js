@@ -172,6 +172,9 @@ const useStyles = makeStyles(theme => ({
     },
     toolTipText:{
         fontSize:'30'
+    },
+    endIcon1:{
+        marginRight: '8px',  marginLeft: '-4px'
     }
 }))
 
@@ -255,8 +258,8 @@ export default function AddProCon(props) {
 
                 <div className={classes.sliders}>  
 
-                <Grid container spacing={1} style={{margin:'15px auto',width:'100%'}}>
-                    <Grid item xs={6} style={{textAlign:'left'}}>
+                <Grid container spacing={1} style={{margin:'15px auto',width:'100%'}} direction={lang==='heb'?'row-reverse':'row'}>
+                    <Grid item xs={6} style={{textAlign:lang==='eng'?'left':'right'}}>
                     {texts[lang]['ARG_POPUP_FIRST_ROW_PARAM']} 
             <Tooltip title={<span style={{fontSize:'18px'}}>{texts[lang]['ARG_POPUP_IMPACT_TOOLTIP']}</span>} >
                             <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
@@ -275,7 +278,7 @@ export default function AddProCon(props) {
                         />
                     </Grid>
 
-                    <Grid item xs={6} style={{textAlign:'left'}}>
+                    <Grid item xs={6} style={{textAlign:lang==='eng'?'left':'right'}}>
                         {texts[lang]['ARG_POPUP_SECOND_ROW_PARAM']}
                         <Tooltip title={<span style={{fontSize:'18px'}}>{texts[lang]['ARG_POPUP_CONFIDENCE_TOOLTIP']}</span>} >
                             <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
@@ -294,7 +297,7 @@ export default function AddProCon(props) {
                         />
                     </Grid>
 
-                    <Grid item xs={6} style={{textAlign:'left'}}>
+                    <Grid item xs={6} style={{textAlign:lang==='eng'?'left':'right'}}>
                     {texts[lang]['ARG_POPUP_THIRD_ROW_PARAM']}
                     <Tooltip title={<span style={{fontSize:'18px'}}>{texts[lang]['ARG_POPUP_LONG_TERM_EFFECTS_TOOLTIP']}</span>} >
                         <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
@@ -318,11 +321,13 @@ export default function AddProCon(props) {
 
                 <Button
                     className={type==='pro'?classes.actionButtonPro:classes.actionButtonCon}
-                    startIcon={<Icon size={1} path={edit? ICONS['Edit']: ICONS['PlusOutline']} color={text.length < 2 ? "#ffffff4d" : "white"}/> }
+                    endIcon={lang==='heb'?<Icon size={1} path={edit? ICONS['Edit']: ICONS['PlusOutline']} color={text.length < 2 ? "#ffffff4d" : "white"}/>:null}
+                    startIcon={lang==='eng'?<Icon size={1} path={edit? ICONS['Edit']: ICONS['PlusOutline']} color={text.length < 2 ? "#ffffff4d" : "white"}/>:null}
                     onClick={addProCon}
+                    classes={{endIcon:classes.endIcon1}}
                     disabled={text.length < 2 ? true : false } 
                 >
-                    {`${edit?texts[lang]['EDIT']:texts[lang]['ADD']} ${type} `}
+                    {`${edit?texts[lang]['EDIT']:texts[lang]['ADD']} ${type==='pro'?texts[lang]['PRO']:texts[lang]['CON']} `}
                 </Button>
                 <Button
                     className={classes.cancelButton}

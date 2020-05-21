@@ -20,6 +20,8 @@ lang.eng.HEADER_SETTINGS = "Settings"
 lang.eng.SHARE_POPUP_EXPLAINER_FIRST_ROW = 'Need extra brain-power?'
 lang.eng.SHARE_POPUP_EXPLAINER_SECOND_ROW = 'Copy your decision link and share it with wise friends.'
 lang.eng.SHARE_POPUP_COPY_BUTTON = 'Copy to clipboard'
+lang.eng.SHARE_FIRST = 'Save first, then you can share your progress with others'
+lang.eng.COPIED = 'Copied!'
 // Share popup -------------------------------------------
 
 // Title -------------------------------------------
@@ -49,6 +51,8 @@ lang.eng.ARG_POPUP_CONFIDENCE_TOOLTIP = 'Am I confident in this argument?'
 lang.eng.ARG_POPUP_LONG_TERM_EFFECTS_TOOLTIP = 'For how long this will affect me?'
 lang.eng.ARG_POPUP_ADD_PRO_BUTTON = `Add pro`
 lang.eng.ARG_POPUP_ADD_CON_BUTTON = `Add con`
+lang.eng.PRO = `pro`
+lang.eng.CON = `con`
 lang.eng.SLIDER_TEXTS = ['','None','Little bit','Some','Quite a lot','Alot']
 lang.eng.ADD = 'Add'
 lang.eng.EDIT = 'Edit'
@@ -134,6 +138,9 @@ lang.heb.HEADER_SETTINGS = "הגדרות"
 lang.heb.SHARE_POPUP_EXPLAINER_FIRST_ROW = 'צריך חידוד?'
 lang.heb.SHARE_POPUP_EXPLAINER_SECOND_ROW = 'פשוט תעתיק את הלינק ושלח לאחרים כדי לקבל חוות דעת'
 lang.heb.SHARE_POPUP_COPY_BUTTON = 'העתק'
+lang.heb.COPIED = 'הועתק!'
+lang.heb.SHARE_FIRST = 'שמרו קודם, אחר כך תוכלו לשתף עם אנשים אחרים'
+
 // Share popup -------------------------------------------
 
 // Title -------------------------------------------
@@ -152,6 +159,7 @@ lang.heb.TABLE_PRO_PLACEHOLDER = `למה זה רעיון טוב?`
 lang.heb.TABLE_CON_PLACEHOLDER = `למה זה רעיון רע?`
 lang.heb.TABLE_PRO_ADD_BUTTON = `הוסף יתרון`
 lang.heb.TABLE_CON_ADD_BUTTON = `הוסף חסרון`
+
 // Table -------------------------------------------
 
 // Add arg popup -------------------------------------------
@@ -167,6 +175,8 @@ lang.heb.SLIDER_TEXTS = ['','כלום','טיפה','קצת','די הרבה','הר
 lang.heb.ADD = 'הוספת'
 lang.heb.EDIT = 'שמירת'
 lang.heb.CANCEL = 'ביטול'
+lang.heb.PRO = `יתרון`
+lang.heb.CON = `חיסרון`
 // Add arg popup -------------------------------------------
 
 // About -------------------------------------------

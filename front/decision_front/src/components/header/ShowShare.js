@@ -27,6 +27,9 @@ import {
   WhatsappIcon,
   FacebookMessengerIcon
 } from "react-share";
+
+import {lang as texts} from '../../helpers/texts'
+
 const useStyles = makeStyles((theme) => ({
     root:{
       color:theme.palette.type==='dark'?'white':'black',
@@ -60,7 +63,7 @@ export default function ShowShare({isNewDecision, closeAction}) {
     const theme = useTheme()
     const state = useTrackedState()
     const [ copied, setCopied ] = useState(false)
-
+    let lang = state.lang
     let id = state.id
     const shareAdress = `https://deciidy.web.app/d/${id}`
     const handleCopied = () => {
@@ -78,7 +81,11 @@ export default function ShowShare({isNewDecision, closeAction}) {
             { !isNewDecision ?
             
               <> 
-                <Typography> Need extra brain-power? <br/> Copy your decision link and share it with wise friends.   </Typography> 
+                <Typography>
+                  {texts[lang]['SHARE_POPUP_EXPLAINER_FIRST_ROW']}
+                  <br/>
+                  {texts[lang]['SHARE_POPUP_EXPLAINER_SECOND_ROW']}
+                </Typography> 
                 <br/>
 
                 <Grid container style={{maxWidth:'500px',margin:'auto'}} spacing={2} justify='center'>
@@ -147,7 +154,7 @@ export default function ShowShare({isNewDecision, closeAction}) {
                   onCopy={handleCopied}>
                   <Button className={classes.copyButton} endIcon={<Icon path={ICONS['Copy']} size={0.7} color={theme.palette.type==='dark'?'white':'black'}/>}>
                     <Typography style={{width:'100%'}}>
-                      {copied? 'Copied!' : 'Copy to clipboard'}
+                      {copied? texts[lang]['COPIED'] : texts[lang]['SHARE_POPUP_EXPLAINER_SECOND_ROW']}}
                     </Typography>
                   </Button>
                 </CopyToClipboard>
@@ -159,7 +166,7 @@ export default function ShowShare({isNewDecision, closeAction}) {
             </> 
             :
             <>
-              <Typography> Save first, then you can share your progress with others </Typography> 
+              <Typography>{texts[lang]['SHARE_FIRST']}</Typography> 
             </>
             }
         </div>
