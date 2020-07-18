@@ -199,7 +199,7 @@ export default function ProsConsTable() {
             <Skeleton animation="wave" width='50%' height={100} style={{margin:'auto'}}/>
             :
             <>  
-                <Title />
+                <Title/>
                 <br/>
             </>
             }

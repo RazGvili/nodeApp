@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         marginTop:'20px',
         background:'rgba(0, 0, 0, 0.1)',
-        padding:'15px'
+        //padding:'15px'
     },
     root: {
         width: '100%',

@@ -25,12 +25,12 @@ lang.eng.COPIED = 'Copied!'
 // Share popup -------------------------------------------
 
 // Title -------------------------------------------
-lang.eng.TITLE_LABEL = `My yes/no decision`
-lang.eng.TITLE_PLACEHOLDER_1 = `Example: Should I get a dog?`
-lang.eng.TITLE_PLACEHOLDER_2 = `Example: Should I quit my job?`
-lang.eng.TITLE_PLACEHOLDER_3 = `Example: Should I do an MSc in data science?`
-lang.eng.TITLE_PLACEHOLDER_4 = `Example: Should I stay or Should I go?`
-lang.eng.TITLE_PLACEHOLDER_5 = `Example: Should I move out?`
+lang.eng.TITLE_LABEL = `Should I...`
+lang.eng.TITLE_PLACEHOLDER_1 = `get a dog?`
+lang.eng.TITLE_PLACEHOLDER_2 = `quit my job?`
+lang.eng.TITLE_PLACEHOLDER_3 = `do an MSc in data science?`
+lang.eng.TITLE_PLACEHOLDER_4 = `stay or Should I go?`
+lang.eng.TITLE_PLACEHOLDER_5 = `move out?`
 // Title -------------------------------------------
 
 // Table -------------------------------------------

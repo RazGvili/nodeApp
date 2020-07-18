@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight:'20px',
     margin:'10px',
     borderRadius: '45px',
-    width:'200px',
+    width:'285px',
     border: '1px grey solid',
     '&:hover':{
       background:'rgba(135, 185, 85, 0.5)',
@@ -152,9 +152,9 @@ export default function ShowShare({isNewDecision, closeAction}) {
               <div style={{display:'flex',justifyContent:'center'}}>
                 <CopyToClipboard text={shareAdress}
                   onCopy={handleCopied}>
-                  <Button className={classes.copyButton} endIcon={<Icon path={ICONS['Copy']} size={0.7} color={theme.palette.type==='dark'?'white':'black'}/>}>
+                  <Button className={classes.copyButton} endIcon={<Icon path={ICONS['Copy']} size={0.9} color={theme.palette.type==='dark'?'white':'black'}/>}>
                     <Typography style={{width:'100%'}}>
-                      {copied? texts[lang]['COPIED'] : texts[lang]['SHARE_POPUP_EXPLAINER_SECOND_ROW']}}
+                      {copied? texts[lang]['COPIED'] : texts[lang]['SHARE_POPUP_EXPLAINER_SECOND_ROW']}
                     </Typography>
                   </Button>
                 </CopyToClipboard>

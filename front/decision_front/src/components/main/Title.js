@@ -1,10 +1,13 @@
 
-import React,{useMemo} from "react"
+import React,{useMemo, useState} from "react"
 
 import {makeStyles} from "@material-ui/core/styles"
 import { InputBase} from '@material-ui/core'
 import {lang as texts} from '../../helpers/texts' 
 import { useTracked } from '../../store'
+import { ICONS } from '../custom/IconsData';
+import Button from '@material-ui/core/Button';
+import Icon from '@mdi/react'
 
 //import Icon from '@mdi/react'
 //import { ICONS } from '../custom/IconsData'
@@ -13,27 +16,45 @@ import { green } from "../../helpers/GlobalVars"
 
 const useStyles = makeStyles(theme => ({
     TitleContainer:{
-        position:'relative',
         maxWidth:'1000px',
-        margin:'auto'
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        margin: '0px auto',
+        paddingTop: '10px'
+
     },
     inputRoot:{
         color:theme.palette.type==='dark'?'white':'black',
-        width:'95%',
+        width:'65%',
         maxWidth:'1000px',
         borderRadius:'30px',
         fontFamily:'Permanent Marker,Varela Round',
         textAlign:'center',
         lineHeight:'35px',
         background:theme.palette.type==='dark'?'rgba(255, 255, 255, 0.1)':'rgba(0, 0, 0, 0.1)',
+        flex: '1 1 150px',
+        marginRight: '5px'
     },
     input:{
-            color:theme.palette.type==='dark'?'white':'black'
+        color:theme.palette.type==='dark'?'white':'black'
     },
     label: {
         fontFamily:'Permanent Marker,Varela Round',
         fontWeight:'500',
         color:theme.palette.type==='dark'?'#ffffffff':'black',
+        flex: '0 1 150px'
+
+    },
+    submitButton: {
+        fontFamily:'Permanent Marker,Varela Round',
+        fontWeight:'500',
+        color:theme.palette.type==='dark'?'#ffffffff':'black',
+        flex: '0 1 120px',
+        borderRadius: '30px',
+        marginLeft: '15px',
+        marginTop: '5px'
+
     },
     tickContainer:{
         width: '40px',
@@ -42,7 +63,6 @@ const useStyles = makeStyles(theme => ({
         right: '4%',
         bottom: '10px',
     },
-
     circ:{
         opacity: '0',
         strokeDasharray: '130',
@@ -86,43 +106,66 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-
 export default function Title(){
     const [state, dispatch] = useTracked();
     const {title,isReadOnly,lang} = state
     const classes = useStyles()
-    const ticks = title.length > 2
     const placeholder = texts[lang][`TITLE_PLACEHOLDER_${+Math.floor(Math.random() * 4)+ 1}`]
-    return useMemo(() => {
-    return (
-        <div className={classes.TitleContainer}>
-            {console.log(`<--render: title | ${title} -->`)}
+    
+    const [text, setText] = useState(title.slice())
 
-                    <h3 className={classes.label}>{texts[lang]['TITLE_LABEL']}</h3> 
-                    <div className={classes.tickContainer}>
-                    <svg version="1.1" id="tick" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                        viewBox="0 0 37 37" style={{enableBackground:'new 0 0 37 37'}} >
-                    <path className={ticks?classes.circDrawn:classes.circ} style={{fill:'none',stroke:green,strokeWidth:'3',strokeLinejoin:'round',strokeMiterlimit:'10'}} d="
-                        M30.5,6.5L30.5,6.5c6.6,6.6,6.6,17.4,0,24l0,0c-6.6,6.6-17.4,6.6-24,0l0,0c-6.6-6.6-6.6-17.4,0-24l0,0C13.1-0.2,23.9-0.2,30.5,6.5z"
-                        />
-                    <polyline className={ticks?classes.tickDrawn:classes.tick} style={{fill:'none',stroke:green,strokeWidth:'3',strokeLinejoin:'round',strokeMiterlimit:'10'}} points="
-                        11.6,20 15.9,24.2 26.4,13.8 "/>
-                    </svg>
-                    </div>
-                    <InputBase
-                        required
-                        id="title"
-                        disabled={isReadOnly}
-                        multiline
-                        rowsMax={6}
-                        placeholder={placeholder}
-                        autoComplete="off" 
-                        classes={{root:classes.inputRoot,input:classes.input}}
-                        value={title}
-                        inputProps={{ 'aria-label': 'name of Decision', style: {fontSize:'40px',textAlign: 'center'}}}
-                        onChange={(event)=> dispatch({type: "TITLE_CHANGE", payload: { text: event.target.value}})}
-                    />
-        </div>
-    )},[title,classes,isReadOnly,lang])
+    const submitTitle = () => {
+        dispatch({type: "TITLE_CHANGE", payload: { text: text}})
+    }
+
+    const onChangeHandler = e => {
+        setText(e.target.value);
+        
+    };
+
+    return useMemo(() => {
+        return (
+
+            <div className={classes.TitleContainer}>
+
+                {console.log(`<--render: title | ${title} -->`)}
+
+                <h3 className={classes.label}>{texts[lang]['TITLE_LABEL']}</h3> 
+
+                <InputBase
+                    required
+                    id="title"
+                    disabled={isReadOnly}
+                    multiline
+                    rowsMax={6}
+                    placeholder={placeholder}
+                    autoComplete="off" 
+                    classes={{root:classes.inputRoot,input:classes.input}}
+                    value={text}
+                    inputProps={{ 'aria-label': 'name of Decision', style: {fontSize:'30px',textAlign: 'center'}}}
+                    onChange={(e)=> {onChangeHandler(e)}}
+                />
+
+                <Button 
+                    onClick={()=>submitTitle()} 
+                    className={classes.submitButton}
+                    variant="outlined"
+                >
+                    <p style={{fontFamily:'Permanent Marker,Varela Round',fontWeight:'400'}}>Set title</p>
+                </Button>
+
+            </div>
+    )},[title,classes,isReadOnly,lang,text])
 }
 
+{/* 
+<div className={classes.tickContainer}>
+    <svg version="1.1" id="tick" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+            viewBox="0 0 37 37" style={{enableBackground:'new 0 0 37 37'}} >
+        <path className={ticks?classes.circDrawn:classes.circ} style={{fill:'none',stroke:green,strokeWidth:'3',strokeLinejoin:'round',strokeMiterlimit:'10'}} d="
+            M30.5,6.5L30.5,6.5c6.6,6.6,6.6,17.4,0,24l0,0c-6.6,6.6-17.4,6.6-24,0l0,0c-6.6-6.6-6.6-17.4,0-24l0,0C13.1-0.2,23.9-0.2,30.5,6.5z"
+            />
+        <polyline className={ticks?classes.tickDrawn:classes.tick} style={{fill:'none',stroke:green,strokeWidth:'3',strokeLinejoin:'round',strokeMiterlimit:'10'}} points="
+            11.6,20 15.9,24.2 26.4,13.8 "/>
+    </svg>
+</div> */}

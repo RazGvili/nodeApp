@@ -39,51 +39,66 @@ export default function ChoicesData({cons,pros,loading}) {
 
     const prosConsRatio = cons.length+pros.length>0 ? 50 + (10*ratio) : 50
 
+    const toDisplay = (pros.length >= 1 && cons.length >= 1)
+    
     return (
+
         <div className={classes.root}>
-            <BorderLinearProgress
-        variant={loading?"query":"determinate"}
-        color="secondary"
-        value={prosConsRatio}
-      />
 
-      {/* <GaugeChart id="gauge-chart3" 
-        nrOfLevels={2} 
-        colors={[green, red]} 
-        arcWidth={0.3}
-        arcsLength={[prosConsRatio/100,1-prosConsRatio/100]}
-        percent={1-prosConsRatio/100} 
-        hideText
-        style={{maxWidth:'300px',margin:'auto'}}
-        arcPadding={0.01}
-        //needleColor={}
-      /> */}
+          {
+            toDisplay && !loading &&
+              <> 
+                <BorderLinearProgress
+                  variant={loading?"query":"determinate"}
+                  color="secondary"
+                  value={prosConsRatio}
+                />
+                <br />
+              </>
+          }
 
-      <br />
-      {loading?
-      <></>
-      :
-      ratio>0?
-      <>
-        <Icon size={1} path={ICONS['Like']} color={green} />
-        <br />
-        <span style={{color:green}}>{ratio}</span> <br/>
-        <span style={{color:green}}>{ratioText}</span>
-      </>
-      :ratio<0?
-      <>
-        <Icon size={1} path={ICONS['Unlike']} color={red} />
-        <br />
-        <span style={{color:red}}>{ratio}</span> <br/>
-        <span style={{color:red}}>{ratioText}</span>
-      </>
-      :
-      <>
-        <Icon size={1} path={ICONS['MiddleLike']} color={'grey'} />
-        <br />
-        <span style={{color:'grey'}}>{ratio}</span>
-      </>
-      }
+          {
+            toDisplay && !loading ?
+
+              ratio>0?
+              <>
+                <Icon size={1} path={ICONS['Like']} color={green} />
+                <br />
+                <span style={{color:green}}>{ratio}</span> <br/>
+                <span style={{color:green}}>{ratioText}</span>
+              </>
+              :
+              ratio<0?
+              <>
+                <Icon size={1} path={ICONS['Unlike']} color={red} />
+                <br />
+                <span style={{color:red}}>{ratio}</span> <br/>
+                <span style={{color:red}}>{ratioText}</span>
+              </>
+              :
+              <>
+                <Icon size={1} path={ICONS['MiddleLike']} color={'grey'} />
+                <br />
+                <span style={{color:'grey'}}>{ratio}</span>
+              </>
+              
+            :
+            <></>
+          }
+
         </div>
     )
 }
+
+
+  {/* <GaugeChart id="gauge-chart3" 
+    nrOfLevels={2} 
+    colors={[green, red]} 
+    arcWidth={0.3}
+    arcsLength={[prosConsRatio/100,1-prosConsRatio/100]}
+    percent={1-prosConsRatio/100} 
+    hideText
+    style={{maxWidth:'300px',margin:'auto'}}
+    arcPadding={0.01}
+    //needleColor={}
+  /> */}
