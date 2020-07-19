@@ -26,6 +26,7 @@ lang.eng.COPIED = 'Copied!'
 
 // Title -------------------------------------------
 lang.eng.TITLE_LABEL = `Should I...`
+lang.eng.TITLE_BUTTON = `Set title`
 lang.eng.TITLE_PLACEHOLDER_1 = `get a dog?`
 lang.eng.TITLE_PLACEHOLDER_2 = `quit my job?`
 lang.eng.TITLE_PLACEHOLDER_3 = `do an MSc in data science?`
@@ -109,6 +110,7 @@ lang.eng.HOW_IT_WORKS_FOUR_SECONDARY = "You can share your link with others"
 // How it works -------------------------------------------
 
 // Calc explanation -------------------------------------------
+lang.eng.SCORES_TITLE = `Results`
 // lang.eng.SCORES_TIE = "It's a tie!"
 // lang.eng.SCORES_ZERO_TWO = "It's a tough one. We suggest getting some feedback. Or perhaps reconsider your arguments ranking."
 // lang.eng.SCORES_TWO_FOUR = "Overall, it Looks like a good idea."
