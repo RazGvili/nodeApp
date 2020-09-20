@@ -45,8 +45,18 @@ const useStyles = makeStyles(theme => ({
         fontSize: '30px',
         margin: 'auto 0px'
     },
-    submitButton: {
+    header: {
         fontFamily:'Permanent Marker,Varela Round',
+        fontWeight:'400',
+        color:theme.palette.type==='dark'?'#ffffffff':'black',
+        flex: '0 1 150px',
+        fontSize: '20px',
+        margin: 'auto 0px',
+        flexBasis: '100%;',
+        marginBottom: '2%'
+    },
+    submitButton: {
+        fontFamily:'Nunito Sans, Arial',
         fontWeight:'500',
         color:theme.palette.type==='dark'?'#ffffffff':'black',
         flex: '0 1 120px',
@@ -136,6 +146,8 @@ export default function Title(){
 
                     {console.log(`<--render: title | ${title} -->`)}
 
+                    <p className={classes.header}>{texts[lang]['TITLE_HEADER']}</p> 
+
                     <p className={classes.label}>{texts[lang]['TITLE_LABEL']}</p> 
 
                     <InputBase
@@ -158,7 +170,7 @@ export default function Title(){
                         variant="contained"
                         disabled={titleMin || showCheck}
                     >
-                        <p style={{fontFamily:'Permanent Marker,Varela Round',fontWeight:'400'}}>{texts[lang]['TITLE_BUTTON']}</p>
+                        <p>{texts[lang]['TITLE_BUTTON']}</p>
                     </Button>
 
                     {showCheck && <div className={classes.tickContainer}>

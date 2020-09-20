@@ -13,12 +13,12 @@ export function calculateAvg(pros, cons) {
 
     let lenDiffSign = pros.length - cons.length > 0 ? 1 : -1
     let lenDiff = Math.abs(pros.length - cons.length)
-    let normToThree_sumOfAvg = (sumArgumentsAndAvg(pros)-sumArgumentsAndAvg(cons)) / 3
+    let normToThree_sumOfAvg = (sumArgumentsAndAvg(pros)-sumArgumentsAndAvg(cons)) / 2
     let addition = 0
 
     if (lenDiff >= 1) {        
 
-        let maxGrowth = (5 - Math.abs(normToThree_sumOfAvg))
+        let maxGrowth = (3 - Math.abs(normToThree_sumOfAvg))
 
         for (let step = 0; step < lenDiff; step++) {
             
@@ -42,23 +42,23 @@ export function calculateAvgTexts(avg) {
         return "It's a tie!"
     }
 
-    if ((avg > -2 && avg < 2) && avg !== 0) {
+    if ((avg > -1 && avg < 1) && avg !== 0) {
         return "It's a tough one. We suggest getting some feedback. Or perhaps reconsider your arguments ranking."
     }
 
-    if (avg >= 2 && avg < 4) {
+    if (avg >= 1 && avg < 2) {
         return "Overall, it Looks like a good idea."    
     }
 
-    if (avg >= 4 && avg <= 5) {
+    if (avg >= 2 && avg <= 3) {
         return "Just do it!"    
     }
     
-    if (avg >= -4 && avg < -2) {
+    if (avg >= -2 && avg < -1) {
         return "Overall, it Looks like a bad idea."    
     }
 
-    if (avg >= -5 && avg < -4) {
+    if (avg >= -3 && avg < -2) {
         return "Just don't it!" 
     }
 

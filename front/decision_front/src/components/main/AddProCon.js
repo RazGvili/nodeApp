@@ -98,7 +98,7 @@ const CustomTextField = withStyles({
   })(props => <Slider {...props} defaultValue={3}
     step={1}
     min={1}
-    max={5}/>);
+    max={3}/>);
 
 
 const useStyles = makeStyles(theme => ({
@@ -156,10 +156,10 @@ const useStyles = makeStyles(theme => ({
         color:props => props.DARK_MODE?'white':darkGrey,
         //background:red,
         borderRadius:'30px',
-        width:'150px',
+        width:'130px',
         textTransform: 'none',
-        fontSize:'18px',
-        fontWeight:'700',
+        fontSize:'17px',
+        fontWeight:'500',
         '&:hover': {
             background:'#838383',
             color:'white'
@@ -259,17 +259,20 @@ export default function AddProCon(props) {
                 <div className={classes.sliders}>  
 
                 <Grid container spacing={1} style={{margin:'15px auto',width:'100%'}} direction={lang==='heb'?'row-reverse':'row'}>
+
                     <Grid item xs={6} style={{textAlign:lang==='eng'?'left':'right'}}>
                     {texts[lang]['ARG_POPUP_FIRST_ROW_PARAM']} 
-            <Tooltip title={<span style={{fontSize:'18px'}}>{texts[lang]['ARG_POPUP_IMPACT_TOOLTIP']}</span>} >
+                        <Tooltip title={<span style={{fontSize:'18px'}}>{texts[lang]['ARG_POPUP_IMPACT_TOOLTIP']}</span>} >
                             <Icon path={ICONS['Question']} size={0.8} className={classes.toolTipIcon} />
                         </Tooltip>
                     </Grid>
+
                     <Grid item xs={6}>
                         <span style={{fontWeight:sliderTextWidth[impact]}}>
-                        {texts[lang]['SLIDER_TEXTS'][impact]}
+                            {texts[lang]['SLIDER_TEXTS'][impact]}
                         </span>
                     </Grid>
+
                     <Grid item xs={12}>
                         <CustomSlider
                             style={{color: typeColor}}

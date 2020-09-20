@@ -25,6 +25,7 @@ lang.eng.COPIED = 'Copied!'
 // Share popup -------------------------------------------
 
 // Title -------------------------------------------
+lang.eng.TITLE_HEADER = 'My yes/no decision'
 lang.eng.TITLE_LABEL = `Should I...`
 lang.eng.TITLE_BUTTON = `Set title`
 lang.eng.TITLE_PLACEHOLDER_1 = `get a dog?`
@@ -44,6 +45,11 @@ lang.eng.TABLE_CON_ADD_BUTTON = `Add as con`
 // Table -------------------------------------------
 
 // Add arg popup -------------------------------------------
+lang.eng.ARG_POPUP_FIRST_ROW_QUESTION = `Is that important for me?`
+lang.eng.ARG_POPUP_SECOND_ROW_QUESTION = `This will affect me for a long time?`
+lang.eng.ARG_POPUP_THIRD_ROW_QUESTION = `I'm ?`
+
+
 lang.eng.ARG_POPUP_FIRST_ROW_PARAM = `Impact`
 lang.eng.ARG_POPUP_SECOND_ROW_PARAM = `Confidence`
 lang.eng.ARG_POPUP_THIRD_ROW_PARAM = `Long term effects`
@@ -54,7 +60,7 @@ lang.eng.ARG_POPUP_ADD_PRO_BUTTON = `Add pro`
 lang.eng.ARG_POPUP_ADD_CON_BUTTON = `Add con`
 lang.eng.PRO = `pro`
 lang.eng.CON = `con`
-lang.eng.SLIDER_TEXTS = ['','None','Little bit','Some','Quite a lot','Alot']
+lang.eng.SLIDER_TEXTS = ['','Little bit','Some','Alot!']
 lang.eng.ADD = 'Add'
 lang.eng.EDIT = 'Edit'
 lang.eng.CANCEL = 'Cancel'
